@@ -1,0 +1,41 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Product {
+  id             String    @id @default(cuid())
+  sku            String    @unique
+  slug           String    @unique
+  name           String
+  segment        String // men | women | unisex
+  shape          String // square | round | aviator | cat-eye | rectangle
+  material       String // acetato | acero | TR90
+  lensColor      String // smoke | ambar | verde | azul
+  price          Int
+  width          Int
+  bridge         Int
+  temple         Int
+  weight         Int
+  uv400          Boolean
+  polarized      Boolean
+  warrantyMonths Int
+  image          String
+  collection     String // nuevas | bestsellers | studio | clasicos
+  variants       Variant[]
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+}
+
+model Variant {
+  id        String  @id @default(cuid())
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId String
+  color     String
+  image     String
+  stock     Int
+}

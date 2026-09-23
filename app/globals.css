@@ -1,0 +1,202 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ======================================================
+   🎨 TOKENS DE MARCA (Light / Dark)
+   ====================================================== */
+@layer base {
+  :root {
+    --bg: 247 248 252;       /* Fondo claro */
+    --fg: 15 23 42;          /* Texto oscuro */
+    --card: 255 255 255;     /* Tarjetas en light */
+    --stroke: 0 0 0 / 0.08;  /* Bordes claros */
+    --accent: 10 36 95;      /* Azul LUNA */
+  }
+
+  .dark {
+    --bg: 11 16 32;          /* Fondo oscuro */
+    --fg: 255 255 255;       /* Texto claro */
+    --card: 20 25 40;        /* Tarjetas oscuras */
+    --stroke: 255 255 255 / 0.12; /* Bordes */
+    --accent: 20 58 140;     /* Azul profundo */
+  }
+
+  /* Helpers directos */
+  .bg-luna-bg { background-color: rgb(var(--bg)); }
+  .text-luna-fg { color: rgb(var(--fg)); }
+
+  html, body {
+    background-color: rgb(var(--bg));
+    color: rgb(var(--fg));
+    font-family: 'Inter', system-ui, sans-serif;
+    @apply antialiased;
+    transition: background-color 0.4s ease, color 0.4s ease;
+  }
+}
+
+/* ======================================================
+   📦 COMPONENTES REUTILIZABLES
+   ====================================================== */
+
+/* Contenedor general */
+/* === Contenedor adaptable (Ben & Frank style) === */
+.container {
+  @apply mx-auto px-6 md:px-10 lg:px-16 w-full;
+  max-width: 1600px; /* se amplía el límite */
+}
+
+/* Tarjeta base (para secciones, productos, etc.) */
+.card {
+  @apply rounded-2xl border backdrop-blur;
+  background-color: rgb(var(--card));
+  border-color: rgb(var(--stroke));
+}
+
+/* Variante soft (para overlays, megamenús, modales) */
+.card-soft {
+  @apply rounded-2xl border shadow-[0_10px_40px_rgba(10,36,95,0.12)];
+  border-color: rgb(var(--stroke));
+  background-color: rgba(255,255,255,0.7);
+}
+.dark .card-soft {
+  background-color: rgba(255,255,255,0.05);
+}
+
+/* ======================================================
+   🟦 BOTONES UNIVERSALES
+   ====================================================== */
+.btn-pill {
+  @apply inline-flex items-center justify-center rounded-full px-5 py-3 font-medium transition duration-300;
+}
+
+.btn-primary {
+  @apply btn-pill hover:opacity-90;
+  background-color: rgb(var(--accent));
+  color: white;
+  box-shadow: 0 3px 12px rgba(10, 36, 95, 0.25);
+}
+
+.btn-outline {
+  @apply btn-pill border border-[color:var(--stroke)] hover:bg-black/5 dark:hover:bg-white/10;
+  color: rgb(var(--fg));
+}
+
+/* ======================================================
+   🌗 TRANSICIONES Y EFECTOS DE MODO OSCURO
+   ====================================================== */
+html {
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+/* Gradiente editorial (solo en dark mode) */
+.dark .page-gradient::before {
+  content: "";
+  position: fixed; inset: 0; pointer-events: none;
+  background: radial-gradient(70% 50% at 50% -10%, rgba(var(--accent),0.25), transparent);
+}
+
+/* ======================================================
+   ✍️ TIPOGRAFÍA Y LEGIBILIDAD
+   ====================================================== */
+h1, h2, h3, h4 {
+  @apply font-display text-[rgb(var(--fg))];
+}
+
+p, span, a, li, label {
+  color: rgb(var(--fg));
+}
+
+.dark h1,
+.dark h2,
+.dark h3,
+.dark h4,
+.dark p,
+.dark span,
+.dark a {
+  color: rgb(255 255 255 / 0.95);
+}
+
+/* ======================================================
+   💫 DETALLES PREMIUM (sombras, efectos suaves)
+   ====================================================== */
+.shadow-soft {
+  box-shadow: 0 8px 30px rgba(10,36,95,0.08);
+}
+
+.dark .shadow-soft {
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+}
+
+img {
+  @apply transition-transform duration-500 ease-out;
+}
+
+img:hover {
+  @apply scale-[1.02];
+}
+
+/* ======================================================
+   🧭 SCROLL & RESPONSIVE
+   ====================================================== */
+::-webkit-scrollbar {
+  height: 6px;
+  width: 6px;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(100,100,100,0.3);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(100,100,100,0.6);
+}
+
+/* ======================================================
+   ✨ HERO / CALL TO ACTION
+   ====================================================== */
+.hero-title {
+  @apply font-display text-5xl md:text-6xl leading-tight text-[rgb(var(--fg))];
+}
+
+.hero-subtext {
+  @apply mt-5 text-[rgb(var(--fg))]/80;
+}
+
+/* ======================================================
+   🕶️ EFECTOS ADICIONALES
+   ====================================================== */
+.transition-bg {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+section {
+  @apply py-16;
+}
+@media (min-width: 1024px) {
+  section {
+    @apply py-24;
+  }
+}
+/* =========================
+   Secciones grandes (Editorial look)
+   ========================= */
+
+/* Encabezados de secciones */
+.section-title {
+  @apply font-display text-4xl md:text-5xl mb-10 text-center text-[rgb(var(--fg))];
+}
+
+/* Texto de contenido dentro de secciones */
+.section-text {
+  @apply text-lg md:text-xl leading-relaxed text-[rgb(var(--fg))]/85;
+}
+
+/* Footer elegante y más legible */
+footer {
+  @apply text-base md:text-lg text-[rgb(var(--fg))]/80 bg-[rgb(var(--card))] border-t border-[rgb(var(--stroke))] py-12;
+}
+footer h3 {
+  @apply font-semibold text-xl mb-4 text-[rgb(var(--fg))];
+}
+footer a {
+  @apply hover:text-[rgb(var(--accent))] transition;
+}

@@ -1,0 +1,27 @@
+# Dependencias
+node_modules/
+
+# Next.js
+.next/
+out/
+next-env.d.ts
+
+# Variables de entorno (NUNCA subir: contienen DATABASE_URL y llaves)
+.env
+.env*.local
+
+# Vercel
+.vercel
+
+# Pruebas
+test-results/
+playwright-report/
+
+# Sistema / logs
+.DS_Store
+Thumbs.db
+*.log
+
+# Artefactos / lock de pnpm (el proyecto usa npm: package-lock.json)
+*.tsbuildinfo
+pnpm-lock.yaml
