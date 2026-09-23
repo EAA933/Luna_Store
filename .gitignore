@@ -25,3 +25,6 @@ Thumbs.db
 # Artefactos / lock de pnpm (el proyecto usa npm: package-lock.json)
 *.tsbuildinfo
 pnpm-lock.yaml
+
+.vercel
+.env*
