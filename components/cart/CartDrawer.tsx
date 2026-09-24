@@ -1,126 +1,105 @@
 // components/cart/CartDrawer.tsx
 "use client";
 
-import { useCartStore } from "./useCart";
 import Link from "next/link";
+import { useEffect } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { Minus, Plus, X } from "lucide-react";
+import { useCartStore } from "./useCart";
+import { formatCurrency } from "@/lib/utils";
+import { EASE } from "@/components/ui/Reveal";
 
 export default function CartDrawer() {
   const { open, setOpen, items, remove, updateQty } = useCartStore();
   const subtotal = items.reduce((acc, it) => acc + it.price * it.qty, 0);
 
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [setOpen]);
+
   return (
-    <aside
-      aria-hidden={!open}
-      className={[
-        "fixed top-0 right-0 h-full w-[90%] sm:w-[420px] z-[60] bg-[rgb(var(--card))] border-l border-[rgb(var(--stroke))]",
-        "transition-transform duration-300",
-        open ? "translate-x-0" : "translate-x-full",
-      ].join(" ")}
-    >
-      {/* Encabezado */}
-      <div className="p-5 flex items-center justify-between border-b border-[rgb(var(--stroke))]">
-        <h3 className="font-display text-2xl">Tu carrito</h3>
-        <button
-          onClick={() => setOpen(false)}
-          className="text-sm underline opacity-80 hover:opacity-100"
-        >
-          Cerrar
-        </button>
-      </div>
-
-      {/* Contenido */}
-      <div className="p-5 flex-1 flex flex-col overflow-y-auto max-h-[calc(100vh-220px)]">
-        {items.length === 0 ? (
-          <div className="flex-1 grid place-items-center text-center">
-            <div>
-              <div className="text-6xl mb-2">👜</div>
-              <h3 className="font-display text-2xl mb-2">Tu carrito está vacío</h3>
-              <p className="text-[rgb(var(--fg))]/70 mb-6">
-                Agrega tus LUNA favoritos y vuelve aquí para pagar.
-              </p>
-              <div className="flex justify-center gap-3">
-                <Link
-                  href="/catalog"
-                  onClick={() => setOpen(false)}
-                  className="btn-primary"
-                >
-                  Explorar catálogo
-                </Link>
-                <button
-                  onClick={() => setOpen(false)}
-                  className="btn-outline"
-                >
-                  Seguir viendo
-                </button>
-              </div>
+    <AnimatePresence>
+      {open && (
+        <>
+          <motion.div
+            className="fixed inset-0 z-[60] bg-black/30"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setOpen(false)}
+          />
+          <motion.aside
+            role="dialog"
+            aria-label="Carrito"
+            className="fixed right-0 top-0 z-[61] flex h-full w-full flex-col bg-white sm:w-[440px]"
+            initial={{ x: "100%" }}
+            animate={{ x: 0 }}
+            exit={{ x: "100%" }}
+            transition={{ duration: 0.5, ease: EASE }}
+          >
+            <div className="flex items-center justify-between border-b border-line px-6 py-5">
+              <h3 className="font-display text-2xl">Tu carrito</h3>
+              <button onClick={() => setOpen(false)} className="grid h-9 w-9 place-items-center rounded-full hover:bg-stone" aria-label="Cerrar carrito">
+                <X className="h-5 w-5" />
+              </button>
             </div>
-          </div>
-        ) : (
-          <>
-            <div className="space-y-4">
-              {items.map((it) => (
-                <div
-                  key={it.id}
-                  className="flex gap-3 border-b border-[rgb(var(--stroke))] pb-4"
-                >
-                  <img
-                    src={it.image}
-                    alt={it.name}
-                    className="w-20 h-20 rounded object-cover"
-                  />
-                  <div className="flex-1">
-                    <div className="flex items-center justify-between">
-                      <h4 className="font-medium">{it.name}</h4>
-                      <button
-                        onClick={() => remove(it.id)}
-                        className="text-xs underline opacity-70 hover:opacity-100"
+
+            {items.length === 0 ? (
+              <div className="flex flex-1 flex-col items-center justify-center px-8 text-center">
+                <p className="font-display text-3xl">Aún está vacío</p>
+                <p className="mt-2 text-ink/60">Encuentra el par que va contigo.</p>
+                <Link href="/catalog" onClick={() => setOpen(false)} className="btn-primary mt-8">Ver la colección</Link>
+              </div>
+            ) : (
+              <>
+                <ul className="flex-1 divide-y divide-line overflow-y-auto px-6">
+                  <AnimatePresence initial={false}>
+                    {items.map((it) => (
+                      <motion.li
+                        key={it.id}
+                        layout
+                        initial={{ opacity: 0, x: 30 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: 30, height: 0 }}
+                        transition={{ duration: 0.35, ease: EASE }}
+                        className="flex gap-4 py-5"
                       >
-                        Quitar
-                      </button>
-                    </div>
-                    <p className="text-sm opacity-70">
-                      ${it.price.toLocaleString("es-MX")} MXN
-                    </p>
-                    <div className="mt-2 flex items-center gap-2">
-                      <button
-                        onClick={() => updateQty(it.id, Math.max(0, it.qty - 1))}
-                        className="w-8 h-8 rounded border border-[rgb(var(--stroke))]"
-                      >
-                        −
-                      </button>
-                      <span className="w-8 text-center">{it.qty}</span>
-                      <button
-                        onClick={() => updateQty(it.id, it.qty + 1)}
-                        className="w-8 h-8 rounded border border-[rgb(var(--stroke))]"
-                      >
-                        +
-                      </button>
-                    </div>
+                        <Link href={`/product/${it.slug}`} onClick={() => setOpen(false)} className="grid h-24 w-24 shrink-0 place-items-center bg-stone">
+                          <img src={it.image} alt={it.name} className="h-full w-full object-contain p-2 mix-blend-multiply" />
+                        </Link>
+                        <div className="flex flex-1 flex-col">
+                          <div className="flex items-start justify-between gap-3">
+                            <p className="font-display text-lg capitalize">{it.name.toLowerCase()}</p>
+                            <p className="tabular-nums">{formatCurrency(it.price * it.qty)}</p>
+                          </div>
+                          <div className="mt-auto flex items-center justify-between">
+                            <div className="flex items-center rounded-full border border-line">
+                              <button onClick={() => updateQty(it.id, it.qty - 1)} className="grid h-8 w-8 place-items-center" aria-label="Quitar uno"><Minus className="h-3.5 w-3.5" /></button>
+                              <span className="w-6 text-center text-sm tabular-nums">{it.qty}</span>
+                              <button onClick={() => updateQty(it.id, it.qty + 1)} className="grid h-8 w-8 place-items-center" aria-label="Agregar uno"><Plus className="h-3.5 w-3.5" /></button>
+                            </div>
+                            <button onClick={() => remove(it.id)} className="link-underline text-sm text-muted">Quitar</button>
+                          </div>
+                        </div>
+                      </motion.li>
+                    ))}
+                  </AnimatePresence>
+                </ul>
+                <div className="border-t border-line px-6 py-6">
+                  <div className="flex items-baseline justify-between">
+                    <span className="text-ink/70">Subtotal</span>
+                    <span className="font-display text-2xl tabular-nums">{formatCurrency(subtotal)}</span>
                   </div>
+                  <p className="mt-1 text-[13px] text-muted">El envío se calcula al finalizar.</p>
+                  <Link href="/checkout" onClick={() => setOpen(false)} className="btn-primary mt-5 w-full">Continuar</Link>
                 </div>
-              ))}
-            </div>
-
-            {/* Total y CTA */}
-            <div className="mt-6 pt-4 border-t border-[rgb(var(--stroke))]">
-              <div className="flex items-center justify-between mb-3">
-                <span className="opacity-70">Subtotal</span>
-                <strong>${subtotal.toLocaleString("es-MX")} MXN</strong>
-              </div>
-              <p className="text-xs opacity-60 mb-4">
-                Impuestos y envío se calculan al finalizar compra.
-              </p>
-              <Link
-                href="/checkout"
-                onClick={() => setOpen(false)}
-                className="btn-primary w-full text-center block"
-              >
-                Ir a pagar
-              </Link>
-            </div>
-          </>
-        )}
-      </div>
-    </aside>
+              </>
+            )}
+          </motion.aside>
+        </>
+      )}
+    </AnimatePresence>
   );
 }

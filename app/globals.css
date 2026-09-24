@@ -3,200 +3,73 @@
 @tailwind utilities;
 
 /* ======================================================
-   🎨 TOKENS DE MARCA (Light / Dark)
+   LUNA — sistema visual
+   Papel blanco, tinta casi negra, "piedra" cálida para los
+   fondos de producto y un azul noche de marca usado con
+   moderación. Esquinas rectas en imágenes; pills en botones.
    ====================================================== */
 @layer base {
   :root {
-    --bg: 247 248 252;       /* Fondo claro */
-    --fg: 15 23 42;          /* Texto oscuro */
-    --card: 255 255 255;     /* Tarjetas en light */
-    --stroke: 0 0 0 / 0.08;  /* Bordes claros */
-    --accent: 10 36 95;      /* Azul LUNA */
+    --paper: 255 255 255;
+    --ink: 17 17 17;
+    --stone: 241 240 237;
+    --line: 229 227 222;
+    --muted: 107 105 102;
+    --noche: 10 36 95;
+
+    /* Compatibilidad con componentes existentes */
+    --bg: var(--paper);
+    --fg: var(--ink);
+    --card: var(--paper);
+    --stroke: var(--line);
+    --accent: var(--noche);
   }
 
-  .dark {
-    --bg: 11 16 32;          /* Fondo oscuro */
-    --fg: 255 255 255;       /* Texto claro */
-    --card: 20 25 40;        /* Tarjetas oscuras */
-    --stroke: 255 255 255 / 0.12; /* Bordes */
-    --accent: 20 58 140;     /* Azul profundo */
-  }
-
-  /* Helpers directos */
-  .bg-luna-bg { background-color: rgb(var(--bg)); }
-  .text-luna-fg { color: rgb(var(--fg)); }
-
+  html { scroll-behavior: smooth; }
   html, body {
-    background-color: rgb(var(--bg));
-    color: rgb(var(--fg));
-    font-family: 'Inter', system-ui, sans-serif;
+    background-color: rgb(var(--paper));
+    color: rgb(var(--ink));
+    font-family: var(--font-sans), system-ui, sans-serif;
     @apply antialiased;
-    transition: background-color 0.4s ease, color 0.4s ease;
   }
+  ::selection { background: rgb(var(--noche)); color: #fff; }
+
+  h1, h2, h3, h4 { @apply font-display; letter-spacing: -0.02em; }
+
+  :focus-visible { outline: 2px solid rgb(var(--noche)); outline-offset: 3px; }
 }
 
-/* ======================================================
-   📦 COMPONENTES REUTILIZABLES
-   ====================================================== */
+@layer components {
+  .container { @apply mx-auto w-full px-5 md:px-10 lg:px-16; max-width: 1480px; }
 
-/* Contenedor general */
-/* === Contenedor adaptable (Ben & Frank style) === */
-.container {
-  @apply mx-auto px-6 md:px-10 lg:px-16 w-full;
-  max-width: 1600px; /* se amplía el límite */
-}
+  .eyebrow { @apply text-[11px] font-semibold uppercase tracking-[0.22em] text-muted; }
 
-/* Tarjeta base (para secciones, productos, etc.) */
-.card {
-  @apply rounded-2xl border backdrop-blur;
-  background-color: rgb(var(--card));
-  border-color: rgb(var(--stroke));
-}
-
-/* Variante soft (para overlays, megamenús, modales) */
-.card-soft {
-  @apply rounded-2xl border shadow-[0_10px_40px_rgba(10,36,95,0.12)];
-  border-color: rgb(var(--stroke));
-  background-color: rgba(255,255,255,0.7);
-}
-.dark .card-soft {
-  background-color: rgba(255,255,255,0.05);
-}
-
-/* ======================================================
-   🟦 BOTONES UNIVERSALES
-   ====================================================== */
-.btn-pill {
-  @apply inline-flex items-center justify-center rounded-full px-5 py-3 font-medium transition duration-300;
-}
-
-.btn-primary {
-  @apply btn-pill hover:opacity-90;
-  background-color: rgb(var(--accent));
-  color: white;
-  box-shadow: 0 3px 12px rgba(10, 36, 95, 0.25);
-}
-
-.btn-outline {
-  @apply btn-pill border border-[color:var(--stroke)] hover:bg-black/5 dark:hover:bg-white/10;
-  color: rgb(var(--fg));
-}
-
-/* ======================================================
-   🌗 TRANSICIONES Y EFECTOS DE MODO OSCURO
-   ====================================================== */
-html {
-  transition: background-color 0.4s ease, color 0.4s ease;
-}
-
-/* Gradiente editorial (solo en dark mode) */
-.dark .page-gradient::before {
-  content: "";
-  position: fixed; inset: 0; pointer-events: none;
-  background: radial-gradient(70% 50% at 50% -10%, rgba(var(--accent),0.25), transparent);
-}
-
-/* ======================================================
-   ✍️ TIPOGRAFÍA Y LEGIBILIDAD
-   ====================================================== */
-h1, h2, h3, h4 {
-  @apply font-display text-[rgb(var(--fg))];
-}
-
-p, span, a, li, label {
-  color: rgb(var(--fg));
-}
-
-.dark h1,
-.dark h2,
-.dark h3,
-.dark h4,
-.dark p,
-.dark span,
-.dark a {
-  color: rgb(255 255 255 / 0.95);
-}
-
-/* ======================================================
-   💫 DETALLES PREMIUM (sombras, efectos suaves)
-   ====================================================== */
-.shadow-soft {
-  box-shadow: 0 8px 30px rgba(10,36,95,0.08);
-}
-
-.dark .shadow-soft {
-  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-}
-
-img {
-  @apply transition-transform duration-500 ease-out;
-}
-
-img:hover {
-  @apply scale-[1.02];
-}
-
-/* ======================================================
-   🧭 SCROLL & RESPONSIVE
-   ====================================================== */
-::-webkit-scrollbar {
-  height: 6px;
-  width: 6px;
-}
-::-webkit-scrollbar-thumb {
-  background: rgba(100,100,100,0.3);
-  border-radius: 3px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(100,100,100,0.6);
-}
-
-/* ======================================================
-   ✨ HERO / CALL TO ACTION
-   ====================================================== */
-.hero-title {
-  @apply font-display text-5xl md:text-6xl leading-tight text-[rgb(var(--fg))];
-}
-
-.hero-subtext {
-  @apply mt-5 text-[rgb(var(--fg))]/80;
-}
-
-/* ======================================================
-   🕶️ EFECTOS ADICIONALES
-   ====================================================== */
-.transition-bg {
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-section {
-  @apply py-16;
-}
-@media (min-width: 1024px) {
-  section {
-    @apply py-24;
+  .btn-pill {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-[15px] font-semibold
+      transition-[background-color,color,transform,border-color] duration-300 ease-out active:scale-[0.98];
   }
-}
-/* =========================
-   Secciones grandes (Editorial look)
-   ========================= */
+  .btn-primary { @apply btn-pill bg-ink text-white hover:bg-noche; }
+  .btn-outline { @apply btn-pill border border-ink/20 text-ink hover:border-ink; }
+  .btn-light { @apply btn-pill bg-white text-ink hover:bg-stone; }
 
-/* Encabezados de secciones */
-.section-title {
-  @apply font-display text-4xl md:text-5xl mb-10 text-center text-[rgb(var(--fg))];
+  /* Subrayado animado para enlaces de texto */
+  .link-underline {
+    background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat;
+    transition: background-size 0.35s ease;
+  }
+  .link-underline:hover { background-size: 100% 1px; }
+
+  /* Tarjetas neutras (páginas informativas) */
+  .card { @apply border border-line bg-white; }
+
+  .section-title { @apply font-display text-4xl md:text-5xl mb-10; }
+  .section-text { @apply text-lg leading-relaxed text-ink/80; }
 }
 
-/* Texto de contenido dentro de secciones */
-.section-text {
-  @apply text-lg md:text-xl leading-relaxed text-[rgb(var(--fg))]/85;
-}
+/* Marquesina infinita */
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.animate-marquee { animation: marquee 38s linear infinite; }
 
-/* Footer elegante y más legible */
-footer {
-  @apply text-base md:text-lg text-[rgb(var(--fg))]/80 bg-[rgb(var(--card))] border-t border-[rgb(var(--stroke))] py-12;
-}
-footer h3 {
-  @apply font-semibold text-xl mb-4 text-[rgb(var(--fg))];
-}
-footer a {
-  @apply hover:text-[rgb(var(--accent))] transition;
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
 }

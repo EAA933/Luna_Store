@@ -1,269 +1,133 @@
 // app/catalog/page.tsx
 "use client";
 
-import { Suspense, useEffect, useMemo, useState } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
-import Link from "next/link";
+import { Suspense, useMemo, useState } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { AnimatePresence, motion } from "framer-motion";
+import { ChevronDown } from "lucide-react";
+import ProductCard from "@/components/store/ProductCard";
+import { products, SEGMENTOS } from "@/lib/products";
+import { EASE, LineReveal } from "@/components/ui/Reveal";
 
-// Catálogo en memoria (sin base de datos)
-type Product = {
-  id: string;
-  slug: string;
-  name: string;
-  segment: "men" | "women" | "unisex";
-  shape: "square" | "round" | "aviator" | "cat-eye" | "rectangle";
-  lensColor: "smoke" | "ambar" | "verde" | "azul";
-  material: "acetato" | "acero" | "TR90";
-  price: number;
-  image: string;
-};
+type Segmento = keyof typeof SEGMENTOS | "";
+type Orden = "destacados" | "precio-asc" | "precio-desc";
 
-const memoryCatalog: Product[] = [
-  {
-    id: "1",
-    slug: "orion",
-    name: "ORION",
-    segment: "men",
-    shape: "rectangle",
-    lensColor: "smoke",
-    material: "acero",
-    price: 1499,
-    image:
-      "https://images.unsplash.com/photo-1503342394128-c104d54dba01?w=1600&q=80",
-  },
-  {
-    id: "2",
-    slug: "selene",
-    name: "SELENE",
-    segment: "women",
-    shape: "round",
-    lensColor: "ambar",
-    material: "acetato",
-    price: 1999,
-    image:
-      "https://images.unsplash.com/photo-1533239094043-9e9bbf1b1b35?w=1600&q=80",
-  },
-  {
-    id: "3",
-    slug: "vega",
-    name: "VEGA",
-    segment: "unisex",
-    shape: "round",
-    lensColor: "azul",
-    material: "TR90",
-    price: 1799,
-    image:
-      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=1600&q=80",
-  },
-  {
-    id: "4",
-    slug: "lyra",
-    name: "LYRA",
-    segment: "women",
-    shape: "cat-eye",
-    lensColor: "verde",
-    material: "acetato",
-    price: 1599,
-    image:
-      "https://images.unsplash.com/photo-1606813903087-1635f6a16e90?w=1600&q=80",
-  },
-];
+const unicos = (k: "shape" | "lensColor" | "material") => Array.from(new Set(products.map((p) => p[k]))).sort();
 
-function useDebounced<T>(value: T, delay = 300) {
-  const [v, setV] = useState(value);
-  useEffect(() => {
-    const t = setTimeout(() => setV(value), delay);
-    return () => clearTimeout(t);
-  }, [value, delay]);
-  return v;
+function Filtro({ label, value, options, onChange }: { label: string; value: string; options: string[]; onChange: (v: string) => void }) {
+  return (
+    <label className={`relative flex h-11 min-w-[150px] items-center border px-4 text-[15px] transition-colors ${value ? "border-ink" : "border-line hover:border-ink/40"}`}>
+      <span className="sr-only">{label}</span>
+      <select value={value} onChange={(e) => onChange(e.target.value)} className="h-full w-full appearance-none bg-transparent pr-6 outline-none cursor-pointer">
+        <option value="">{label}</option>
+        {options.map((o) => <option key={o} value={o}>{o}</option>)}
+      </select>
+      <ChevronDown className="pointer-events-none absolute right-3 h-4 w-4" />
+    </label>
+  );
 }
 
 function CatalogContent() {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const segmentInUrl = (searchParams.get("segment") || "") as
-    | "men"
-    | "women"
-    | "unisex"
-    | "";
+  const pathname = usePathname();
+  const params = useSearchParams();
+  const segment = (params.get("segment") || "") as Segmento;
+  const shape = params.get("shape") || "";
 
-  // estado UI
-  const [q, setQ] = useState("");
-  const [segment, setSegment] = useState<typeof segmentInUrl | "">(
-    segmentInUrl || ""
-  );
-  const [shape, setShape] = useState<string>("");
-  const [lens, setLens] = useState<string>("");
-  const [material, setMaterial] = useState<string>("");
-  const [price, setPrice] = useState<number>(3000);
-  const dq = useDebounced(q, 250);
+  const [lens, setLens] = useState("");
+  const [material, setMaterial] = useState("");
+  const [orden, setOrden] = useState<Orden>("destacados");
 
-  // sincroniza segmento con URL cuando cambie
-  useEffect(() => {
-    setSegment(segmentInUrl || "");
-  }, [segmentInUrl]);
+  // Segmento y forma viven en la URL para poder compartir el enlace.
+  const setParam = (k: string, v: string) => {
+    const next = new URLSearchParams(params.toString());
+    v ? next.set(k, v) : next.delete(k);
+    const qs = next.toString();
+    router.replace(qs ? `${pathname}?${qs}` : pathname, { scroll: false });
+  };
 
-  const filtered = useMemo(() => {
-    return memoryCatalog.filter((p) => {
-      return (
-        (!dq ||
-          p.name.toLowerCase().includes(dq.toLowerCase()) ||
-          p.slug.toLowerCase().includes(dq.toLowerCase())) &&
-        (!segment || p.segment === segment) &&
-        (!shape || p.shape === (shape as any)) &&
-        (!lens || p.lensColor === (lens as any)) &&
-        (!material || p.material === (material as any)) &&
-        p.price <= price
-      );
-    });
-  }, [dq, segment, shape, lens, material, price]);
+  const lista = useMemo(() => {
+    const r = products.filter((p) =>
+      (!segment || p.segment === segment) &&
+      (!shape || p.shape === shape) &&
+      (!lens || p.lensColor === lens) &&
+      (!material || p.material === material)
+    );
+    if (orden === "precio-asc") r.sort((a, b) => a.price - b.price);
+    if (orden === "precio-desc") r.sort((a, b) => b.price - a.price);
+    return r;
+  }, [segment, shape, lens, material, orden]);
 
-  function handleSegmentChange(val: "" | "men" | "women" | "unisex") {
-    setSegment(val);
-    const sp = new URLSearchParams(searchParams.toString());
-    if (val) sp.set("segment", val);
-    else sp.delete("segment");
-    router.push(`/catalog?${sp.toString()}`);
-  }
+  const hayFiltros = !!(shape || lens || material);
+  const titulo = segment ? `Lentes de sol · ${SEGMENTOS[segment]}` : "Todos los lentes de sol";
 
   return (
-    <main className="w-full px-10 md:px-16 lg:px-24 py-16">
-      {/* Título + chips */}
-      <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10">
-        <div>
-          <h1 className="font-display text-4xl md:text-5xl">Catálogo</h1>
-          <p className="text-[rgb(var(--fg))]/70 mt-2">
-            Explora por segmento, forma, material o color de mica.
-          </p>
-        </div>
+    <main className="container py-12 md:py-16">
+      <p className="eyebrow">Catálogo</p>
+      <LineReveal key={titulo} as="h1" lines={[titulo]} className="mt-4 text-4xl md:text-6xl font-medium" />
+      <p className="mt-4 max-w-xl text-[16px] text-ink/70">
+        Todos con protección UV400. Filtra por forma, color de mica o material para encontrar el tuyo.
+      </p>
 
-        {/* Chips de segmento */}
-        <div className="flex flex-wrap gap-3">
-          {[
-            { k: "", label: "Todos" },
-            { k: "men", label: "Hombre" },
-            { k: "women", label: "Mujer" },
-            { k: "unisex", label: "Unisex" },
-          ].map((s) => (
-            <button
-              key={s.k}
-              onClick={() => handleSegmentChange(s.k as any)}
-              className={[
-                "px-4 py-2 rounded-full border transition",
-                segment === (s.k as any)
-                  ? "bg-[rgb(var(--accent))] text-white border-transparent"
-                  : "border-[rgb(var(--stroke))] text-[rgb(var(--fg))] hover:bg-black/5 dark:hover:bg-white/10",
-              ].join(" ")}
-            >
-              {s.label}
-            </button>
-          ))}
-        </div>
+      {/* Segmentos */}
+      <div className="mt-10 flex flex-wrap gap-2">
+        {([["", "Todos"], ...Object.entries(SEGMENTOS)] as [Segmento, string][]).map(([k, label]) => (
+          <button
+            key={k || "todos"}
+            onClick={() => setParam("segment", k)}
+            className={`relative rounded-full px-5 py-2.5 text-[14px] font-semibold transition-colors ${segment === k ? "text-white" : "hover:bg-stone"}`}
+          >
+            {segment === k && (
+              <motion.span layoutId="segmento-activo" className="absolute inset-0 rounded-full bg-ink" transition={{ type: "spring", stiffness: 420, damping: 34 }} />
+            )}
+            <span className={`relative ${segment === k ? "text-white" : ""}`}>{label}</span>
+          </button>
+        ))}
       </div>
 
       {/* Barra de filtros */}
-      <section className="card p-5 mb-10">
-        <div className="grid lg:grid-cols-5 md:grid-cols-3 grid-cols-1 gap-4">
-          <input
-            value={q}
-            onChange={(e) => setQ(e.target.value)}
-            placeholder="Buscar producto…"
-            className="w-full rounded-lg border border-[rgb(var(--stroke))] bg-transparent px-3 py-2"
-          />
-
-          <select
-            value={shape}
-            onChange={(e) => setShape(e.target.value)}
-            className="rounded-lg border border-[rgb(var(--stroke))] bg-transparent px-3 py-2"
-          >
-            <option value="">Forma</option>
-            <option value="rectangle">Rectángulo</option>
-            <option value="square">Cuadrado</option>
-            <option value="round">Redondo</option>
-            <option value="aviator">Aviador</option>
-            <option value="cat-eye">Cat-eye</option>
+      <div className="mt-6 flex flex-wrap items-center gap-3 border-y border-line py-5">
+        <Filtro label="Forma" value={shape} options={unicos("shape")} onChange={(v) => setParam("shape", v)} />
+        <Filtro label="Color de mica" value={lens} options={unicos("lensColor")} onChange={setLens} />
+        <Filtro label="Material" value={material} options={unicos("material")} onChange={setMaterial} />
+        {hayFiltros && (
+          <button onClick={() => { setParam("shape", ""); setLens(""); setMaterial(""); }} className="link-underline ml-1 text-[14px] text-muted">
+            Limpiar filtros
+          </button>
+        )}
+        <label className="ml-auto flex items-center gap-2 text-[15px]">
+          <span className="text-muted">Ordenar:</span>
+          <select value={orden} onChange={(e) => setOrden(e.target.value as Orden)} className="cursor-pointer bg-transparent font-semibold outline-none">
+            <option value="destacados">Destacados</option>
+            <option value="precio-asc">Precio: menor a mayor</option>
+            <option value="precio-desc">Precio: mayor a menor</option>
           </select>
+        </label>
+      </div>
 
-          <select
-            value={lens}
-            onChange={(e) => setLens(e.target.value)}
-            className="rounded-lg border border-[rgb(var(--stroke))] bg-transparent px-3 py-2"
-          >
-            <option value="">Mica</option>
-            <option value="smoke">Smoke</option>
-            <option value="ambar">Ámbar</option>
-            <option value="verde">Verde</option>
-            <option value="azul">Azul</option>
-          </select>
+      <p className="mt-8 text-[15px] font-medium">{lista.length} {lista.length === 1 ? "modelo" : "modelos"}</p>
 
-          <select
-            value={material}
-            onChange={(e) => setMaterial(e.target.value)}
-            className="rounded-lg border border-[rgb(var(--stroke))] bg-transparent px-3 py-2"
-          >
-            <option value="">Material</option>
-            <option value="acetato">Acetato</option>
-            <option value="acero">Acero</option>
-            <option value="TR90">TR90</option>
-          </select>
+      <motion.div layout className="mt-6 grid grid-cols-2 gap-x-4 gap-y-12 md:grid-cols-3 lg:grid-cols-4">
+        <AnimatePresence mode="popLayout">
+          {lista.map((p) => (
+            <motion.div
+              key={p.id}
+              layout
+              initial={{ opacity: 0, scale: 0.96 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.96 }}
+              transition={{ duration: 0.45, ease: EASE }}
+            >
+              <ProductCard p={p} />
+            </motion.div>
+          ))}
+        </AnimatePresence>
+      </motion.div>
 
-          <div className="flex flex-col">
-            <label className="text-sm mb-1">Precio máx.</label>
-            <input
-              type="range"
-              min={1000}
-              max={3000}
-              step={100}
-              value={price}
-              onChange={(e) => setPrice(parseInt(e.target.value))}
-            />
-            <span className="text-sm mt-1">
-              Hasta ${new Intl.NumberFormat("es-MX").format(price)} MXN
-            </span>
-          </div>
-        </div>
-      </section>
-
-      {/* Grid WIDE: tarjetas rectangulares */}
-      <section className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
-        {filtered.map((p) => (
-          <article
-            key={p.id}
-            className="group overflow-hidden rounded-2xl bg-[rgb(var(--card))] border border-[rgb(var(--stroke))] shadow-soft"
-          >
-            <Link href={`/product/${p.slug}`} className="block">
-              <div className="w-full h-[260px] md:h-[300px] overflow-hidden">
-                <img
-                  src={p.image}
-                  alt={p.name}
-                  className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-500"
-                />
-              </div>
-              <div className="p-5 flex items-end justify-between gap-4">
-                <div>
-                  <h3 className="text-xl font-semibold">{p.name}</h3>
-                  <p className="text-[rgb(var(--fg))]/70 capitalize text-sm">
-                    {p.segment} • {p.material}
-                  </p>
-                </div>
-                <div className="text-right">
-                  <p className="text-lg font-semibold">
-                    ${p.price.toLocaleString("es-MX")}
-                  </p>
-                  <span className="underline text-[rgb(var(--accent))] text-sm">
-                    Ver más
-                  </span>
-                </div>
-              </div>
-            </Link>
-          </article>
-        ))}
-      </section>
-
-      {/* Estado vacío */}
-      {filtered.length === 0 && (
-        <div className="text-center py-24 text-[rgb(var(--fg))]/60">
-          No encontramos resultados con esos filtros.
+      {lista.length === 0 && (
+        <div className="py-24 text-center">
+          <p className="font-display text-3xl">Sin coincidencias</p>
+          <p className="mt-2 text-ink/60">Prueba quitando algún filtro.</p>
         </div>
       )}
     </main>

@@ -1,16 +1,12 @@
+import InfoPage from "@/components/InfoPage";
 
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
+export const metadata = { title: "Garantía y cuidado — LUNA" };
 
 export default function GarantiaPage() {
   return (
-    <main>
-      <Header />
-      <section className="container py-10 prose">
-        <h1 className="font-playfair text-3xl text-midnight">Garantia y cuidado</h1>
-        <p>Garantia de 12 meses. Usa el estuche y pano LUNA para proteger tus lentes.</p>
-      </section>
-      <Footer />
-    </main>
-  )
+    <InfoPage eyebrow="Ayuda" title="Garantía y cuidado">
+      <section><h2>12 meses de garantía</h2><p>Cubre defectos de fabricación en armazón y micas.</p></section>
+      <section><h2>Cuidado diario</h2><p>Usa el estuche y el paño LUNA para guardarlos y limpiarlos; evita dejarlos al sol dentro del auto.</p></section>
+    </InfoPage>
+  );
 }

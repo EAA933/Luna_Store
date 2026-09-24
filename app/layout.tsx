@@ -3,8 +3,8 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { ReactNode, Suspense } from "react";
 import { Analytics } from "@vercel/analytics/react";
-import ThemeProvider from "@/components/theme/ThemeProvider";
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import CartDrawer from "@/components/cart/CartDrawer";
 
 import { Fraunces, Plus_Jakarta_Sans } from "next/font/google";
@@ -12,7 +12,7 @@ import { Fraunces, Plus_Jakarta_Sans } from "next/font/google";
 const display = Fraunces({
   subsets: ["latin"],
   variable: "--font-display",
-  weight: ["300", "400", "600", "700", "900"],
+  weight: ["400", "500", "600"],
 });
 const sans = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -21,33 +21,22 @@ const sans = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "LUNA — Lentes premium",
-  description: "Diseño cuidado. Protección real. LUNA todos los días.",
+  title: "LUNA — Lentes de sol",
+  description: "Lentes de sol con protección UV400 y opción polarizada. Acetato y acero, envío a todo México.",
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html
-      lang="es-MX"
-      className={`${display.variable} ${sans.variable}`}
-      suppressHydrationWarning
-    >
-      <body className="min-h-screen bg-luna-bg text-luna-fg transition-colors">
-        <ThemeProvider>
-          {/* Barra de navegación visible en todas las páginas */}
-          <Suspense fallback={null}>
-            <Navbar />
-          </Suspense>
-
-          {/* Contenido de cada ruta */}
-          <div className="relative">{children}</div>
-
-          {/* Drawer del carrito montado una sola vez a nivel app */}
-          <CartDrawer />
-
-          {/* Analytics */}
-          <Analytics />
-        </ThemeProvider>
+    <html lang="es-MX" className={`${display.variable} ${sans.variable}`}>
+      <body className="min-h-screen">
+        {/* useSearchParams del Navbar requiere Suspense para el prerender */}
+        <Suspense fallback={null}>
+          <Navbar />
+        </Suspense>
+        {children}
+        <Footer />
+        <CartDrawer />
+        <Analytics />
       </body>
     </html>
   );

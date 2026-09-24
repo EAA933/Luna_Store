@@ -1,16 +1,11 @@
+import InfoPage from "@/components/InfoPage";
 
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
+export const metadata = { title: "Términos — LUNA" };
 
 export default function TerminosPage() {
   return (
-    <main>
-      <Header />
-      <section className="container py-10 prose">
-        <h1 className="font-playfair text-3xl text-midnight">Terminos</h1>
-        <p>Contenido legal estandar.</p>
-      </section>
-      <Footer />
-    </main>
-  )
+    <InfoPage eyebrow="Legal" title="Términos y condiciones">
+      <p>Contenido legal estándar.</p>
+    </InfoPage>
+  );
 }

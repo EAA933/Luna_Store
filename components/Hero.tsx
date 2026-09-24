@@ -1,57 +1,66 @@
-// components/Hero.tsx
 "use client";
-import { motion } from "framer-motion";
+
 import Link from "next/link";
+import { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { EASE, LineReveal } from "@/components/ui/Reveal";
 
 export default function Hero() {
+  const ref = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
+  // Parallax: la foto se desplaza más lento que la página y se acerca un poco.
+  const y = useTransform(scrollYProgress, [0, 1], ["0%", "18%"]);
+  const scale = useTransform(scrollYProgress, [0, 1], [1.02, 1.12]);
+
   return (
-    <section className="relative w-full px-10 md:px-20 lg:px-32 py-28 md:py-32 grid md:grid-cols-2 items-center gap-16 overflow-hidden">
-      {/* Texto */}
-      <motion.div
-        initial={{ opacity: 0, x: -40 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.8 }}
-        className="max-w-2xl ml-auto"
-      >
-        <p className="uppercase tracking-[0.25em] text-base mb-4 text-[rgb(var(--fg))]/60">
-          Nueva colección • 2025
-        </p>
-
-        <h1 className="font-display text-6xl md:text-7xl leading-[1.15] mb-6 text-[rgb(var(--fg))]">
-          Diseño cuidado.  
-          <br />Protección real.  
-          <br />
-          <span className="text-[rgb(var(--accent))]/90">LUNA</span> todos los días.
-        </h1>
-
-        <p className="text-[rgb(var(--fg))]/80 text-lg mb-10 leading-relaxed max-w-xl">
-          UV400 en todos los modelos y opción polarizada.  
-          Menos logo, más producto. Hechos para usarse todos los días.
-        </p>
-
-        <div className="flex gap-5">
-          <Link href="/catalog" className="btn-primary text-base px-8 py-4">
-            Ver colección
-          </Link>
-          <a href="#top-ventas" className="btn-outline text-base px-8 py-4">
-            Explorar
-          </a>
-        </div>
-      </motion.div>
-
-      {/* Imagen */}
-      <motion.div
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 1 }}
-        className="relative rounded-[2rem] overflow-hidden shadow-soft w-full"
-      >
-        <img
-          src="images/caratula.png"
-          alt="Modelo con lentes"
-          className="w-full h-[650px] object-cover"
+    <section ref={ref} className="grid md:grid-cols-[5fr_7fr] md:min-h-[calc(100svh-100px)] bg-stone">
+      <div className="container md:!px-16 flex flex-col justify-end pb-12 pt-10 md:py-20 order-2 md:order-1">
+        <motion.p
+          className="eyebrow"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+        >
+          Colección 2025 · Lentes de sol
+        </motion.p>
+        <LineReveal
+          as="h1"
+          lines={["Ver claro,", "incluso a", "mediodía."]}
+          className="mt-5 text-[clamp(3rem,7vw,6.5rem)] leading-[0.95] font-medium"
+          delay={0.25}
         />
-      </motion.div>
+        <motion.p
+          className="mt-7 max-w-md text-[17px] leading-relaxed text-ink/75"
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: EASE, delay: 0.7 }}
+        >
+          Armazones de acetato y acero con protección UV400. Pocos modelos,
+          bien hechos, pensados para el sol de todos los días.
+        </motion.p>
+        <motion.div
+          className="mt-9 flex flex-wrap gap-3"
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: EASE, delay: 0.85 }}
+        >
+          <Link href="/catalog" className="btn-primary">Ver la colección</Link>
+          <Link href="/catalog?segment=women" className="btn-outline">Mujer</Link>
+          <Link href="/catalog?segment=men" className="btn-outline">Hombre</Link>
+        </motion.div>
+      </div>
+
+      <div className="relative h-[44vh] md:h-auto overflow-hidden order-1 md:order-2">
+        <motion.img
+          src="/images/caratula.png"
+          alt="Siete modelos de lentes LUNA sobre fondo gris"
+          style={{ y, scale }}
+          initial={{ clipPath: "inset(0 0 100% 0)" }}
+          animate={{ clipPath: "inset(0 0 0% 0)" }}
+          transition={{ duration: 1.3, ease: EASE }}
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+      </div>
     </section>
   );
 }

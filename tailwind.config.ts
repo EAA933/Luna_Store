@@ -1,7 +1,7 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
-  darkMode: ["class"], // usamos next-themes con atributo class
+  darkMode: ["class"],
   content: [
     "./app/**/*.{ts,tsx}",
     "./components/**/*.{ts,tsx}",
@@ -10,6 +10,12 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        paper: "rgb(var(--paper) / <alpha-value>)",
+        ink: "rgb(var(--ink) / <alpha-value>)",
+        stone: "rgb(var(--stone) / <alpha-value>)",
+        line: "rgb(var(--line) / <alpha-value>)",
+        muted: "rgb(var(--muted) / <alpha-value>)",
+        noche: "rgb(var(--noche) / <alpha-value>)",
         midnight: "#0A245F",
         deepblue: "#143A8C",
         brand: {

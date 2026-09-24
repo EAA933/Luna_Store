@@ -1,16 +1,11 @@
+import InfoPage from "@/components/InfoPage";
 
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
+export const metadata = { title: "Privacidad — LUNA" };
 
 export default function PrivacidadPage() {
   return (
-    <main>
-      <Header />
-      <section className="container py-10 prose">
-        <h1 className="font-playfair text-3xl text-midnight">Privacidad</h1>
-        <p>Politica de privacidad conforme a la legislacion mexicana.</p>
-      </section>
-      <Footer />
-    </main>
-  )
+    <InfoPage eyebrow="Legal" title="Aviso de privacidad">
+      <p>Política de privacidad conforme a la legislación mexicana.</p>
+    </InfoPage>
+  );
 }

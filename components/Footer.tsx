@@ -1,33 +1,35 @@
+import Link from "next/link";
+
+const COLUMNAS = [
+  { titulo: "Comprar", links: [["Todos los lentes", "/catalog"], ["Mujer", "/catalog?segment=women"], ["Hombre", "/catalog?segment=men"], ["Unisex", "/catalog?segment=unisex"]] },
+  { titulo: "Ayuda", links: [["Preguntas frecuentes", "/faq"], ["Garantía", "/garantia"], ["Devoluciones", "/devoluciones"]] },
+  { titulo: "LUNA", links: [["Nosotros", "/nosotros"], ["Privacidad", "/privacidad"], ["Términos", "/terminos"]] },
+];
+
 export default function Footer() {
   return (
-    <footer>
-      <div className="max-w-[1400px] mx-auto px-8 md:px-16 grid md:grid-cols-4 gap-10">
+    <footer className="bg-stone">
+      <div className="container grid gap-12 py-16 md:grid-cols-[2fr_1fr_1fr_1fr]">
         <div>
-          <h3>LUNA</h3>
-          <p>Diseño cuidado. Protección real.</p>
+          <Link href="/" className="font-display text-5xl font-semibold tracking-tight">luna</Link>
+          <p className="mt-4 max-w-xs text-[15px] leading-relaxed text-ink/70">
+            Lentes de sol con protección UV400, diseñados para usarse todos los días.
+          </p>
         </div>
-        <div>
-          <h3>Compra</h3>
-          <ul className="space-y-2">
-            <li><a href="/catalog">Catálogo</a></li>
-            <li><a href="#">Envíos</a></li>
-            <li><a href="#">Garantía</a></li>
-          </ul>
-        </div>
-        <div>
-          <h3>Nosotros</h3>
-          <ul className="space-y-2">
-            <li><a href="#">Nuestra historia</a></li>
-            <li><a href="#">Misión</a></li>
-          </ul>
-        </div>
-        <div>
-          <h3>Contacto</h3>
-          <p>hola@luna.com.mx</p>
-        </div>
+        {COLUMNAS.map((c) => (
+          <div key={c.titulo}>
+            <p className="eyebrow">{c.titulo}</p>
+            <ul className="mt-4 space-y-2.5 text-[15px]">
+              {c.links.map(([label, href]) => (
+                <li key={href}><Link href={href} className="link-underline">{label}</Link></li>
+              ))}
+            </ul>
+          </div>
+        ))}
       </div>
-      <div className="text-center mt-10 text-sm opacity-70">
-        © 2025 LUNA — Todos los derechos reservados.
+      <div className="container flex flex-col gap-2 border-t border-line py-6 text-[13px] text-muted md:flex-row md:justify-between">
+        <span>© {new Date().getFullYear()} LUNA · Diseñado en México</span>
+        <span>Precios en pesos mexicanos (MXN)</span>
       </div>
     </footer>
   );
