@@ -1,27 +1,25 @@
+# LUNA — Tienda de lentes (Next.js)
 
-# LUNA — Next.js eCommerce (MX)
+Storefront de lentes de sol para México. Stack: Next.js 14 (App Router), TypeScript, Tailwind y Zustand.
 
-Premium-accesible storefront for sunglasses. Stack: Next.js App Router, TypeScript, Tailwind, Prisma (Postgres), Stripe, optional Sanity CMS.
+En vivo: https://luna-store-wheat.vercel.app
 
-## Quick start
+## Correr en local
 
 ```bash
-pnpm install
-pnpm db:push     # requires a Postgres DATABASE_URL (Neon/Supabase)
-pnpm seed        # seeds example products with variants
-pnpm dev
+npm install
+npm run dev
 ```
 
-Open http://localhost:3000
+Abre http://localhost:3000
 
-Deploy on Vercel. Copy `.env.example` to `.env` and fill values.
+## Páginas
+- `/` landing con hero, más vendidos, colecciones y reseñas
+- `/catalog` filtros (segmento, forma, mica, material, precio)
+- `/product/[slug]` ficha de producto
+- `/cart`, `/checkout` (el pago en línea aún no está habilitado)
+- Páginas legales e informativas
 
-## Pages
-- `/` landing with hero, destacados, editorial blocks
-- `/catalog` filters (shape, lens, material, price)
-- `/product/[slug]` PDP with gallery and details
-- `/cart`, `/checkout`
-- Legal and CMS-like pages
-
-## Notes
-- If no DATABASE_URL is set, site boots with a small in-memory catalog. For production, use Postgres and run seed.
+## Notas
+- Sin base de datos: el catálogo vive en `lib/products.ts` y el carrito se guarda en el navegador (localStorage).
+- Solo necesita `NEXT_PUBLIC_SITE_URL` (ver `.env.example`).

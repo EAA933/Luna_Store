@@ -5,7 +5,7 @@ import { Suspense, useEffect, useMemo, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
 
-// Ejemplo de datos (usa tu fuente real: Prisma, Sanity, etc.)
+// Catálogo en memoria (sin base de datos)
 type Product = {
   id: string;
   slug: string;

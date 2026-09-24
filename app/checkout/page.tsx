@@ -27,7 +27,7 @@ export default function CheckoutPage() {
         <section className="max-w-5xl mx-auto">
           <h1 className="font-display text-4xl md:text-5xl mb-2">Checkout</h1>
           <p className="text-[rgb(var(--fg))]/70 mb-8">
-            Configura Stripe para pagos en prueba. Ver README.
+            Revisa tu pedido antes de confirmar.
           </p>
 
           <div className="grid md:grid-cols-[2fr_1fr] gap-8">
@@ -64,12 +64,12 @@ export default function CheckoutPage() {
                 <span>Calculado en checkout</span>
               </div>
               <div className="pt-3">
-                <button className="btn-primary w-full">
-                  Pagar con Stripe (test)
+                <button className="btn-primary w-full opacity-60 cursor-not-allowed" disabled>
+                  Pago en línea próximamente
                 </button>
               </div>
               <p className="text-xs text-[rgb(var(--fg))]/60">
-                Modo prueba — usa tarjetas de test de Stripe.
+                Estamos habilitando el pago en línea. Muy pronto podrás completar tu compra aquí.
               </p>
             </aside>
           </div>
