@@ -1,0 +1,138 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" width="100%" height="100%">
+  <defs>
+    <!-- Fondo de atardecer de estudio cinematográfico -->
+    <radialGradient id="heroSunsetAmbience" cx="45%" cy="30%" r="80%">
+      <stop offset="0%" stop-color="#FFF4E6" />
+      <stop offset="30%" stop-color="#FCE6CF" />
+      <stop offset="60%" stop-color="#F2D1B2" />
+      <stop offset="85%" stop-color="#E2B792" />
+      <stop offset="100%" stop-color="#CCA07B" />
+    </radialGradient>
+
+    <!-- Rayos dorados de sol rasante -->
+    <linearGradient id="sunBeam" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F5A04D" stop-opacity="0.45" />
+      <stop offset="40%" stop-color="#DE6536" stop-opacity="0.18" />
+      <stop offset="100%" stop-color="#DE6536" stop-opacity="0" />
+    </linearGradient>
+
+    <!-- Piedra travertino / Bloque escultural -->
+    <linearGradient id="travertineBlock" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F7EEE4" />
+      <stop offset="50%" stop-color="#EAD9C8" />
+      <stop offset="100%" stop-color="#D9C2AD" />
+    </linearGradient>
+
+    <!-- Sombra del pedestal -->
+    <linearGradient id="blockShadow" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#8C7364" stop-opacity="0.6" />
+      <stop offset="100%" stop-color="#8C7364" stop-opacity="0.1" />
+    </linearGradient>
+
+    <!-- Acetato negro obsidiana con brillo de atardecer -->
+    <linearGradient id="heroAcetate" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#382622" />
+      <stop offset="35%" stop-color="#1F1210" />
+      <stop offset="75%" stop-color="#0E0706" />
+      <stop offset="100%" stop-color="#2D1A16" />
+    </linearGradient>
+
+    <!-- Lente mineral de alto contraste con resplandor crepuscular -->
+    <linearGradient id="heroSunsetLens" x1="15%" y1="10%" x2="85%" y2="90%">
+      <stop offset="0%" stop-color="#1A0E0B" />
+      <stop offset="35%" stop-color="#2E1712" />
+      <stop offset="65%" stop-color="#6B321F" />
+      <stop offset="85%" stop-color="#E58742" stop-opacity="0.75" />
+      <stop offset="100%" stop-color="#DE6536" stop-opacity="0.95" />
+    </linearGradient>
+
+    <filter id="heroShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="20" />
+      <feOffset dx="0" dy="30" result="offsetblur" />
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.38" />
+      </feComponentTransfer>
+      <feMerge>
+        <feMergeNode />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Fondo de cielo de atardecer -->
+  <rect width="1200" height="900" fill="url(#heroSunsetAmbience)" />
+
+  <!-- Haz de luz oblicuo del sol a las 19:30h -->
+  <polygon points="0,0 800,0 1200,900 0,600" fill="url(#sunBeam)" />
+
+  <!-- Pedestal escultural de piedra travertino -->
+  <g transform="translate(200, 480)">
+    <!-- Cara superior del bloque -->
+    <polygon points="0,80 400,0 800,80 400,160" fill="url(#travertineBlock)" stroke="#D4BEA9" stroke-width="1.5" />
+    <!-- Cara frontal izquierda -->
+    <polygon points="0,80 400,160 400,320 0,240" fill="#D9C2AD" />
+    <!-- Cara frontal derecha -->
+    <polygon points="400,160 800,80 800,240 400,320" fill="#CCAFA0" />
+    <!-- Vetas de travertino -->
+    <line x1="100" y1="95" x2="300" y2="55" stroke="#BF9F86" stroke-width="1.2" stroke-opacity="0.4" />
+    <line x1="500" y1="55" x2="700" y2="95" stroke="#BF9F86" stroke-width="1.2" stroke-opacity="0.4" />
+  </g>
+
+  <!-- Sombra de los lentes en el pedestal -->
+  <ellipse cx="600" cy="540" rx="340" ry="45" fill="#3D221A" fill-opacity="0.35" />
+  <ellipse cx="600" cy="535" rx="270" ry="25" fill="#3D221A" fill-opacity="0.3" />
+
+  <!-- GAFAS DE SOL MIRAR ORION EN PERSPECTIVA 45° -->
+  <g filter="url(#heroShadow)" transform="translate(60, 50)">
+    <!-- Varilla izquierda extendida hacia atrás -->
+    <path d="M 280 430 Q 180 390 120 420 Q 95 435 80 450 L 95 460 Q 140 435 220 425 L 290 445 Z" fill="#1F1210" opacity="0.75" />
+    
+    <!-- Varilla derecha extendida hacia atrás -->
+    <path d="M 820 420 Q 940 380 1020 410 Q 1045 425 1060 440 L 1045 450 Q 980 425 900 420 L 810 440 Z" fill="#1F1210" opacity="0.75" />
+
+    <!-- Ojo Izquierdo con Bisel Esculpido 3D -->
+    <path d="M 270 330 L 520 330 Q 545 330 545 350 L 530 480 Q 530 510 500 510 L 290 510 Q 260 510 260 480 L 245 350 Q 245 330 270 330 Z" fill="url(#heroAcetate)" stroke="#F0A045" stroke-opacity="0.7" stroke-width="4.5" />
+    <!-- Lente Izquierda -->
+    <path d="M 285 350 L 505 350 Q 520 350 520 365 L 510 470 Q 510 490 485 490 L 305 490 Q 280 490 280 470 L 270 365 Q 270 350 285 350 Z" fill="url(#heroSunsetLens)" />
+    <!-- Reflejo diagonal amplio en lente izquierda -->
+    <path d="M 290 355 L 480 355 L 430 490 L 290 475 Z" fill="#FFFFFF" fill-opacity="0.18" />
+    <!-- Reflejo naranja del sol en la base de la lente -->
+    <path d="M 285 440 Q 395 425 515 435 L 510 470 Q 510 490 485 490 L 305 490 Q 280 490 280 470 Z" fill="#DE6536" fill-opacity="0.45" />
+
+    <!-- Puente Central Arquitectónico de Acero 316L Cepillado -->
+    <path d="M 530 365 Q 580 355 630 365 L 630 395 Q 580 385 530 395 Z" fill="#D8CEC7" stroke="#261814" stroke-width="2" />
+    <line x1="565" y1="368" x2="565" y2="390" stroke="#7C6E66" stroke-width="1.5" />
+    <line x1="595" y1="368" x2="595" y2="390" stroke="#7C6E66" stroke-width="1.5" />
+
+    <!-- Ojo Derecho con Bisel Esculpido 3D -->
+    <path d="M 615 330 L 865 330 Q 890 330 890 350 L 875 480 Q 875 510 845 510 L 635 510 Q 605 510 605 480 L 590 350 Q 590 330 615 330 Z" fill="url(#heroAcetate)" stroke="#F0A045" stroke-opacity="0.7" stroke-width="4.5" />
+    <!-- Lente Derecha -->
+    <path d="M 630 350 L 850 350 Q 865 350 865 365 L 855 470 Q 855 490 830 490 L 650 490 Q 625 490 625 470 L 615 365 Q 615 350 630 350 Z" fill="url(#heroSunsetLens)" />
+    <!-- Reflejo diagonal amplio en lente derecha -->
+    <path d="M 635 355 L 825 355 L 775 490 L 635 475 Z" fill="#FFFFFF" fill-opacity="0.18" />
+    <!-- Reflejo naranja del sol en la base de la lente derecha -->
+    <path d="M 630 440 Q 740 425 860 435 L 855 470 Q 855 490 830 490 L 650 490 Q 625 490 625 470 Z" fill="#DE6536" fill-opacity="0.45" />
+
+    <!-- Remaches de latón frontales -->
+    <circle cx="265" cy="345" r="3.2" fill="#E8B878" stroke="#1F1210" stroke-width="1" />
+    <circle cx="274" cy="345" r="3.2" fill="#E8B878" stroke="#1F1210" stroke-width="1" />
+    <circle cx="865" cy="345" r="3.2" fill="#E8B878" stroke="#1F1210" stroke-width="1" />
+    <circle cx="874" cy="345" r="3.2" fill="#E8B878" stroke="#1F1210" stroke-width="1" />
+
+    <!-- Línea de destello en el borde superior biselado -->
+    <line x1="280" y1="334" x2="520" y2="334" stroke="#FFFFFF" stroke-opacity="0.85" stroke-width="2.5" stroke-linecap="round" />
+    <line x1="625" y1="334" x2="865" y2="334" stroke="#FFFFFF" stroke-opacity="0.85" stroke-width="2.5" stroke-linecap="round" />
+  </g>
+
+  <!-- Píldoras de Calidad en la Imagen -->
+  <g transform="translate(60, 60)">
+    <rect width="260" height="42" rx="21" fill="#261814" fill-opacity="0.88" />
+    <circle cx="24" cy="21" r="5.5" fill="#DE6536" />
+    <text x="42" y="26" font-family="monospace" font-size="13" font-weight="700" fill="#FAF5EE" letter-spacing="1.5">MIRAR // ESTUDIO ÓPTICO</text>
+  </g>
+
+  <g transform="translate(860, 800)">
+    <rect width="280" height="40" rx="20" fill="#DE6536" fill-opacity="0.95" />
+    <text x="140" y="25" font-family="monospace" font-size="12" font-weight="700" fill="#FAF5EE" text-anchor="middle" letter-spacing="1.5">COLECCIÓN ATARDECER • 2025</text>
+  </g>
+</svg>

@@ -1,8 +1,8 @@
-# MIRAR — Tienda de lentes (Next.js)
+# LUNA — Tienda de lentes (Next.js)
 
 Storefront de lentes de sol para México. Stack: Next.js 14 (App Router), TypeScript, Tailwind y Zustand.
 
-En vivo: https://mirar-lentes.vercel.app
+En vivo: https://luna-store-wheat.vercel.app
 
 ## Correr en local
 

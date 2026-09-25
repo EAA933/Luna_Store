@@ -1,166 +1,127 @@
+// components/Navbar.tsx
 "use client";
 
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
-import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "framer-motion";
-import { Menu, ShoppingBag, X } from "lucide-react";
-import { useCartStore } from "@/components/cart/useCart";
-import { EASE } from "@/components/ui/Reveal";
+import { useState } from "react";
+import Logo from "@/components/Logo";
+import CartButton from "@/components/cart/CartButton";
+import ThemeToggle from "@/components/ThemeToggle";
+import { Search, Menu, X, ChevronRight } from "lucide-react";
 
-const ANUNCIOS = [
-  "Envío a todo México",
-  "UV400 en todos los modelos · polarizado en la mayoría",
-  "12 meses de garantía en cada armazón",
+const NAV_LINKS = [
+  { name: "Brisa", href: "/product/brisa-costera" },
+  { name: "Duna", href: "/product/duna-ambar" },
+  { name: "Marea", href: "/product/marea-marina" },
+  { name: "Ocaso", href: "/product/ocaso-solar" },
+  { name: "Tecnología Óptica", href: "/#lightlab" },
+  { name: "Catálogo", href: "/catalog" },
 ];
-
-const LINKS = [
-  { href: "/catalog", label: "Todos" },
-  { href: "/catalog?segment=women", label: "Mujer" },
-  { href: "/catalog?segment=men", label: "Hombre" },
-  { href: "/nosotros", label: "Nosotros" },
-];
-
-function AnnouncementBar() {
-  const [i, setI] = useState(0);
-  useEffect(() => {
-    const t = setInterval(() => setI((n) => (n + 1) % ANUNCIOS.length), 4500);
-    return () => clearInterval(t);
-  }, []);
-  return (
-    <div className="bg-ink text-white text-[12.5px] h-9 grid place-items-center overflow-hidden">
-      <AnimatePresence mode="wait">
-        <motion.p
-          key={i}
-          initial={{ y: 14, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          exit={{ y: -14, opacity: 0 }}
-          transition={{ duration: 0.45, ease: EASE }}
-          className="text-white"
-        >
-          {ANUNCIOS[i]}
-        </motion.p>
-      </AnimatePresence>
-    </div>
-  );
-}
-
-function CartButton() {
-  const count = useCartStore((s) => s.items.reduce((a, i) => a + i.qty, 0));
-  const setOpen = useCartStore((s) => s.setOpen);
-  return (
-    <button
-      onClick={() => setOpen(true)}
-      className="relative grid h-10 w-10 place-items-center rounded-full hover:bg-stone transition-colors"
-      aria-label={`Abrir carrito (${count} artículos)`}
-    >
-      <ShoppingBag className="h-[21px] w-[21px]" strokeWidth={1.6} />
-      <AnimatePresence>
-        {count > 0 && (
-          <motion.span
-            key={count}
-            initial={{ scale: 0.4, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0.4, opacity: 0 }}
-            transition={{ type: "spring", stiffness: 500, damping: 22 }}
-            className="absolute -right-0.5 -top-0.5 grid h-[18px] min-w-[18px] place-items-center rounded-full bg-noche px-1 text-[10px] font-bold text-white"
-          >
-            {count}
-          </motion.span>
-        )}
-      </AnimatePresence>
-    </button>
-  );
-}
 
 export default function Navbar() {
   const pathname = usePathname();
-  const search = useSearchParams();
-  const [oculto, setOculto] = useState(false);
-  const [menu, setMenu] = useState(false);
-  const { scrollY } = useScroll();
-
-  // Se esconde al bajar y reaparece al subir.
-  useMotionValueEvent(scrollY, "change", (y) => {
-    const prev = scrollY.getPrevious() ?? 0;
-    setOculto(y > 160 && y > prev);
-  });
-
-  useEffect(() => setMenu(false), [pathname, search]);
-  useEffect(() => {
-    document.body.style.overflow = menu ? "hidden" : "";
-  }, [menu]);
-
-  const activo = (href: string) => {
-    const url = new URL(href, "http://x");
-    if (url.pathname !== pathname) return false;
-    return (search?.get("segment") || "") === (url.searchParams.get("segment") || "");
-  };
+  const searchParams = useSearchParams();
+  const currentCollection = searchParams.get("collection");
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <>
-      <motion.header
-        animate={{ y: oculto && !menu ? "-100%" : 0 }}
-        transition={{ duration: 0.4, ease: EASE }}
-        className="sticky top-0 z-50 bg-white/95 backdrop-blur"
-      >
-        <AnnouncementBar />
-        <div className="container flex h-16 items-center justify-between border-b border-line">
-          <div className="flex items-center gap-10">
-            <Link href="/" className="font-display text-[28px] font-semibold leading-none tracking-tight">
-              mirar
-            </Link>
-            <nav className="hidden md:flex items-center gap-7 text-[15px] font-medium">
-              {LINKS.map((l) => (
-                <Link key={l.href} href={l.href} className={`link-underline py-1 ${activo(l.href) ? "bg-[length:100%_1px]" : ""}`}>
-                  {l.label}
+    <header className="sticky top-0 z-50 w-full">
+      {/* Cinta superior minimalista al estilo de anuncios de Apple */}
+      <div className="w-full bg-[rgb(var(--card))] border-b border-[rgb(var(--stroke))] px-4 py-1.5 text-center text-xs text-[rgb(var(--secondary))] transition-colors">
+        <div className="max-w-7xl mx-auto flex items-center justify-center gap-2">
+          <span>Envío express de cortesía en todas las órdenes. 30 días de prueba en casa.</span>
+          <Link
+            href="/catalog"
+            className="text-[rgb(var(--accent))] hover:underline inline-flex items-center gap-0.5 font-medium ml-1"
+          >
+            <span>Ver modelos</span>
+            <ChevronRight className="w-3 h-3" />
+          </Link>
+        </div>
+      </div>
+
+      {/* Barra de Navegación Principal con cristal esmerilado */}
+      <nav className="w-full backdrop-blur-xl bg-[rgb(var(--bg))]/80 border-b border-[rgb(var(--stroke))] transition-colors">
+        <div className="container-floema h-12 md:h-14 flex items-center justify-between">
+          {/* Logotipo */}
+          <Link href="/" className="flex items-center" onClick={() => setMobileMenuOpen(false)}>
+            <Logo withTag={false} />
+          </Link>
+
+          {/* Enlaces de navegación de escritorio estilo Apple */}
+          <div className="hidden md:flex items-center gap-7 lg:gap-9 text-[13px] font-normal text-[rgb(var(--fg))]/80">
+            {NAV_LINKS.map((link) => {
+              const isActive = pathname === link.href;
+              return (
+                <Link
+                  key={link.name}
+                  href={link.href}
+                  className={`transition-colors hover:text-[rgb(var(--fg))] ${
+                    isActive ? "text-[rgb(var(--fg))] font-medium" : "text-[rgb(var(--secondary))]"
+                  }`}
+                >
+                  {link.name}
                 </Link>
-              ))}
-            </nav>
+              );
+            })}
           </div>
-          <div className="flex items-center gap-1">
-            <Link href="/faq" className="hidden md:inline link-underline mr-4 text-[15px] font-medium">Ayuda</Link>
-            <CartButton />
-            <button
-              className="md:hidden grid h-10 w-10 place-items-center rounded-full hover:bg-stone"
-              onClick={() => setMenu((m) => !m)}
-              aria-label={menu ? "Cerrar menú" : "Abrir menú"}
-              aria-expanded={menu}
+
+          {/* Acciones del extremo derecho: Buscar, Carrito, Modo Oscuro */}
+          <div className="flex items-center gap-3">
+            <Link
+              href="/catalog"
+              aria-label="Buscar lentes"
+              className="p-1.5 text-[rgb(var(--secondary))] hover:text-[rgb(var(--fg))] transition-colors rounded-full hover:bg-[rgb(var(--card))]"
             >
-              {menu ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+              <Search className="w-4 h-4" />
+            </Link>
+
+            <ThemeToggle />
+
+            <CartButton />
+
+            {/* Menú hamburguesa móvil */}
+            <button
+              type="button"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="md:hidden p-1.5 text-[rgb(var(--secondary))] hover:text-[rgb(var(--fg))] transition-colors rounded-full"
+              aria-label="Alternar menú"
+            >
+              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
         </div>
-      </motion.header>
 
-      {/* Menú móvil a pantalla completa */}
-      <AnimatePresence>
-        {menu && (
-          <motion.nav
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.25 }}
-            className="fixed inset-x-0 bottom-0 top-[100px] z-40 bg-white md:hidden"
-          >
-            <ul className="container pt-8">
-              {[...LINKS, { href: "/faq", label: "Ayuda" }].map((l, i) => (
-                <motion.li
-                  key={l.href}
-                  initial={{ y: 24, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ delay: 0.05 + i * 0.06, duration: 0.5, ease: EASE }}
-                  className="border-b border-line"
+        {/* Menú móvil desplegable estilo Apple */}
+        {mobileMenuOpen && (
+          <div className="md:hidden border-b border-[rgb(var(--stroke))] bg-[rgb(var(--bg))]/98 backdrop-blur-2xl px-6 py-6 space-y-4">
+            <div className="flex flex-col space-y-3">
+              {NAV_LINKS.map((link) => (
+                <Link
+                  key={link.name}
+                  href={link.href}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="text-lg font-medium text-[rgb(var(--fg))] hover:text-[rgb(var(--accent))] transition-colors py-1 flex items-center justify-between"
                 >
-                  <Link href={l.href} className="flex items-center justify-between py-5 font-display text-4xl">
-                    {l.label} <span className="text-2xl text-muted">→</span>
-                  </Link>
-                </motion.li>
+                  <span>{link.name}</span>
+                  <ChevronRight className="w-4 h-4 text-[rgb(var(--secondary))]" />
+                </Link>
               ))}
-            </ul>
-          </motion.nav>
+            </div>
+
+            <div className="pt-4 border-t border-[rgb(var(--stroke))] flex items-center justify-between text-xs text-[rgb(var(--secondary))]">
+              <span>Garantía de por vida en todas las monturas</span>
+              <Link
+                href="/catalog"
+                onClick={() => setMobileMenuOpen(false)}
+                className="text-[rgb(var(--accent))] font-medium hover:underline"
+              >
+                Comprar →
+              </Link>
+            </div>
+          </div>
         )}
-      </AnimatePresence>
-    </>
+      </nav>
+    </header>
   );
 }

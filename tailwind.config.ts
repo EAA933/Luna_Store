@@ -10,28 +10,33 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        paper: "rgb(var(--paper) / <alpha-value>)",
-        ink: "rgb(var(--ink) / <alpha-value>)",
-        stone: "rgb(var(--stone) / <alpha-value>)",
-        line: "rgb(var(--line) / <alpha-value>)",
-        muted: "rgb(var(--muted) / <alpha-value>)",
-        noche: "rgb(var(--noche) / <alpha-value>)",
-        midnight: "#0A245F",
-        deepblue: "#143A8C",
+        floema: {
+          bg: "#ebe7df",
+          fg: "#241f21",
+          accent: "#e9e778",
+          card: "#f4f1ea",
+          muted: "#75706b",
+          greenery: "#3a543f",
+        },
+        midnight: "#241f21",
+        deepblue: "#1a1718",
         brand: {
-          bg: "#0A245F",
-          text: "#0F172A",
-          muted: "#6B7280",
-          gray: "#E6EAF2",
-          white: "#FFFFFF",
+          bg: "#241f21",
+          text: "#241f21",
+          muted: "#75706b",
+          gray: "#ebe7df",
+          white: "#ffffff",
         },
       },
       fontFamily: {
-        display: ["var(--font-display)", "serif"],
+        display: ["var(--font-display)", "system-ui", "sans-serif"],
         sans: ["var(--font-sans)", "system-ui", "sans-serif"],
+        mono: ["ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "monospace"],
       },
       boxShadow: {
-        soft: "0 8px 30px rgba(10,36,95,0.08)",
+        floema: "3px 3px 0px #241f21",
+        "floema-sm": "2px 2px 0px #241f21",
+        "floema-accent": "3px 3px 0px #e9e778",
       },
       container: {
         center: true,
@@ -42,9 +47,6 @@ const config: Config = {
           lg: "2rem",
           xl: "2.5rem",
         },
-      },
-      borderColor: {
-        DEFAULT: "color-mix(in oklab, #000 8%, transparent)",
       },
     },
   },

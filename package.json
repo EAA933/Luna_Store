@@ -1,17 +1,16 @@
 {
-  "name": "mirar",
+  "name": "luna",
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 3000 -H 0.0.0.0",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -p 3000 -H 0.0.0.0",
     "lint": "next lint",
     "test": "vitest run",
     "test:ui": "playwright test"
   },
   "dependencies": {
-    "@vercel/analytics": "1.3.1",
     "bcryptjs": "2.4.3",
     "clsx": "2.1.1",
     "date-fns": "3.6.0",
@@ -19,6 +18,7 @@
     "lucide-react": "0.447.0",
     "next": "14.2.5",
     "next-sitemap": "4.2.3",
+    "next-themes": "0.3.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-hook-form": "7.53.0",

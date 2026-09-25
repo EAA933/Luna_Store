@@ -3,73 +3,253 @@
 @tailwind utilities;
 
 /* ======================================================
-   MIRAR — sistema visual
-   Papel blanco, tinta casi negra, "piedra" cálida para los
-   fondos de producto y un azul noche de marca usado con
-   moderación. Esquinas rectas en imágenes; pills en botones.
+    MIRAR — LENGUAJE VISUAL INSPIRADO EN PRINCIPIOS APPLE
+   Diseño minimalista, tecnológico, premium y depurado.
+   Donde el diseño desaparece y el producto es el protagonista.
+   - Fondo: Blanco puro (#FFFFFF) y neutros ultra-claros (#FBFBFD, #F5F5F7)
+   - Tipografía: Sans-serif limpia con tracking ceñido
+   - Bordes: Filetes microscópicos y sombras ultra-suaves
+   - Botones: Cápsulas ergonómicas (rounded-full)
    ====================================================== */
+
 @layer base {
   :root {
-    --paper: 255 255 255;
-    --ink: 17 17 17;
-    --stone: 241 240 237;
-    --line: 229 227 222;
-    --muted: 107 105 102;
-    --noche: 10 36 95;
-
-    /* Compatibilidad con componentes existentes */
-    --bg: var(--paper);
-    --fg: var(--ink);
-    --card: var(--paper);
-    --stroke: var(--line);
-    --accent: var(--noche);
+    --bg: 255 255 255;            /* #FFFFFF Blanco puro */
+    --bg-subtle: 251 251 253;     /* #FBFBFD Fondo secundario */
+    --fg: 29 29 31;               /* #1D1D1F Texto obsidiana de alta legibilidad */
+    --card: 245 245 247;          /* #F5F5F7 Superficie neutra para producto */
+    --card-hover: 255 255 255;    /* #FFFFFF Elevación luminosa */
+    --card-warm: 240 240 242;     /* #F0F0F2 Neutro complementario */
+    --stroke: 0 0 0 / 0.08;       /* Borde imperceptible de 1px */
+    --stroke-strong: 0 0 0 / 0.16;
+    --accent: 0 113 227;          /* #0071E3 Azul interactivo icónico */
+    --accent-fg: 255 255 255;
+    --accent-hover: 0 119 237;    /* #0077ED */
+    --secondary: 134 134 139;     /* #86868B Subtítulo gris neutro */
+    --pill-bg: 245 245 247;
+    --pill-fg: 29 29 31;
+    --titanium: 110 110 115;
   }
 
-  html { scroll-behavior: smooth; }
-  html, body {
-    background-color: rgb(var(--paper));
-    color: rgb(var(--ink));
-    font-family: var(--font-sans), system-ui, sans-serif;
-    @apply antialiased;
+  .dark {
+    --bg: 17 19 24;               /* #111318 Tinte polarizado obsidiana mineral */
+    --bg-subtle: 23 26 33;        /* #171A21 */
+    --fg: 243 243 246;            /* #F3F3F6 Blanco nítido antirreflejo */
+    --card: 26 29 38;             /* #1A1D26 Chasis polarizado mate */
+    --card-hover: 34 38 49;
+    --card-warm: 30 34 44;
+    --stroke: 255 255 255 / 0.12; /* Reflejo sutil de chasis */
+    --stroke-strong: 255 255 255 / 0.24;
+    --accent: 245 158 11;         /* #F59E0B Ámbar solar polarizado */
+    --accent-fg: 17 19 24;
+    --accent-hover: 251 191 36;
+    --secondary: 156 163 175;     /* #9CA3AF Gris neutro atenuado */
+    --pill-bg: 30 34 44;
+    --pill-fg: 243 243 246;
+    --titanium: 161 161 166;
   }
-  ::selection { background: rgb(var(--noche)); color: #fff; }
 
-  h1, h2, h3, h4 { @apply font-display; letter-spacing: -0.02em; }
+  /* Efecto óptico simulador de lentes de sol polarizados en modo oscuro */
+  .dark::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9999;
+    background: radial-gradient(
+      circle at 50% 45%,
+      rgba(245, 158, 11, 0.02) 0%,
+      rgba(17, 19, 24, 0.06) 75%,
+      rgba(10, 12, 16, 0.24) 100%
+    );
+    box-shadow: inset 0 0 90px rgba(0, 0, 0, 0.45);
+  }
 
-  :focus-visible { outline: 2px solid rgb(var(--noche)); outline-offset: 3px; }
+  /* Retrocompatibilidad con selectores de fondo anteriores */
+  .bg-floema-bg, .bg-mirar-bg, .bg-luna-bg { background-color: rgb(var(--bg)); }
+  .text-floema-fg, .text-mirar-fg, .text-luna-fg { color: rgb(var(--fg)); }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    background-color: rgb(var(--bg));
+    color: rgb(var(--fg));
+    font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", system-ui, sans-serif;
+    letter-spacing: -0.015em;
+    overflow-x: hidden;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  ::selection {
+    background-color: rgb(var(--accent));
+    color: white;
+  }
 }
 
-@layer components {
-  .container { @apply mx-auto w-full px-5 md:px-10 lg:px-16; max-width: 1480px; }
+/* ======================================================
+   TIPOGRAFÍA MODERNA SANS-SERIF
+   ====================================================== */
 
-  .eyebrow { @apply text-[11px] font-semibold uppercase tracking-[0.22em] text-muted; }
-
-  .btn-pill {
-    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-[15px] font-semibold
-      transition-[background-color,color,transform,border-color] duration-300 ease-out active:scale-[0.98];
-  }
-  .btn-primary { @apply btn-pill bg-ink text-white hover:bg-noche; }
-  .btn-outline { @apply btn-pill border border-ink/20 text-ink hover:border-ink; }
-  .btn-light { @apply btn-pill bg-white text-ink hover:bg-stone; }
-
-  /* Subrayado animado para enlaces de texto */
-  .link-underline {
-    background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat;
-    transition: background-size 0.35s ease;
-  }
-  .link-underline:hover { background-size: 100% 1px; }
-
-  /* Tarjetas neutras (páginas informativas) */
-  .card { @apply border border-line bg-white; }
-
-  .section-title { @apply font-display text-4xl md:text-5xl mb-10; }
-  .section-text { @apply text-lg leading-relaxed text-ink/80; }
+.font-editorial, .font-serif {
+  font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
 }
 
-/* Marquesina infinita */
-@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-.animate-marquee { animation: marquee 38s linear infinite; }
+.font-mono-spec {
+  font-family: var(--font-mono), SFMono-Regular, ui-monospace, Menlo, Monaco, Consolas, monospace;
+}
 
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+/* Tarjetas y superficies limpias */
+.magazine-frame, .apple-card {
+  background-color: rgb(var(--card));
+  border: 1px solid rgb(var(--stroke));
+  border-radius: 1.5rem;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease;
+}
+
+.magazine-frame:hover, .apple-card:hover {
+  border-color: rgb(var(--stroke-strong));
+  box-shadow: 0 12px 40px -10px rgba(0, 0, 0, 0.08);
+}
+
+.dark .magazine-frame:hover, .dark .apple-card:hover {
+  box-shadow: 0 12px 40px -10px rgba(0, 0, 0, 0.4);
+}
+
+/* Estilo contenedor general */
+.container-floema {
+  width: 100%;
+  max-width: 80rem; /* 1280px */
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+}
+
+@media (min-width: 640px) {
+  .container-floema {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container-floema {
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
+}
+
+/* ======================================================
+   SISTEMA DE BOTONES ERGONÓMICOS EN PÍLDORA (APPLE-STYLE)
+   ====================================================== */
+
+.btn-apple-primary, .btn-sunset {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.375rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.25;
+  border-radius: 9999px;
+  background-color: rgb(var(--accent));
+  color: #ffffff;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.btn-apple-primary:hover, .btn-sunset:hover {
+  background-color: rgb(var(--accent-hover));
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 113, 227, 0.25);
+}
+
+.btn-apple-primary:active, .btn-sunset:active {
+  transform: scale(0.98);
+}
+
+.btn-apple-dark, .btn-editorial-dark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.375rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.25;
+  border-radius: 9999px;
+  background-color: #1d1d1f;
+  color: #ffffff;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.dark .btn-apple-dark, .dark .btn-editorial-dark {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+.btn-apple-dark:hover, .btn-editorial-dark:hover {
+  background-color: #000000;
+  transform: translateY(-1px);
+}
+
+.dark .btn-apple-dark:hover, .dark .btn-editorial-dark:hover {
+  background-color: #e5e5ea;
+}
+
+.btn-apple-secondary, .btn-editorial-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.375rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.25;
+  border-radius: 9999px;
+  background-color: transparent;
+  color: rgb(var(--fg));
+  border: 1px solid rgb(var(--stroke-strong));
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-apple-secondary:hover, .btn-editorial-outline:hover {
+  background-color: rgb(var(--card));
+  border-color: rgb(var(--fg));
+}
+
+.btn-apple-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: rgb(var(--accent));
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: opacity 0.2s ease;
+}
+
+.btn-apple-link:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* Transición suave para scroll */
+.apple-fade-in {
+  animation: appleFadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes appleFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

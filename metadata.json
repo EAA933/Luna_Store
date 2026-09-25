@@ -1,0 +1,8 @@
+{
+  "name": "LUNA",
+  "description": "Atelier óptico de gafas de sol en acetato orgánico y micas minerales para la luz cruda del mediodía.",
+  "prompt": "",
+  "capabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
+  <defs>
+    <!-- Fondo de atardecer en horizonte de mar -->
+    <radialGradient id="horizonSky" cx="50%" cy="30%" r="75%">
+      <stop offset="0%" stop-color="#FFF8F0" />
+      <stop offset="35%" stop-color="#FAE5D3" />
+      <stop offset="70%" stop-color="#EACDB8" />
+      <stop offset="100%" stop-color="#DAB298" />
+    </radialGradient>
+
+    <!-- Resplandor solar potente -->
+    <radialGradient id="sunHorizonGlow" cx="50%" cy="20%" r="45%">
+      <stop offset="0%" stop-color="#EB9134" stop-opacity="0.38" />
+      <stop offset="60%" stop-color="#DE6536" stop-opacity="0.12" />
+      <stop offset="100%" stop-color="#DE6536" stop-opacity="0" />
+    </radialGradient>
+
+    <!-- Metal Cobre Cepillado / Titanio Rosado -->
+    <linearGradient id="copperMetal" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#8A4A32" />
+      <stop offset="25%" stop-color="#D97A52" />
+      <stop offset="50%" stop-color="#FFD4BE" />
+      <stop offset="75%" stop-color="#C2633C" />
+      <stop offset="100%" stop-color="#6E3320" />
+    </linearGradient>
+
+    <!-- Mica Mineral Azul Atardecer Marino -->
+    <linearGradient id="horizonSeaLens" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#141E28" />
+      <stop offset="45%" stop-color="#1E3244" />
+      <stop offset="75%" stop-color="#3D5A73" />
+      <stop offset="90%" stop-color="#D97A52" stop-opacity="0.65" />
+      <stop offset="100%" stop-color="#EB9134" stop-opacity="0.85" />
+    </linearGradient>
+
+    <filter id="shadowFilter4" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="15" />
+      <feOffset dx="0" dy="22" result="offsetblur" />
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.3" />
+      </feComponentTransfer>
+      <feMerge>
+        <feMergeNode />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Fondo de estudio -->
+  <rect width="800" height="600" fill="url(#horizonSky)" />
+  <circle cx="400" cy="180" r="340" fill="url(#sunHorizonGlow)" />
+
+  <!-- Sombra en suelo -->
+  <ellipse cx="400" cy="425" rx="300" ry="40" fill="#3B2019" fill-opacity="0.25" />
+  <ellipse cx="400" cy="422" rx="230" ry="22" fill="#3B2019" fill-opacity="0.2" />
+
+  <!-- MONTURA: MR-04 HORIZON PILOT (DOBLE PUENTE AVIADOR EN COBRE) -->
+  <g filter="url(#shadowFilter4)">
+    <!-- Varillas en perspectiva detrás -->
+    <path d="M 175 295 L 90 300 Q 75 305 65 315 L 75 320 Q 95 310 170 305 Z" fill="#6E3320" opacity="0.65" />
+    <path d="M 625 295 L 710 300 Q 725 305 735 315 L 725 320 Q 705 310 630 305 Z" fill="#6E3320" opacity="0.65" />
+
+    <!-- Barra Superior Recta de la Ceja (Brow Bar) -->
+    <rect x="230" y="240" width="340" height="4" rx="2" fill="url(#copperMetal)" />
+
+    <!-- Doble Puente Curvo Inferior -->
+    <path d="M 370 270 Q 400 262 430 270" stroke="url(#copperMetal)" stroke-width="3" fill="none" stroke-linecap="round" />
+
+    <!-- Ojo Izquierdo Forma Lágrima Aviador -->
+    <path d="M 175 255 Q 360 250 365 260 Q 375 330 345 375 Q 310 405 260 395 Q 195 385 175 330 Q 165 270 175 255 Z" fill="none" stroke="url(#copperMetal)" stroke-width="4.5" />
+    <!-- Lente Izquierda -->
+    <path d="M 183 260 Q 352 255 358 265 Q 366 328 338 368 Q 306 396 260 388 Q 202 378 183 328 Q 174 274 183 260 Z" fill="url(#horizonSeaLens)" />
+    <!-- Reflejos y resplandor de puesta de sol en lente izquierda -->
+    <path d="M 183 260 L 320 258 L 270 388 L 195 365 Z" fill="#FFFFFF" fill-opacity="0.15" />
+    <path d="M 200 340 Q 260 390 335 350 Q 310 395 260 388 Q 215 380 200 340 Z" fill="#EB9134" fill-opacity="0.4" />
+
+    <!-- Ojo Derecho Forma Lágrima Aviador -->
+    <path d="M 435 260 Q 440 250 625 255 Q 635 270 625 330 Q 605 385 540 395 Q 490 405 455 375 Q 425 330 435 260 Z" fill="none" stroke="url(#copperMetal)" stroke-width="4.5" />
+    <!-- Lente Derecha -->
+    <path d="M 442 265 Q 448 255 617 260 Q 626 274 617 328 Q 598 378 540 388 Q 494 396 462 368 Q 434 328 442 265 Z" fill="url(#horizonSeaLens)" />
+    <!-- Reflejos y resplandor en lente derecha -->
+    <path d="M 480 258 L 617 260 L 605 365 L 530 388 Z" fill="#FFFFFF" fill-opacity="0.15" />
+    <path d="M 465 350 Q 540 390 600 340 Q 585 380 540 388 Q 490 395 465 350 Z" fill="#EB9134" fill-opacity="0.4" />
+
+    <!-- Almohadillas nasales de silicona médica -->
+    <ellipse cx="380" cy="290" rx="3.5" ry="8" fill="#FFF2E5" fill-opacity="0.8" stroke="#8A4A32" stroke-width="0.8" />
+    <ellipse cx="420" cy="290" rx="3.5" ry="8" fill="#FFF2E5" fill-opacity="0.8" stroke="#8A4A32" stroke-width="0.8" />
+
+    <!-- Destellos de luz en barra superior -->
+    <line x1="260" y1="242" x2="330" y2="242" stroke="#FFFFFF" stroke-opacity="0.8" stroke-width="1.8" stroke-linecap="round" />
+    <line x1="470" y1="242" x2="540" y2="242" stroke="#FFFFFF" stroke-opacity="0.8" stroke-width="1.8" stroke-linecap="round" />
+  </g>
+
+  <!-- Píldora de Identificación -->
+  <g transform="translate(40, 40)">
+    <rect width="180" height="34" rx="17" fill="#6E3320" fill-opacity="0.9" />
+    <circle cx="20" cy="17" r="4.5" fill="#D97A52" />
+    <text x="34" y="21" font-family="monospace" font-size="11" font-weight="700" fill="#FAF5EE" letter-spacing="1">MR-04 // HORIZON</text>
+  </g>
+
+  <!-- Píldora de Calibración -->
+  <g transform="translate(600, 525)">
+    <rect width="160" height="30" rx="15" fill="#D97A52" fill-opacity="0.92" />
+    <text x="80" y="19" font-family="monospace" font-size="10.5" font-weight="700" fill="#FAF5EE" text-anchor="middle" letter-spacing="1.2">58▪15-140 • COBRE</text>
+  </g>
+</svg>

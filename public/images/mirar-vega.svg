@@ -1,0 +1,111 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
+  <defs>
+    <!-- Fondo de atardecer costero -->
+    <radialGradient id="vegaSky" cx="50%" cy="30%" r="75%">
+      <stop offset="0%" stop-color="#FAF5EE" />
+      <stop offset="40%" stop-color="#EFE2D2" />
+      <stop offset="75%" stop-color="#E2CCA8" />
+      <stop offset="100%" stop-color="#D4B692" />
+    </radialGradient>
+
+    <!-- Resplandor solar -->
+    <radialGradient id="vegaFlare" cx="35%" cy="25%" r="45%">
+      <stop offset="0%" stop-color="#EB9134" stop-opacity="0.32" />
+      <stop offset="60%" stop-color="#4E7856" stop-opacity="0.1" />
+      <stop offset="100%" stop-color="#DE6536" stop-opacity="0" />
+    </radialGradient>
+
+    <!-- Polímero Marino Verde Salvia rePlastic -->
+    <linearGradient id="marinePolymer" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#364A3B" />
+      <stop offset="40%" stop-color="#243428" />
+      <stop offset="80%" stop-color="#18241B" />
+      <stop offset="100%" stop-color="#2E4232" />
+    </linearGradient>
+
+    <!-- Bisel Verde Salvia con Luz Solar -->
+    <linearGradient id="polymerBevel" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#8BB893" stop-opacity="0.8" />
+      <stop offset="25%" stop-color="#C5E0CA" stop-opacity="0.5" />
+      <stop offset="100%" stop-color="#18241B" />
+    </linearGradient>
+
+    <!-- Lente Polarizada Verde Esmeralda con Reflejo Crepuscular -->
+    <linearGradient id="greenPolarLens" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#121D15" />
+      <stop offset="45%" stop-color="#1B2D20" />
+      <stop offset="75%" stop-color="#2E4A35" />
+      <stop offset="90%" stop-color="#D97A2C" stop-opacity="0.65" />
+      <stop offset="100%" stop-color="#DE6536" stop-opacity="0.85" />
+    </linearGradient>
+
+    <filter id="shadowFilter3" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="15" />
+      <feOffset dx="0" dy="22" result="offsetblur" />
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.3" />
+      </feComponentTransfer>
+      <feMerge>
+        <feMergeNode />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Fondo de estudio -->
+  <rect width="800" height="600" fill="url(#vegaSky)" />
+  <circle cx="280" cy="180" r="320" fill="url(#vegaFlare)" />
+
+  <!-- Sombra en suelo -->
+  <ellipse cx="400" cy="425" rx="290" ry="40" fill="#18241B" fill-opacity="0.22" />
+  <ellipse cx="400" cy="422" rx="220" ry="22" fill="#18241B" fill-opacity="0.18" />
+
+  <!-- MONTURA: MR-03 VEGA rePLASTIC (SILUETA PANTO CON PUENTE CERRADURA) -->
+  <g filter="url(#shadowFilter3)">
+    <!-- Varillas en perspectiva detrás -->
+    <path d="M 195 285 Q 150 270 95 290 Q 80 295 70 305 L 80 310 Q 110 295 160 292 L 200 300 Z" fill="#18241B" opacity="0.6" />
+    <path d="M 605 285 Q 650 270 705 290 Q 720 295 730 305 L 720 310 Q 690 295 640 292 L 600 300 Z" fill="#18241B" opacity="0.6" />
+
+    <!-- Ojo Izquierdo Silueta Panto -->
+    <path d="M 210 240 Q 300 225 355 245 Q 380 280 370 340 Q 350 385 285 385 Q 215 385 195 340 Q 185 280 210 240 Z" fill="url(#marinePolymer)" stroke="url(#polymerBevel)" stroke-width="3" />
+    <!-- Lente Izquierda -->
+    <path d="M 222 250 Q 295 238 342 255 Q 365 285 355 335 Q 338 372 285 372 Q 228 372 210 335 Q 200 285 222 250 Z" fill="url(#greenPolarLens)" />
+    <!-- Reflejo diagonal -->
+    <path d="M 230 255 L 330 260 L 300 365 L 235 340 Z" fill="#FFFFFF" fill-opacity="0.12" />
+    <path d="M 240 330 Q 285 365 340 330 Q 320 365 285 365 Q 255 365 240 330 Z" fill="#DE6536" fill-opacity="0.35" />
+
+    <!-- Puente de Cerradura (Keyhole Bridge) Clásico Panto -->
+    <path d="M 365 255 Q 400 245 435 255 Q 425 270 415 278 Q 420 300 412 305 L 388 305 Q 380 300 385 278 Q 375 270 365 255 Z" fill="url(#marinePolymer)" stroke="url(#polymerBevel)" stroke-width="1.5" />
+
+    <!-- Ojo Derecho Silueta Panto -->
+    <path d="M 445 245 Q 500 225 590 240 Q 615 280 605 340 Q 585 385 515 385 Q 450 385 430 340 Q 420 280 445 245 Z" fill="url(#marinePolymer)" stroke="url(#polymerBevel)" stroke-width="3" />
+    <!-- Lente Derecha -->
+    <path d="M 458 255 Q 505 238 578 250 Q 600 285 590 335 Q 572 372 515 372 Q 462 372 445 335 Q 435 285 458 255 Z" fill="url(#greenPolarLens)" />
+    <!-- Reflejo diagonal derecho -->
+    <path d="M 470 255 L 570 260 L 540 365 L 475 340 Z" fill="#FFFFFF" fill-opacity="0.12" />
+    <path d="M 470 330 Q 515 365 570 330 Q 550 365 515 365 Q 485 365 470 330 Z" fill="#DE6536" fill-opacity="0.35" />
+
+    <!-- Remaches frontales de titanio -->
+    <circle cx="198" cy="255" r="2.2" fill="#C5E0CA" stroke="#18241B" stroke-width="0.8" />
+    <circle cx="204" cy="255" r="2.2" fill="#C5E0CA" stroke="#18241B" stroke-width="0.8" />
+    <circle cx="596" cy="255" r="2.2" fill="#C5E0CA" stroke="#18241B" stroke-width="0.8" />
+    <circle cx="602" cy="255" r="2.2" fill="#C5E0CA" stroke="#18241B" stroke-width="0.8" />
+
+    <!-- Destello superior del arco -->
+    <path d="M 225 242 Q 290 230 345 245" stroke="#FFFFFF" stroke-opacity="0.65" stroke-width="1.8" stroke-linecap="round" fill="none" />
+    <path d="M 455 245 Q 510 230 575 242" stroke="#FFFFFF" stroke-opacity="0.65" stroke-width="1.8" stroke-linecap="round" fill="none" />
+  </g>
+
+  <!-- Píldora de Identificación -->
+  <g transform="translate(40, 40)">
+    <rect width="180" height="34" rx="17" fill="#18241B" fill-opacity="0.9" />
+    <circle cx="20" cy="17" r="4.5" fill="#4E7856" />
+    <text x="34" y="21" font-family="monospace" font-size="11" font-weight="700" fill="#FAF5EE" letter-spacing="1">MR-03 // VEGA</text>
+  </g>
+
+  <!-- Píldora de Calibración -->
+  <g transform="translate(600, 525)">
+    <rect width="160" height="30" rx="15" fill="#2E4A35" fill-opacity="0.92" />
+    <text x="80" y="19" font-family="monospace" font-size="10.5" font-weight="700" fill="#FAF5EE" text-anchor="middle" letter-spacing="1.2">49▪20-145 • REPLASTIC</text>
+  </g>
+</svg>

@@ -1,45 +1,201 @@
-// lib/products.ts — catálogo en memoria (fuente única para "Más vendidos" y la página de producto)
+// lib/products.ts — Catálogo MIRAR Estudio Óptico
+// Siluetas con nombres naturales inspirados en la luz, tierra y costa
+
+export type MirarCollection = "Urban" | "Nature" | "rePlastic" | "Horizon" | "Details";
+export type FloemaCollection = MirarCollection;
+
 export type StoreProduct = {
   id: string;
   slug: string;
+  legacySlugs?: string[];
+  ref: string;
   name: string;
+  collection: MirarCollection;
+  edition: string;
   price: number; // MXN
   image: string;
   segment: "men" | "women" | "unisex";
   shape: string;
   lensColor: string;
+  lensType: string;
   material: string;
   polarized: boolean;
+  caliber: number; // mm
+  bridge: number;  // mm
+  temple: number;  // mm
+  weight: number;  // grams
+  sustainabilityBadge: string;
   description: string;
-  tag?: "Nuevo" | "Más vendido";
+  craftNote: string;
+  coordinates: string;
+  inStock: boolean;
 };
 
 export const products: StoreProduct[] = [
-  { id: "1", slug: "orion", name: "ORION", price: 1499, image: "/images/Image1.jpg", segment: "men", shape: "Rectangular", lensColor: "Humo", material: "Acero", polarized: true,
-    tag: "Más vendido",
-    description: "Armazón metálico ligero con mica humo polarizada. Para manejar y días de mucho sol." },
-  { id: "2", slug: "selene", name: "SELENE", price: 1999, image: "/images/image2.jpg", segment: "women", shape: "Redondo", lensColor: "Ámbar", material: "Acetato", polarized: false,
-    tag: "Más vendido",
-    description: "Acetato pulido con mica ámbar que realza el contraste. Un clásico con carácter." },
-  { id: "3", slug: "vega", name: "VEGA", price: 1799, image: "/images/image3.jpg", segment: "unisex", shape: "Redondo", lensColor: "Azul", material: "TR90", polarized: true,
-    description: "TR90 flexible y resistente, pensado para el uso diario sin preocuparte por golpes." },
-  { id: "4", slug: "lyra", name: "LYRA", price: 1599, image: "/images/image4.jpg", segment: "women", shape: "Cat-eye", lensColor: "Verde", material: "Acetato", polarized: false,
-    description: "Silueta cat-eye con mica verde clásica. Ligero, cómodo y con protección UV400." },
-  { id: "5", slug: "atlas", name: "ATLAS", price: 1699, image: "/images/image5.jpg", segment: "men", shape: "Cuadrado", lensColor: "Humo", material: "Acetato", polarized: true,
-    tag: "Nuevo",
-    description: "Formato cuadrado de acetato grueso con mica polarizada. Presencia sin exagerar." },
-  { id: "6", slug: "nova", name: "NOVA", price: 1899, image: "/images/image6.jpg", segment: "unisex", shape: "Aviador", lensColor: "Ámbar", material: "Acero", polarized: true,
-    tag: "Nuevo",
-    description: "Nuestra versión del aviador: doble puente de acero y mica ámbar polarizada." },
+  {
+    id: "1",
+    slug: "brisa-costera",
+    legacySlugs: ["orion-monolith"],
+    ref: "MR-01",
+    name: "Brisa",
+    collection: "Urban",
+    edition: "Serie 01 // Brisa & Acero",
+    price: 1899,
+    image: "/images/image1.png",
+    segment: "unisex",
+    shape: "Geométrico Rectangular",
+    lensColor: "Obsidiana Humo al Atardecer",
+    lensType: "Polarizado HD Filtro Cat. 3",
+    material: "Acero Quirúrgico 316L Cepillado & Bio-Acetato",
+    polarized: true,
+    caliber: 54,
+    bridge: 18,
+    temple: 145,
+    weight: 28,
+    sustainabilityBadge: "100% Acero Reciclable",
+    description: "Inspirada en la pureza del aire costero y las líneas limpias de la arquitectura moderna. Estructura frontal monolítica con tratamiento cepillado y micas polarizadas para neutralizar el resplandor de la costa y los cristales al atardecer.",
+    craftNote: "Soldadura micrométrica alemana y almohadillas nasales de elastómero médico hipoalergénico que evitan desplazamientos con el calor.",
+    coordinates: "19.4195° N, 99.1618° W // Taller Central",
+    inStock: true,
+  },
+  {
+    id: "2",
+    slug: "duna-ambar",
+    legacySlugs: ["selene-arch"],
+    ref: "MR-02",
+    name: "Duna",
+    collection: "Nature",
+    edition: "Serie 02 // Carey & Arena",
+    price: 2199,
+    image: "/images/image2.png",
+    segment: "women",
+    shape: "Arco Esculpido Circular",
+    lensColor: "Ámbar Miel Mineral",
+    lensType: "Cristal Mineral de Alta Densidad",
+    material: "Bio-Acetato de Algodón 8mm",
+    polarized: false,
+    caliber: 51,
+    bridge: 21,
+    temple: 142,
+    weight: 34,
+    sustainabilityBadge: "Bio-Acetato 100% Biodegradable",
+    description: "Curvas orgánicas inspiradas en las ondulaciones de las dunas al caer la tarde. Bloque grueso de acetato vegetal pulido en seco durante 72 horas para lograr una calidez táctil inigualable.",
+    craftNote: "Bisel interior aligerado para reducir el peso en el tabique nasal manteniendo la presencia visual frontal.",
+    coordinates: "23.2494° N, 106.4111° W // Mazatlán Costa",
+    inStock: true,
+  },
+  {
+    id: "3",
+    slug: "marea-marina",
+    legacySlugs: ["vega-replastic"],
+    ref: "MR-03",
+    name: "Marea",
+    collection: "rePlastic",
+    edition: "Serie 03 // Océano Circular",
+    price: 1699,
+    image: "/images/image3.png",
+    segment: "unisex",
+    shape: "Panto Contemporáneo",
+    lensColor: "Verde Salvia Profundo",
+    lensType: "Mica Polimérica Polarizada HD",
+    material: "rePlastic® Marino Circular",
+    polarized: true,
+    caliber: 49,
+    bridge: 20,
+    temple: 145,
+    weight: 21,
+    sustainabilityBadge: "0% Plástico Virgen",
+    description: "Moldeada a partir de redes de pesca recuperadas del mar y polímeros post-consumo regenerados. Ultraligera y con memoria elástica para acompañarte en tus viajes sin deformarse.",
+    craftNote: "Pigmentación en masa sin disolventes químicos agresivos. Superficie mate de tacto suave.",
+    coordinates: "24.1426° N, 110.3128° W // Mar de Cortés",
+    inStock: true,
+  },
+  {
+    id: "4",
+    slug: "ocaso-solar",
+    legacySlugs: ["horizon-pilot"],
+    ref: "MR-04",
+    name: "Ocaso",
+    collection: "Horizon",
+    edition: "Serie 04 // Cobre & Atardecer",
+    price: 2399,
+    image: "/images/image4.png",
+    segment: "unisex",
+    shape: "Doble Puente Aviador",
+    lensColor: "Azul Ocaso Polarizado",
+    lensType: "Mica Polarizada con Capa Hidrofóbica",
+    material: "Cobre & Titanio Grado Aeroespacial",
+    polarized: true,
+    caliber: 58,
+    bridge: 15,
+    temple: 140,
+    weight: 24,
+    sustainabilityBadge: "Titanio Forjado Durable",
+    description: "Reinterpretación geométrica de la silueta aviador. Chasis en aleación de titanio y cobre pulido con doble puente tensor y micas preparadas para navegar a contraluz.",
+    craftNote: "Bisagras de flexión integrada con muelle interno de acero inoxidable que no se vencen con el uso diario.",
+    coordinates: "20.6534° N, 105.2253° W // Puerto Vallarta",
+    inStock: true,
+  },
+  {
+    id: "5",
+    slug: "sierra-mineral",
+    legacySlugs: ["atlas-structure"],
+    ref: "MR-05",
+    name: "Sierra",
+    collection: "Urban",
+    edition: "Serie 01 // Piedra & Mineral",
+    price: 2299,
+    image: "/images/image5.png",
+    segment: "men",
+    shape: "Cuadrado Grueso",
+    lensColor: "Castaño Cálido Antirreflejo",
+    lensType: "Cristal Mineral Templado Cat. 3",
+    material: "Bio-Acetato Densificado & Alma de Titanio",
+    polarized: false,
+    caliber: 53,
+    bridge: 19,
+    temple: 148,
+    weight: 38,
+    sustainabilityBadge: "Varilla con Alma de Acero Quirúrgico",
+    description: "Un diseño contundente y geométrico inspirado en las formaciones rocosas de la sierra. El alma metálica interior queda a la vista a través del acetato ahumado con grabados de precisión.",
+    craftNote: "Bisagras con 7 dientes de engranaje remachadas al chasis con pasadores pasantes pulidos a ras.",
+    coordinates: "25.6866° N, 100.3161° W // Sierra Madre",
+    inStock: true,
+  },
+  {
+    id: "6",
+    slug: "alba-cuarzo",
+    legacySlugs: ["lumina-cateye"],
+    ref: "MR-06",
+    name: "Alba",
+    collection: "Nature",
+    edition: "Serie 02 // Cuarzo & Primera Luz",
+    price: 2199,
+    image: "/images/image6.png",
+    segment: "women",
+    shape: "Cat-Eye Geométrico",
+    lensColor: "Rosa Cuarzo al Atardecer",
+    lensType: "Mineral Cat. 3 UV400",
+    material: "Bio-Acetato Rosa Ahumado & Latón",
+    polarized: false,
+    caliber: 52,
+    bridge: 17,
+    temple: 142,
+    weight: 31,
+    sustainabilityBadge: "Bio-Acetato de Algodón Cured",
+    description: "Inspirada en el instante en que amanece sobre la costa. Silueta cat-eye esculpida con facetas afiladas y filtro en tono rosa cuarzo que realza la calidez de la luz natural y protege 100% de la radiación UV.",
+    craftNote: "Acabado pulido a mano con cera de carnauba orgánica para un tacto sedoso y brillante que no se raya.",
+    coordinates: "20.9674° N, 89.5926° W // Península",
+    inStock: true,
+  },
 ];
 
 export function getProduct(slug: string) {
-  return products.find((p) => p.slug === slug);
+  return products.find(
+    (p) => p.slug === slug || p.legacySlugs?.includes(slug)
+  );
 }
 
-export const SEGMENTOS = { men: "Hombre", women: "Mujer", unisex: "Unisex" } as const;
-
-/** Línea secundaria de la tarjeta: material y color de mica. */
-export function detalle(p: StoreProduct) {
-  return `${p.material} · mica ${p.lensColor.toLowerCase()}`;
+export function getProductsByCollection(collection: MirarCollection) {
+  return products.filter((p) => p.collection === collection);
 }
