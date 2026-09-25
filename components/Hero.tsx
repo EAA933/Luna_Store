@@ -53,7 +53,7 @@ export default function Hero() {
       <div className="relative h-[44vh] md:h-auto overflow-hidden order-1 md:order-2">
         <motion.img
           src="/images/caratula.png"
-          alt="Siete modelos de lentes LUNA sobre fondo gris"
+          alt="Siete modelos de lentes MIRAR sobre fondo gris"
           style={{ y, scale }}
           initial={{ clipPath: "inset(0 0 100% 0)" }}
           animate={{ clipPath: "inset(0 0 0% 0)" }}

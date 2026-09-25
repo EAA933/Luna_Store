@@ -28,7 +28,7 @@ export const products: StoreProduct[] = [
   { id: "5", slug: "atlas", name: "ATLAS", price: 1699, image: "/images/image5.jpg", segment: "men", shape: "Cuadrado", lensColor: "Humo", material: "Acetato", polarized: true,
     tag: "Nuevo",
     description: "Formato cuadrado de acetato grueso con mica polarizada. Presencia sin exagerar." },
-  { id: "6", slug: "luna-x", name: "LUNA X", price: 1899, image: "/images/image6.jpg", segment: "unisex", shape: "Aviador", lensColor: "Ámbar", material: "Acero", polarized: true,
+  { id: "6", slug: "nova", name: "NOVA", price: 1899, image: "/images/image6.jpg", segment: "unisex", shape: "Aviador", lensColor: "Ámbar", material: "Acero", polarized: true,
     tag: "Nuevo",
     description: "Nuestra versión del aviador: doble puente de acero y mica ámbar polarizada." },
 ];

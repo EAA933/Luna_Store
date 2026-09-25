@@ -1,6 +1,6 @@
 import InfoPage from "@/components/InfoPage";
 
-export const metadata = { title: "Términos — LUNA" };
+export const metadata = { title: "Términos — MIRAR" };
 
 export default function TerminosPage() {
   return (

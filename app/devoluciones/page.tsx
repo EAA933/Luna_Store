@@ -1,6 +1,6 @@
 import InfoPage from "@/components/InfoPage";
 
-export const metadata = { title: "Devoluciones — LUNA" };
+export const metadata = { title: "Devoluciones — MIRAR" };
 
 export default function DevolucionesPage() {
   return (

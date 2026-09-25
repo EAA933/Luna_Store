@@ -1,6 +1,6 @@
 import InfoPage from "@/components/InfoPage";
 
-export const metadata = { title: "Privacidad — LUNA" };
+export const metadata = { title: "Privacidad — MIRAR" };
 
 export default function PrivacidadPage() {
   return (

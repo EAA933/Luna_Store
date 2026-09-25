@@ -13,7 +13,7 @@ export function generateStaticParams() {
 
 export function generateMetadata({ params }: { params: { slug: string } }): Metadata {
   const p = getProduct(params.slug);
-  return p ? { title: `${p.name} — LUNA`, description: p.description } : {};
+  return p ? { title: `${p.name} — MIRAR`, description: p.description } : {};
 }
 
 export default function ProductPage({ params }: { params: { slug: string } }) {

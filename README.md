@@ -1,4 +1,4 @@
-# LUNA — Tienda de lentes (Next.js)
+# MIRAR — Tienda de lentes (Next.js)
 
 Storefront de lentes de sol para México. Stack: Next.js 14 (App Router), TypeScript, Tailwind y Zustand.
 

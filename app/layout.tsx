@@ -21,7 +21,7 @@ const sans = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "LUNA — Lentes de sol",
+  title: "MIRAR — Lentes de sol",
   description: "Lentes de sol con protección UV400 y opción polarizada. Acetato y acero, envío a todo México.",
 };
 

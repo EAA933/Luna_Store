@@ -1,6 +1,6 @@
 import { LineReveal, Reveal } from "@/components/ui/Reveal";
 
-export const metadata = { title: "Nosotros — LUNA" };
+export const metadata = { title: "Nosotros — MIRAR" };
 
 export default function NosotrosPage() {
   return (
@@ -12,7 +12,7 @@ export default function NosotrosPage() {
         </div>
         <Reveal className="space-y-5 text-[17px] leading-relaxed text-ink/75">
           <p>
-            LUNA nace en un estudio de producto entre Ciudad de México y Monterrey. Nuestro
+            MIRAR nace en un estudio de producto entre Ciudad de México y Monterrey. Nuestro
             enfoque es simple: materiales honestos, fabricación precisa y un diseño que se
             siente todos los días.
           </p>
@@ -25,7 +25,7 @@ export default function NosotrosPage() {
 
       <Reveal className="container">
         <div className="aspect-[16/7] overflow-hidden bg-stone">
-          <img src="/images/caratula.png" alt="Colección LUNA sobre fondo gris" className="h-full w-full object-cover" />
+          <img src="/images/caratula.png" alt="Colección MIRAR sobre fondo gris" className="h-full w-full object-cover" />
         </div>
       </Reveal>
 

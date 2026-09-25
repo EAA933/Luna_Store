@@ -1,6 +1,6 @@
 import InfoPage from "@/components/InfoPage";
 
-export const metadata = { title: "Preguntas frecuentes — LUNA" };
+export const metadata = { title: "Preguntas frecuentes — MIRAR" };
 
 export default function FAQPage() {
   return (

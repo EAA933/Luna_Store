@@ -108,7 +108,7 @@ export default function Navbar() {
         <div className="container flex h-16 items-center justify-between border-b border-line">
           <div className="flex items-center gap-10">
             <Link href="/" className="font-display text-[28px] font-semibold leading-none tracking-tight">
-              luna
+              mirar
             </Link>
             <nav className="hidden md:flex items-center gap-7 text-[15px] font-medium">
               {LINKS.map((l) => (

@@ -48,6 +48,6 @@ export const useCartStore = create<CartState>()(
       },
       clear: () => set({ items: [] }),
     }),
-    { name: "luna-cart-v1" }
+    { name: "mirar-cart-v1" }
   )
 );
