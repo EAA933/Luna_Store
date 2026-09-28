@@ -14,7 +14,6 @@ const NAV_LINKS = [
   { name: "Duna", href: "/product/duna-ambar" },
   { name: "Marea", href: "/product/marea-marina" },
   { name: "Ocaso", href: "/product/ocaso-solar" },
-  { name: "Tecnología Óptica", href: "/#lightlab" },
   { name: "Catálogo", href: "/catalog" },
 ];
 
@@ -29,7 +28,7 @@ export default function Navbar() {
       {/* Cinta superior minimalista al estilo de anuncios de Apple */}
       <div className="w-full bg-[rgb(var(--card))] border-b border-[rgb(var(--stroke))] px-4 py-1.5 text-center text-xs text-[rgb(var(--secondary))] transition-colors">
         <div className="max-w-7xl mx-auto flex items-center justify-center gap-2">
-          <span>Envío express de cortesía en todas las órdenes. 30 días de prueba en casa.</span>
+          <span>Envío gratis en compras desde $1,299 · 30 días de prueba.</span>
           <Link
             href="/catalog"
             className="text-[rgb(var(--accent))] hover:underline inline-flex items-center gap-0.5 font-medium ml-1"
@@ -110,7 +109,7 @@ export default function Navbar() {
             </div>
 
             <div className="pt-4 border-t border-[rgb(var(--stroke))] flex items-center justify-between text-xs text-[rgb(var(--secondary))]">
-              <span>Garantía de por vida en todas las monturas</span>
+              <span>Lentes de calidad con 30 días de prueba</span>
               <Link
                 href="/catalog"
                 onClick={() => setMobileMenuOpen(false)}

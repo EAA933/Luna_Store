@@ -31,7 +31,7 @@ export default function DevolucionesPage() {
           </p>
 
           <p>
-            Si sientes que la proporción o el tinte óptico no se ajustan a tu rostro, te proporcionamos una guía de retorno prepagada para cambio de modelo o reembolso íntegro inmediato.
+            Si sientes que la proporción o el tono de la mica no van contigo, escríbenos por WhatsApp con tu folio y te ayudamos con el cambio de modelo o la devolución.
           </p>
         </div>
       </section>

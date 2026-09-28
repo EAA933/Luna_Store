@@ -10,19 +10,15 @@ const faqs = [
   },
   {
     q: "¿Todas las micas MIRAR cuentan con protección UV400?",
-    a: "Absolutamente sí. El 100% de nuestras micas minerales y de policarbonato CR-39 bloquean longitudes de onda hasta 400 nanómetros (rayos UVA, UVB y UVC), cumpliendo la estricta normativa europea ISO 12312-1.",
+    a: "Absolutamente sí. El 100% de nuestras micas minerales y de policarbonato CR-39 bloquean longitudes de onda hasta 400 nanómetros (rayos UVA, UVB y UVC), para cuidar tu vista del sol.",
   },
   {
-    q: "¿En qué consiste la Garantía Endure Vitalicia?",
-    a: "Cubre cualquier defecto de fabricación, fatiga de material en bisagras remachadas o ensamblaje de por vida. Además, incluye servicio de alineación, limpieza ultrasónica y calibrado de presión gratuito.",
+    q: "¿Qué garantía tienen mis lentes?",
+    a: "Son lentes de calidad y tienes 30 días naturales de prueba desde que los recibes. Si no te convencen, escríbenos por WhatsApp con tu folio y te ayudamos con el cambio o la devolución.",
   },
   {
     q: "¿Tiempos de envío y cobertura?",
-    a: "Enviamos a todo México (de 2 a 4 días hábiles vía DHL Express) y cobertura internacional asegurada. Cada pieza viaja en embalaje de cartón mineral protegido contra impactos.",
-  },
-  {
-    q: "¿Cómo funciona el programa de reciclaje rePlastic® Trade-In?",
-    a: "Si después de años deseas renovar tu montura, nos envías la pieza antigua. La desensamblamos para recircular el polímero y te otorgamos un 25% de crédito para tu siguiente objeto MIRAR.",
+    a: "Enviamos a todo México. El envío es gratis en compras desde $1,299 MXN; en compras menores te lo cotizamos por WhatsApp al confirmar tu pedido.",
   },
 ];
 

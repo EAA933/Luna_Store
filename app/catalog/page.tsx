@@ -321,7 +321,7 @@ function CatalogContent() {
               Todos los modelos.
             </h1>
             <p className="text-xs sm:text-sm text-[rgb(var(--secondary))] mt-1.5 max-w-xl leading-relaxed">
-              Explora nuestra gama de monturas. Micas con protección UV400, bisagras de 7 gavilanes, estuche de cuero vegetal y garantía de por vida.
+              Explora nuestra gama de monturas. Micas con protección UV400, 30 días de prueba y envío gratis en compras desde $1,299.
             </p>
           </div>
 

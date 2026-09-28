@@ -22,25 +22,25 @@ export default function GarantiaPage() {
         </div>
 
         <h1 className="font-sans font-black text-4xl sm:text-5xl uppercase tracking-[-0.03em] mb-6">
-          Garantía Endure Vitalicia
+          Calidad y 30 días de prueba
         </h1>
 
         <div className="floema-card p-6 sm:p-8 space-y-6 text-sm text-floema-fg/85 leading-relaxed font-sans mb-8">
           <p>
-            Nuestros objetos no están concebidos para caducar. Cada montura MIRAR cuenta con una <strong>Garantía Endure Vitalicia de Reparabilidad</strong> contra defectos de fabricación o ensamblaje estructural.
+            Cada par MIRAR se revisa antes de enviarse. Tienes <strong>30 días naturales de prueba</strong> desde que lo recibes: si no te convence, escríbenos por WhatsApp y te ayudamos con el cambio de modelo o la devolución.
           </p>
 
           <div className="grid sm:grid-cols-2 gap-4 pt-4 border-t border-[rgb(var(--stroke))] font-mono text-xs">
             <div className="p-4 bg-[rgb(var(--bg))] border border-[rgb(var(--stroke))]">
-              <span className="text-floema-fg font-bold block mb-1">✓ REAJUSTE MECÁNICO GRATUITO</span>
+              <span className="text-floema-fg font-bold block mb-1">✓ 30 DÍAS DE PRUEBA</span>
               <p className="text-floema-fg/70 font-sans text-xs">
-                Alineación de varillas y ajuste del puente anatómico en cualquier momento sin costo alguno.
+                Pruébalos con calma. Si no son para ti, lo resolvemos contigo por WhatsApp.
               </p>
             </div>
             <div className="p-4 bg-[rgb(var(--bg))] border border-[rgb(var(--stroke))]">
-              <span className="text-floema-fg font-bold block mb-1">✓ SUSTITUCIÓN DE COMPONENTES</span>
+              <span className="text-floema-fg font-bold block mb-1">✓ ENVÍO GRATIS DESDE $1,299</span>
               <p className="text-floema-fg/70 font-sans text-xs">
-                Disponibilidad garantizada de tornillería, almohadillas y piezas de repuesto durante 10 años.
+                Enviamos a todo México. En compras menores te cotizamos el envío al confirmar tu pedido.
               </p>
             </div>
           </div>

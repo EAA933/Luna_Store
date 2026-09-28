@@ -118,8 +118,8 @@ export default async function ProductPage({
                 {p.craftNote}
               </p>
               <div className="flex flex-wrap items-center justify-between gap-2 pt-4 border-t border-[rgb(var(--stroke))] text-xs text-[rgb(var(--secondary))] font-medium">
-                <span>Norma europea EN ISO 12312-1</span>
-                <span className="text-[rgb(var(--accent))]">Garantía vitalicia incluida</span>
+                <span>Protección UV400</span>
+                <span className="text-[rgb(var(--accent))]">30 días de prueba</span>
               </div>
             </div>
           </div>
@@ -140,7 +140,7 @@ export default async function ProductPage({
                   {formatCurrency(p.price)}
                 </span>
                 <span className="text-xs text-[rgb(var(--secondary))] block mt-1">
-                  Incluye impuestos y envío express de cortesía a todo México.
+                  Precio con impuestos incluidos. Envío gratis en compras desde $1,299.
                 </span>
               </div>
 
@@ -213,33 +213,20 @@ export default async function ProductPage({
                 </p>
               )}
 
-              <Link
-                href="/#lightlab"
-                className="w-full btn-apple-secondary py-3 text-xs flex items-center justify-center gap-1.5 rounded-full"
-              >
-                <Sun className="w-3.5 h-3.5 text-[rgb(var(--accent))]" />
-                <span>Simular lente en LightLab</span>
-              </Link>
             </div>
 
             {/* Beneficios Incluidos */}
             <div className="pt-8 space-y-4 text-xs text-[rgb(var(--secondary))]">
               <div className="flex items-start gap-3">
-                <Package className="w-4 h-4 text-[rgb(var(--fg))] flex-shrink-0 mt-0.5" />
-                <div>
-                  <strong className="text-[rgb(var(--fg))] font-medium">Estuche rígido de cuero vegetal:</strong> Incluido con paño de microfibra de alta densidad.
-                </div>
-              </div>
-              <div className="flex items-start gap-3">
                 <Truck className="w-4 h-4 text-[rgb(var(--fg))] flex-shrink-0 mt-0.5" />
                 <div>
-                  <strong className="text-[rgb(var(--fg))] font-medium">Envío Express Gratis:</strong> Entrega prioritaria a todo México con seguimiento en tiempo real.
+                  <strong className="text-[rgb(var(--fg))] font-medium">Envío gratis desde $1,299:</strong> Enviamos a todo México; en compras menores te cotizamos el envío por WhatsApp.
                 </div>
               </div>
               <div className="flex items-start gap-3">
                 <ShieldCheck className="w-4 h-4 text-[rgb(var(--fg))] flex-shrink-0 mt-0.5" />
                 <div>
-                  <strong className="text-[rgb(var(--fg))] font-medium">30 Días de Prueba &amp; Garantía Vitalicia:</strong> Retorno sin preguntas si no encajan con tu rostro.
+                  <strong className="text-[rgb(var(--fg))] font-medium">Lentes de calidad, 30 días de prueba:</strong> Si no te convencen, escríbenos y te ayudamos con el cambio o la devolución.
                 </div>
               </div>
             </div>

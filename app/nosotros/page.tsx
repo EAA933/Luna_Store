@@ -35,13 +35,6 @@ export default function NosotrosPage() {
               <span>Explorar catálogo completo</span>
             </Link>
 
-            <Link
-              href="/#lightlab"
-              className="btn-apple-secondary px-6 py-3 text-sm font-medium rounded-full inline-flex items-center gap-1"
-            >
-              <span>Probar simulador óptico</span>
-              <ChevronRight className="w-4 h-4 text-[rgb(var(--secondary))]" />
-            </Link>
           </div>
         </div>
       </section>
@@ -82,19 +75,19 @@ export default function NosotrosPage() {
                 Protección UV400
               </h3>
               <p className="text-xs text-[rgb(var(--secondary))] leading-relaxed">
-                Micas minerales y polarizadas HD certificadas bajo norma europea EN ISO 12312-1 con tratamiento antirreflejo posterior.
+                Todas nuestras micas filtran la radiación UV (UV400) para cuidar tu vista en cada salida.
               </p>
             </div>
 
             <div className="p-8 rounded-3xl bg-[rgb(var(--bg))] border border-[rgb(var(--stroke))] space-y-3">
               <span className="text-xs uppercase font-medium text-[rgb(var(--secondary))] block">
-                03 // GARANTÍA VITALICIA
+                03 // PRUEBA SIN PRESIÓN
               </span>
               <h3 className="text-xl font-semibold text-[rgb(var(--fg))]">
-                Reparable para Siempre
+                30 días de prueba
               </h3>
               <p className="text-xs text-[rgb(var(--secondary))] leading-relaxed">
-                Bisagras mecánicas de 7 gavilanes remachadas a mano. Si tu montura sufre un accidente, nuestro taller la restaura sin generar residuos.
+                Pruébalos con calma: tienes 30 días desde la entrega. Y en compras desde $1,299 el envío es gratis a todo México.
               </p>
             </div>
           </div>
@@ -105,7 +98,7 @@ export default function NosotrosPage() {
       <section className="px-5 sm:px-8 md:px-12 py-10 lg:py-12 max-w-6xl mx-auto">
         <div className="relative aspect-[21/9] rounded-3xl overflow-hidden bg-neutral-900 border border-[rgb(var(--stroke))] shadow-xl">
           <Image
-            src="/images/hero-person-sunset.jpg"
+            src="/images/hero-brisa.jpg"
             alt="Persona en la playa con lentes de sol MIRAR"
             fill
             referrerPolicy="no-referrer"

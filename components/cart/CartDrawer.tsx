@@ -55,7 +55,7 @@ export default function CartDrawer() {
                 Tu bolsa está vacía
               </h3>
               <p className="text-xs text-[rgb(var(--secondary))] mb-6 font-sans max-w-xs leading-relaxed">
-                Selecciona tus lentes de sol favoritos para iniciar tu pedido con envío gratis.
+                Selecciona tus lentes de sol favoritos. Envío gratis en compras desde $1,299.
               </p>
               <Link
                 href="/catalog"
@@ -130,7 +130,7 @@ export default function CartDrawer() {
 
             <p className="text-[10px] font-mono text-[rgb(var(--secondary))] mb-4 flex items-center gap-1.5">
               <ShieldCheck className="w-3.5 h-3.5 text-[rgb(var(--accent))]" />
-              <span>Envío express gratis a todo México y garantía de por vida.</span>
+              <span>Envío gratis desde $1,299 · 30 días de prueba.</span>
             </p>
 
             <Link

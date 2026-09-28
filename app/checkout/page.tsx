@@ -6,6 +6,7 @@ import { useCartStore } from "@/components/cart/useCart";
 import { useState } from "react";
 import { ShieldCheck, Truck, ArrowLeft, CheckCircle2, Package, Lock, MessageCircle } from "lucide-react";
 import { getSupabase, WHATSAPP_NUMBER } from "@/lib/supabase";
+import { envioGratis, faltaParaEnvioGratis, ENVIO_GRATIS_DESDE } from "@/lib/tienda";
 
 type Confirmacion = {
   folio: string;
@@ -30,6 +31,7 @@ function mensajeWhatsApp(c: Omit<Confirmacion, "whatsappUrl">, d: Datos) {
     `Hola MIRAR, acabo de hacer el pedido *${c.folio}*:`,
     lineas,
     `*Total: $${c.subtotal.toLocaleString("es-MX")} MXN*`,
+    envioGratis(c.subtotal) ? "Envío: gratis" : "Envío: por cotizar",
     "",
     `Nombre: ${d.name}`,
     d.phone ? `Teléfono: ${d.phone}` : "",
@@ -124,7 +126,7 @@ export default function CheckoutPage() {
           </h1>
 
           <p className="text-xs sm:text-sm text-[rgb(var(--fg))]/80 font-sans leading-relaxed mb-6">
-            Hemos recibido tu orden correctamente. Tus lentes serán inspeccionados, calibrados y empacados en su estuche rígido de cuero vegetal antes de enviarse hacia {formData.address || "tu domicilio"}.
+            Hemos recibido tu orden correctamente. Revisaremos tus lentes y los prepararemos para enviarlos a {formData.address || "tu domicilio"}.
           </p>
 
           <div className="p-4 bg-[rgb(var(--card-warm))]/60 border border-[rgb(var(--stroke))] rounded-2xl font-mono text-xs text-left mb-6 space-y-2">
@@ -138,7 +140,7 @@ export default function CheckoutPage() {
             </div>
             <div className="flex justify-between">
               <span className="text-[rgb(var(--secondary))]">ENVÍO:</span>
-              <span className="text-[rgb(var(--accent))] font-bold">EXPRESS GRATIS (24-48H)</span>
+              <span className="text-[rgb(var(--accent))] font-bold">{envioGratis(ordered.subtotal) ? "GRATIS" : "POR COTIZAR"}</span>
             </div>
           </div>
 
@@ -154,7 +156,8 @@ export default function CheckoutPage() {
             </a>
           )}
           <p className="text-[11px] text-[rgb(var(--secondary))] mb-4">
-            Te escribiremos para confirmar el pago y el envío. Guarda tu folio {ordered.folio}.
+            Te escribiremos para confirmar el pago y el envío. Guarda tu folio {ordered.folio}: con él podrás{" "}
+            <Link href={`/resenas?folio=${ordered.folio}`} className="underline">dejar tu reseña</Link> cuando recibas tus lentes.
           </p>
           <Link href="/catalog" className="btn-sunset w-full py-3.5 text-xs rounded-full">
             Volver a la Tienda
@@ -199,7 +202,7 @@ export default function CheckoutPage() {
               <div>
                 <span className="magazine-kicker">01 // DATOS DE ENTREGA</span>
                 <h2 className="font-serif font-bold text-xl mt-1 mb-4 text-[rgb(var(--fg))]">
-                  Dirección de Envío Express
+                  Dirección de envío
                 </h2>
 
                 <div className="grid sm:grid-cols-2 gap-4 text-xs font-mono">
@@ -374,7 +377,9 @@ export default function CheckoutPage() {
                 </div>
                 <div className="flex justify-between text-[rgb(var(--accent))] font-bold">
                   <span>Envío a Domicilio:</span>
-                  <span className="px-2.5 py-0.5 rounded-full bg-[rgb(var(--accent))]/10 border border-[rgb(var(--accent))]/30">GRATIS</span>
+                  <span className="px-2.5 py-0.5 rounded-full bg-[rgb(var(--accent))]/10 border border-[rgb(var(--accent))]/30">
+                    {envioGratis(subtotal) ? "GRATIS" : "Se cotiza por WhatsApp"}
+                  </span>
                 </div>
                 <div className="flex justify-between text-[rgb(var(--fg))] font-bold text-base pt-2 border-t border-[rgb(var(--stroke))]">
                   <span>Total a Pagar:</span>
@@ -383,8 +388,12 @@ export default function CheckoutPage() {
               </div>
 
               <div className="p-3 bg-[rgb(var(--card-warm))]/60 border border-[rgb(var(--stroke))] rounded-2xl text-[11px] font-mono text-[rgb(var(--secondary))] space-y-1">
-                <p>✓ Estuche rígido de cuero vegetal y paño incluidos.</p>
-                <p>✓ Garantía de por vida y 30 días de prueba en casa.</p>
+                <p>✓ Lentes de calidad con 30 días de prueba.</p>
+                <p>
+                  {envioGratis(subtotal)
+                    ? "✓ Tu pedido tiene envío gratis."
+                    : `✓ Te faltan $${faltaParaEnvioGratis(subtotal).toLocaleString("es-MX")} para envío gratis (desde $${ENVIO_GRATIS_DESDE.toLocaleString("es-MX")}).`}
+                </p>
               </div>
             </aside>
           </div>

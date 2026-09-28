@@ -6,15 +6,16 @@
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import type { Session } from "@supabase/supabase-js";
-import { BarChart3, ExternalLink, Glasses, LogOut, Package, RefreshCw } from "lucide-react";
+import { BarChart3, ExternalLink, Glasses, LogOut, MessageSquareQuote, Package, RefreshCw } from "lucide-react";
 import { getSupabase, isSupabaseConfigured } from "@/lib/supabase";
 import type { ProductRow } from "@/lib/catalog";
 import Resumen from "./Resumen";
 import Pedidos from "./Pedidos";
 import Productos from "./Productos";
+import Resenas from "./Resenas";
 import type { Order } from "./tipos";
 
-type Tab = "resumen" | "pedidos" | "productos";
+type Tab = "resumen" | "pedidos" | "productos" | "resenas";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -61,6 +62,7 @@ function Login() {
 export default function AdminApp() {
   const [session, setSession] = useState<Session | null | undefined>(undefined);
   const [tab, setTab] = useState<Tab>("resumen");
+  const [resenasPendientes, setResenasPendientes] = useState(0);
   const [orders, setOrders] = useState<Order[]>([]);
   const [products, setProducts] = useState<ProductRow[]>([]);
   const [actualizado, setActualizado] = useState<Date | null>(null);
@@ -111,6 +113,7 @@ export default function AdminApp() {
     { id: "resumen", label: "Resumen", icon: BarChart3 },
     { id: "pedidos", label: "Pedidos", icon: Package, badge: nuevos },
     { id: "productos", label: "Productos", icon: Glasses },
+    { id: "resenas", label: "Reseñas", icon: MessageSquareQuote, badge: resenasPendientes },
   ];
 
   return (
@@ -152,6 +155,7 @@ export default function AdminApp() {
         {tab === "resumen" && <Resumen orders={orders} products={products} irA={setTab} />}
         {tab === "pedidos" && <Pedidos orders={orders} products={products} recargar={cargar} />}
         {tab === "productos" && <Productos products={products} recargar={cargar} />}
+        {tab === "resenas" && <Resenas products={products} onPendientes={setResenasPendientes} />}
         <button onClick={() => getSupabase()!.auth.signOut()} className="md:hidden mt-10 text-sm text-[rgb(var(--secondary))] underline">Cerrar sesión</button>
       </main>
     </div>

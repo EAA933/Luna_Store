@@ -27,10 +27,10 @@ export default function TerminosPage() {
 
         <div className="floema-card p-6 sm:p-8 space-y-4 text-xs sm:text-sm text-floema-fg/85 leading-relaxed font-sans">
           <p>
-            Al adquirir cualquier pieza en el sitio oficial de MIRAR® Studio, el cliente accede a los términos de garantía vitalicia Endure, política de 30 días de prueba en rostro y circularidad rePlastic®.
+            Al comprar en MIRAR aceptas estas condiciones: tienes 30 días naturales de prueba a partir de la entrega y el envío es gratis a todo México en compras desde $1,299 MXN (en compras menores se cotiza al confirmar el pedido).
           </p>
           <p>
-            Todos los precios están expresados en Pesos Mexicanos (MXN) e incluyen impuestos y embalaje técnico. Las piezas están sujetas a disponibilidad por series limitadas de taller.
+            Todos los precios están expresados en pesos mexicanos (MXN) e incluyen impuestos. Los modelos están sujetos a disponibilidad de inventario; el pago y el envío se coordinan por WhatsApp al confirmar tu pedido.
           </p>
         </div>
       </section>

@@ -31,7 +31,7 @@ const editorialMono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: "MIRAR — Tienda de Lentes de Sol & Estudio Óptico",
   description:
-    "MIRAR es una tienda independiente de lentes de sol y diseño óptico. Monturas en bio-acetato curado de 8mm, acero quirúrgico 316L y micas minerales UV400 polarizadas. Envío gratis a todo México.",
+    "MIRAR es una tienda independiente de lentes de sol y diseño óptico. Monturas de acetato y acero con micas UV400. 30 días de prueba y envío gratis en compras desde $1,299.",
   openGraph: {
     title: "MIRAR — Tienda Oficial de Lentes de Sol",
     description:

@@ -22,13 +22,13 @@ export default function Footer() {
         {/* Aviso legal sutil al estilo Apple */}
         <div className="pb-5 border-b border-[rgb(var(--stroke))] leading-relaxed space-y-2">
           <p>
-            1. Todas las monturas MIRAR incluyen micas polarizadas o minerales certificadas con filtro UV400 conforme a la norma europea EN ISO 12312-1.
+            1. Todas las monturas MIRAR incluyen micas con filtro de protección UV400.
           </p>
           <p>
-            2. El periodo de prueba en casa sin compromiso es válido durante 30 días naturales posteriores a la entrega. Los gastos de devolución corren por cuenta de MIRAR en todo el territorio nacional.
+            2. Tienes 30 días naturales de prueba a partir de la entrega. Escríbenos por WhatsApp para cambios o devoluciones.
           </p>
           <p>
-            3. La garantía vitalicia cubre defectos de fabricación en soldaduras y chasis mecánicos. Los repuestos de micas por desgaste natural están sujetos a disponibilidad de taller.
+            3. Envío gratis a todo México en compras desde $1,299 MXN; en compras menores el envío se cotiza al confirmar tu pedido.
           </p>
         </div>
 
@@ -71,11 +71,6 @@ export default function Footer() {
             <h4 className="font-semibold text-[rgb(var(--fg))]">Tecnología</h4>
             <ul className="space-y-2">
               <li>
-                <Link href="/#lightlab" className="hover:text-[rgb(var(--fg))] transition-colors">
-                  Simulador LightLab
-                </Link>
-              </li>
-              <li>
                 <span className="hover:text-[rgb(var(--fg))] cursor-default">
                   Filtros Polarizados HD
                 </span>
@@ -104,7 +99,7 @@ export default function Footer() {
             <ul className="space-y-2">
               <li>
                 <Link href="/garantia" className="hover:text-[rgb(var(--fg))] transition-colors">
-                  Garantía Vitalicia
+                  Calidad y 30 días de prueba
                 </Link>
               </li>
               <li>
@@ -118,7 +113,7 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/#caliber-guide" className="hover:text-[rgb(var(--fg))] transition-colors">
+                <Link href="/catalog" className="hover:text-[rgb(var(--fg))] transition-colors">
                   Guía de Calibres
                 </Link>
               </li>
