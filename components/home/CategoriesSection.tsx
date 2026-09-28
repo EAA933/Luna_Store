@@ -10,7 +10,7 @@ const collections = [
     tag: "COLECCIÓN URBAN",
     title: "Urban Structures",
     desc: "Acero quirúrgico 316L cepillado y líneas rectas depuradas pensadas para habitar los contrastes de la gran ciudad.",
-    image: "/images/image1.png",
+    image: "/images/catalogo/brisa-costera.jpg",
     link: "/catalog?collection=Urban",
     badge: "Acero Quirúrgico 316L",
   },
@@ -18,7 +18,7 @@ const collections = [
     tag: "COLECCIÓN NATURE",
     title: "Botanical & Cellulose",
     desc: "Acetato de celulosa vegetal curado en reposo estático. Pigmentos orgánicos inspirados en cortezas y carey cálido.",
-    image: "/images/image2.png",
+    image: "/images/catalogo/duna-ambar.jpg",
     link: "/catalog?collection=Nature",
     badge: "Bio-Acetato de Algodón 8mm",
   },
@@ -26,7 +26,7 @@ const collections = [
     tag: "INNOVACIÓN CIRCULAR",
     title: "rePlastic® Marine",
     desc: "Polímeros regenerados procedentes de redes de pesca recuperadas del mar. Resistencia elástica y cero plástico virgen.",
-    image: "/images/image3.png",
+    image: "/images/catalogo/marea-marina.jpg",
     link: "/catalog?collection=rePlastic",
     badge: "0% Plástico Virgen",
   },
@@ -34,7 +34,7 @@ const collections = [
     tag: "COLECCIÓN HORIZON",
     title: "Horizon Optics",
     desc: "Micas minerales polarizadas multicapa con protección UV400 completa para mar abierto y luz rasante.",
-    image: "/images/image4.png",
+    image: "/images/catalogo/ocaso-solar.jpg",
     link: "/catalog?collection=Horizon",
     badge: "Titanio Aeroespacial",
   },
@@ -80,14 +80,14 @@ export default function Collections() {
               </div>
 
               {/* Imagen protagonista */}
-              <div className="relative aspect-[16/9] w-full my-8 flex items-center justify-center overflow-hidden">
+              <div className="relative aspect-[16/9] w-full my-8 flex items-center justify-center overflow-hidden rounded-2xl bg-[#ECE8E1]">
                 <div className="relative w-full h-full group-hover:scale-105 transition-transform duration-700 ease-out">
                   <Image
                     src={col.image}
                     alt={col.title}
                     fill
                     referrerPolicy="no-referrer"
-                    className="object-contain drop-shadow-[0_16px_40px_rgba(0,0,0,0.08)]"
+                    className="object-cover"
                   />
                 </div>
               </div>

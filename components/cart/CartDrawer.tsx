@@ -76,7 +76,7 @@ export default function CartDrawer() {
                     src={it.image}
                     alt={it.name}
                     referrerPolicy="no-referrer"
-                    className="w-20 h-20 object-contain border border-[rgb(var(--stroke))] rounded-xl bg-[rgb(var(--card-warm))]"
+                    className="w-20 h-20 object-cover border border-[rgb(var(--stroke))] rounded-xl bg-[#ECE8E1]"
                   />
                   <div className="flex-1 flex flex-col justify-between">
                     <div>

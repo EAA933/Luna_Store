@@ -28,8 +28,8 @@ const FIT_DATA: Record<
     recommendedBridge: "19 - 21 mm",
     recommendedWidth: "134 - 138 mm",
     models: [
-      { name: "Marea", ref: "MR-03", caliber: "49▪20-145", slug: "marea-marina", img: "/images/image3.png" },
-      { name: "Duna", ref: "MR-02", caliber: "51▪21-142", slug: "duna-ambar", img: "/images/image2.png" },
+      { name: "Marea", ref: "MR-03", caliber: "49▪20-145", slug: "marea-marina", img: "/images/catalogo/marea-marina.jpg" },
+      { name: "Duna", ref: "MR-02", caliber: "51▪21-142", slug: "duna-ambar", img: "/images/catalogo/duna-ambar.jpg" },
     ],
   },
   medium: {
@@ -40,8 +40,8 @@ const FIT_DATA: Record<
     recommendedBridge: "18 - 20 mm",
     recommendedWidth: "139 - 144 mm",
     models: [
-      { name: "Alba", ref: "MR-06", caliber: "52▪17-142", slug: "alba-cuarzo", img: "/images/image6.png" },
-      { name: "Sierra", ref: "MR-05", caliber: "53▪19-148", slug: "sierra-mineral", img: "/images/image5.png" },
+      { name: "Alba", ref: "MR-06", caliber: "52▪17-142", slug: "alba-cuarzo", img: "/images/catalogo/alba-cuarzo.jpg" },
+      { name: "Sierra", ref: "MR-05", caliber: "53▪19-148", slug: "sierra-mineral", img: "/images/catalogo/sierra-mineral.jpg" },
     ],
   },
   wide: {
@@ -52,8 +52,8 @@ const FIT_DATA: Record<
     recommendedBridge: "15 - 18 mm",
     recommendedWidth: "145 - 152 mm",
     models: [
-      { name: "Brisa", ref: "MR-01", caliber: "54▪18-145", slug: "brisa-costera", img: "/images/image1.png" },
-      { name: "Ocaso", ref: "MR-04", caliber: "58▪15-140", slug: "ocaso-solar", img: "/images/image4.png" },
+      { name: "Brisa", ref: "MR-01", caliber: "54▪18-145", slug: "brisa-costera", img: "/images/catalogo/brisa-costera.jpg" },
+      { name: "Ocaso", ref: "MR-04", caliber: "58▪15-140", slug: "ocaso-solar", img: "/images/catalogo/ocaso-solar.jpg" },
     ],
   },
 };
@@ -157,14 +157,14 @@ export default function CaliberFitGuide() {
                     {mod.name}
                   </h4>
 
-                  <div className="relative aspect-[4/3] w-full my-6 flex items-center justify-center overflow-hidden">
+                  <div className="relative aspect-[4/3] w-full my-6 flex items-center justify-center overflow-hidden rounded-2xl bg-[#ECE8E1]">
                     <div className="relative w-full h-full group-hover:scale-105 transition-transform duration-500 ease-out">
                       <Image
                         src={mod.img}
                         alt={mod.name}
                         fill
                         referrerPolicy="no-referrer"
-                        className="object-contain drop-shadow-[0_10px_25px_rgba(0,0,0,0.06)]"
+                        className="object-cover"
                       />
                     </div>
                   </div>

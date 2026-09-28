@@ -423,14 +423,14 @@ function CatalogContent() {
                   {p.shape}
                 </p>
 
-                <div className="relative aspect-[4/3] w-full my-3 flex items-center justify-center">
+                <div className="relative aspect-[4/3] w-full my-3 flex items-center justify-center overflow-hidden rounded-2xl bg-[#ECE8E1]">
                   <div className="relative w-full h-full group-hover:scale-105 transition-transform duration-500">
                     <Image
                       src={p.image}
                       alt={p.name}
                       fill
                       referrerPolicy="no-referrer"
-                      className="object-contain drop-shadow-[0_8px_20px_rgba(0,0,0,0.06)]"
+                      className="object-cover"
                     />
                   </div>
                 </div>
@@ -564,14 +564,14 @@ function CatalogContent() {
                               }`}
                             >
                               <div className="flex items-center gap-3">
-                                <div className="w-12 h-12 rounded-xl bg-[rgb(var(--card))] overflow-hidden flex-shrink-0 border border-[rgb(var(--stroke))] relative flex items-center justify-center p-1">
+                                <div className="w-12 h-12 rounded-xl bg-[#ECE8E1] overflow-hidden flex-shrink-0 border border-[rgb(var(--stroke))] relative flex items-center justify-center">
                                   <Image
                                     src={prod.image}
                                     alt={prod.name}
                                     width={44}
                                     height={44}
                                     referrerPolicy="no-referrer"
-                                    className="w-full h-full object-contain"
+                                    className="w-full h-full object-cover"
                                   />
                                 </div>
                                 <div>

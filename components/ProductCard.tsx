@@ -133,7 +133,7 @@ export default function ProductCard({
         {/* Imagen del Producto en el Centro — Protagonista con micro-zoom sutil */}
         <Link
           href={`/product/${slug}`}
-          className="relative block aspect-[4/3] w-full my-4 flex items-center justify-center overflow-hidden"
+          className="relative block aspect-[4/3] w-full my-4 flex items-center justify-center overflow-hidden rounded-2xl bg-[#ECE8E1]"
         >
           <div className="relative w-full h-full transition-transform duration-700 ease-out group-hover:scale-[1.05]">
             <Image
@@ -141,7 +141,7 @@ export default function ProductCard({
               alt={`Lentes de sol MIRAR modelo ${name}`}
               fill
               referrerPolicy="no-referrer"
-              className="object-contain drop-shadow-[0_12px_30px_rgba(0,0,0,0.08)] dark:drop-shadow-[0_12px_30px_rgba(255,255,255,0.04)]"
+              className="object-cover"
             />
           </div>
         </Link>

@@ -233,7 +233,7 @@ export default function CheckoutPage() {
                     <img
                       src={it.image}
                       alt={it.name}
-                      className="w-14 h-14 object-cover rounded-xl border border-[rgb(var(--stroke))] bg-[rgb(var(--card-warm))]"
+                      className="w-14 h-14 object-cover rounded-xl border border-[rgb(var(--stroke))] bg-[#ECE8E1]"
                     />
                     <div className="flex-1 text-xs">
                       <h4 className="font-serif font-bold text-[rgb(var(--fg))]">{it.name}</h4>

@@ -39,7 +39,7 @@ const CONFIG_MODELS: ConfigModel[] = [
     ref: "MR-01",
     tagline: "Estructura arquitectónica en acero quirúrgico 316L cepillado.",
     price: 1899,
-    image: "/images/image1.png",
+    image: "/images/catalogo/brisa-costera.jpg",
     material: "Acero Quirúrgico 316L & Bio-Acetato",
     shape: "Geométrico Rectangular",
     finishes: [
@@ -58,7 +58,7 @@ const CONFIG_MODELS: ConfigModel[] = [
     ref: "MR-02",
     tagline: "Bio-acetato de celulosa vegetal pulido durante 72 horas.",
     price: 2199,
-    image: "/images/image2.png",
+    image: "/images/catalogo/duna-ambar.jpg",
     material: "Bio-Acetato de Algodón 8mm",
     shape: "Arco Esculpido Circular",
     finishes: [
@@ -77,7 +77,7 @@ const CONFIG_MODELS: ConfigModel[] = [
     ref: "MR-03",
     tagline: "100% polímero marino regenerado. Cero plástico virgen.",
     price: 1699,
-    image: "/images/image3.png",
+    image: "/images/catalogo/marea-marina.jpg",
     material: "rePlastic® Circular Marino",
     shape: "Panto Contemporáneo",
     finishes: [
@@ -96,7 +96,7 @@ const CONFIG_MODELS: ConfigModel[] = [
     ref: "MR-04",
     tagline: "Doble puente aviador geométrico con tensor elástico aeroespacial.",
     price: 2399,
-    image: "/images/image4.png",
+    image: "/images/catalogo/ocaso-solar.jpg",
     material: "Cobre & Titanio Grado Aeroespacial",
     shape: "Aviador Contemporáneo",
     finishes: [
@@ -175,7 +175,7 @@ export default function ShoppingExperience() {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 1.04 }}
                 transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                className="relative w-full max-w-md aspect-[4/3] flex items-center justify-center my-6"
+                className="relative w-full max-w-md aspect-[4/3] flex items-center justify-center my-6 overflow-hidden rounded-2xl bg-[#ECE8E1] shadow-lg"
               >
                 <Image
                   src={current.image}
@@ -183,7 +183,7 @@ export default function ShoppingExperience() {
                   fill
                   priority
                   referrerPolicy="no-referrer"
-                  className="object-contain drop-shadow-[0_25px_50px_rgba(0,0,0,0.12)] group-hover:scale-105 transition-transform duration-700 ease-out"
+                  className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
                 />
               </motion.div>
             </AnimatePresence>

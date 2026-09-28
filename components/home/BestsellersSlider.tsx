@@ -104,7 +104,7 @@ export default function BestSellers() {
 
                 <Link
                   href={`/product/${p.slug}`}
-                  className="relative aspect-[4/3] w-full my-6 flex items-center justify-center overflow-hidden block"
+                  className="relative aspect-[4/3] w-full my-6 flex items-center justify-center overflow-hidden block rounded-2xl bg-[#ECE8E1]"
                 >
                   <div className="relative w-full h-full group-hover:scale-105 transition-transform duration-700 ease-out">
                     <Image
@@ -112,7 +112,7 @@ export default function BestSellers() {
                       alt={p.name}
                       fill
                       referrerPolicy="no-referrer"
-                      className="object-contain drop-shadow-[0_15px_35px_rgba(0,0,0,0.08)]"
+                      className="object-cover"
                     />
                   </div>
                 </Link>

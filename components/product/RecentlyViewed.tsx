@@ -142,14 +142,14 @@ export default function RecentlyViewed({
                 {/* Imagen del modelo */}
                 <Link
                   href={`/product/${item.slug}`}
-                  className="block relative aspect-[4/3] w-full rounded-2xl bg-[rgb(var(--bg))] border border-[rgb(var(--stroke))] overflow-hidden p-3 my-2"
+                  className="block relative aspect-[4/3] w-full rounded-2xl bg-[#ECE8E1] border border-[rgb(var(--stroke))] overflow-hidden my-2"
                 >
                   <Image
                     src={item.image}
                     alt={`Lentes ${item.name}`}
                     fill
                     referrerPolicy="no-referrer"
-                    className="object-contain p-2 transition-transform duration-500 group-hover:scale-105 drop-shadow-sm"
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
                   />
                 </Link>
 

@@ -83,7 +83,7 @@ export default async function ProductPage({
         <section className="grid lg:grid-cols-12 gap-8 lg:gap-10 items-start">
           {/* Columna Izquierda: Imagen Protagonista en Escenario Limpio */}
           <div className="lg:col-span-7 flex flex-col gap-6">
-            <div className="relative rounded-3xl overflow-hidden bg-[rgb(var(--card))] border border-[rgb(var(--stroke))] aspect-[4/3] flex items-center justify-center p-8 sm:p-12">
+            <div className="relative rounded-3xl overflow-hidden bg-[#ECE8E1] border border-[rgb(var(--stroke))] aspect-[4/3] flex items-center justify-center">
               <div className="relative w-full h-full">
                 <Image
                   src={p.image}
@@ -91,7 +91,7 @@ export default async function ProductPage({
                   fill
                   priority
                   referrerPolicy="no-referrer"
-                  className="object-contain drop-shadow-[0_20px_45px_rgba(0,0,0,0.1)]"
+                  className="object-cover"
                 />
               </div>
 
