@@ -4,11 +4,12 @@
 import { useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { products } from "@/lib/products";
+import { useProducts } from "@/components/store/ProductsProvider";
 import { useCartStore } from "@/components/cart/useCart";
 import { ChevronLeft, ChevronRight, Check } from "lucide-react";
 
 export default function BestSellers() {
+  const products = useProducts();
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [addedId, setAddedId] = useState<string | null>(null);
 

@@ -5,7 +5,12 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import AddToCartButton from "@/components/cart/AddToCartButton";
 import RecentlyViewed from "@/components/product/RecentlyViewed";
-import { getProduct, products } from "@/lib/products";
+import { products } from "@/lib/products";
+import { fetchProduct } from "@/lib/catalog";
+
+// Precio y stock se leen de Supabase; se refrescan cada 30 s.
+export const revalidate = 30;
+export const dynamicParams = true;
 import { formatCurrency } from "@/lib/utils";
 import {
   ShieldCheck,
@@ -35,7 +40,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const p = getProduct(slug);
+  const p = await fetchProduct(slug);
   return p
     ? {
         title: `${p.name} — Lentes de Sol | Tienda MIRAR`,
@@ -56,8 +61,9 @@ export default async function ProductPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const p = getProduct(slug);
+  const p = await fetchProduct(slug);
   if (!p) notFound();
+  const agotado = p.stock !== undefined && p.stock <= 0;
 
   return (
     <main className="w-full bg-[rgb(var(--bg))] text-[rgb(var(--fg))] min-h-screen pb-12 transition-colors">
@@ -181,16 +187,31 @@ export default async function ProductPage({
 
             {/* Acciones de Compra estilo Apple */}
             <div className="py-8 border-b border-[rgb(var(--stroke))] space-y-3">
-              <AddToCartButton
-                product={{
-                  id: p.id,
-                  slug: p.slug,
-                  name: p.name,
-                  price: p.price,
-                  image: p.image,
-                }}
-                className="w-full btn-apple-primary py-3.5 text-sm font-medium rounded-full shadow-md"
-              />
+              {agotado ? (
+                <button
+                  type="button"
+                  disabled
+                  className="w-full py-3.5 text-sm font-medium rounded-full border border-[rgb(var(--stroke))] text-[rgb(var(--secondary))] cursor-not-allowed"
+                >
+                  Agotado por ahora
+                </button>
+              ) : (
+                <AddToCartButton
+                  product={{
+                    id: p.id,
+                    slug: p.slug,
+                    name: p.name,
+                    price: p.price,
+                    image: p.image,
+                  }}
+                  className="w-full btn-apple-primary py-3.5 text-sm font-medium rounded-full shadow-md"
+                />
+              )}
+              {!agotado && p.stock !== undefined && p.stock <= 3 && (
+                <p className="text-center text-xs font-medium text-[rgb(var(--accent))]">
+                  Últimas {p.stock} {p.stock === 1 ? "pieza" : "piezas"} disponibles
+                </p>
+              )}
 
               <Link
                 href="/#lightlab"

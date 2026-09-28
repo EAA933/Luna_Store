@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 import { useCartStore } from "@/components/cart/useCart";
+import { useProducts } from "@/components/store/ProductsProvider";
 import { Check, ChevronRight, Sun } from "lucide-react";
 
 interface ModelHero {
@@ -122,7 +123,11 @@ export default function Hero() {
   const add = useCartStore((s) => s.add);
   const setOpen = useCartStore((s) => s.setOpen);
 
-  const current = HERO_MODELS[selectedIdx];
+  const catalogo = useProducts();
+  const base = HERO_MODELS[selectedIdx];
+  // Precio vivo desde Supabase (lo que edites en /admin), con el del hero como respaldo.
+  const vivo = catalogo.find((p) => p.slug === base.slug);
+  const current = { ...base, price: vivo?.price ?? base.price, image: vivo?.image || base.image };
 
   useEffect(() => {
     fetch("/api/upload-hero")

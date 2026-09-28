@@ -6,7 +6,8 @@ import Image from "next/image";
 import { useSearchParams, useRouter } from "next/navigation";
 import ProductCard from "@/components/ProductCard";
 import FitHelpModal from "@/components/FitHelpModal";
-import { products, StoreProduct, MirarCollection } from "@/lib/products";
+import { StoreProduct, MirarCollection } from "@/lib/products";
+import { useProducts } from "@/components/store/ProductsProvider";
 import {
   RotateCcw,
   Search,
@@ -74,6 +75,7 @@ const POPULAR_SEARCH_PILLS = [
 ];
 
 function CatalogContent() {
+  const products = useProducts();
   const router = useRouter();
   const searchParams = useSearchParams();
   const collectionInUrl = (searchParams?.get("collection") || "") as MirarCollection | "";
@@ -165,7 +167,7 @@ function CatalogContent() {
 
       return matchQ && matchCollection && matchSegment && matchMaterial && matchPolarized && matchPrice;
     });
-  }, [q, collection, segment, material, polarizedOnly, maxPrice]);
+  }, [products, q, collection, segment, material, polarizedOnly, maxPrice]);
 
   // Sugerencias predictivas calculadas al vuelo
   const predictiveSuggestions = useMemo(() => {
@@ -245,7 +247,7 @@ function CatalogContent() {
       matchedProducts: matchedProducts.slice(0, 4),
       filterSuggestions: filterSuggestions.slice(0, 3),
     };
-  }, [q, handleCollectionChange]);
+  }, [products, q, handleCollectionChange]);
 
   // Manejador del teclado para navegar entre sugerencias
   function handleKeyDown(e: React.KeyboardEvent) {

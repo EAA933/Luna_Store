@@ -4,26 +4,109 @@
 import Link from "next/link";
 import { useCartStore } from "@/components/cart/useCart";
 import { useState } from "react";
-import { ShieldCheck, Truck, ArrowLeft, CheckCircle2, Package, Lock } from "lucide-react";
+import { ShieldCheck, Truck, ArrowLeft, CheckCircle2, Package, Lock, MessageCircle } from "lucide-react";
+import { getSupabase, WHATSAPP_NUMBER } from "@/lib/supabase";
+
+type Confirmacion = {
+  folio: string;
+  items: { name: string; ref?: string; price: number; qty: number }[];
+  subtotal: number;
+  whatsappUrl: string | null;
+};
+
+const METODOS: Record<string, string> = {
+  card: "Tarjeta de crédito / débito",
+  spei: "Transferencia SPEI",
+  oxxo: "Efectivo en OXXO",
+};
+
+type Datos = { name: string; phone: string; address: string; city: string; zip: string; paymentMethod: string };
+
+function mensajeWhatsApp(c: Omit<Confirmacion, "whatsappUrl">, d: Datos) {
+  const lineas = c.items
+    .map((i) => `• ${i.name}${i.ref ? ` (${i.ref})` : ""} x${i.qty} — $${(i.price * i.qty).toLocaleString("es-MX")}`)
+    .join("\n");
+  return [
+    `Hola MIRAR, acabo de hacer el pedido *${c.folio}*:`,
+    lineas,
+    `*Total: $${c.subtotal.toLocaleString("es-MX")} MXN*`,
+    "",
+    `Nombre: ${d.name}`,
+    d.phone ? `Teléfono: ${d.phone}` : "",
+    `Envío: ${d.address}, ${d.city}, C.P. ${d.zip}`,
+    `Pago preferido: ${METODOS[d.paymentMethod] || d.paymentMethod}`,
+  ]
+    .filter(Boolean)
+    .join("\n");
+}
 
 export default function CheckoutPage() {
   const { items, clear } = useCartStore();
   const subtotal = items.reduce((a, i) => a + i.price * i.qty, 0);
 
-  const [ordered, setOrdered] = useState(false);
+  const [ordered, setOrdered] = useState<Confirmacion | null>(null);
+  const [enviando, setEnviando] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
+    phone: "",
     address: "",
     city: "",
     zip: "",
     paymentMethod: "card",
   });
 
-  function handleOrder(e: React.FormEvent) {
+  async function handleOrder(e: React.FormEvent) {
     e.preventDefault();
-    setOrdered(true);
+    if (enviando) return;
+    setEnviando(true);
+    setError(null);
+
+    const supabase = getSupabase();
+    let conf: Omit<Confirmacion, "whatsappUrl">;
+    try {
+      if (supabase) {
+        // El servidor toma precios y stock de la base; el navegador solo manda slug y cantidad.
+        const { data, error: err } = await supabase.rpc("create_order", {
+          p_customer: {
+            name: formData.name,
+            email: formData.email,
+            phone: formData.phone,
+            address: formData.address,
+            city: formData.city,
+            zip: formData.zip,
+            payment: formData.paymentMethod,
+          },
+          p_items: items.map((i) => ({ slug: i.slug, qty: i.qty })),
+        });
+        if (err) throw new Error(err.message);
+        conf = data as Omit<Confirmacion, "whatsappUrl">;
+      } else {
+        conf = {
+          folio: "MR-" + Date.now().toString(36).toUpperCase(),
+          items: items.map((i) => ({ name: i.name, price: i.price, qty: i.qty })),
+          subtotal,
+        };
+      }
+    } catch (ex) {
+      const msg = ex instanceof Error ? ex.message : "";
+      setError(
+        msg.includes("inventario") || msg.includes("disponible")
+          ? `${msg}. Ajusta tu bolsa e inténtalo de nuevo.`
+          : "No pudimos registrar tu pedido. Revisa tu conexión e inténtalo de nuevo."
+      );
+      setEnviando(false);
+      return;
+    }
+
+    const whatsappUrl = WHATSAPP_NUMBER
+      ? `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(mensajeWhatsApp(conf, formData))}`
+      : null;
+    setOrdered({ ...conf, whatsappUrl });
     clear();
+    setEnviando(false);
+    if (whatsappUrl) window.open(whatsappUrl, "_blank", "noopener");
   }
 
   if (ordered) {
@@ -34,7 +117,7 @@ export default function CheckoutPage() {
             <CheckCircle2 className="w-9 h-9" />
           </div>
 
-          <span className="editorial-stamp mb-3">{"PEDIDO CONFIRMADO // MR-849201"}</span>
+          <span className="editorial-stamp mb-3">{`PEDIDO REGISTRADO // ${ordered.folio}`}</span>
 
           <h1 className="font-serif font-bold text-3xl sm:text-4xl mt-3 mb-4 text-[rgb(var(--fg))]">
             ¡Gracias por tu Compra en MIRAR!
@@ -59,6 +142,20 @@ export default function CheckoutPage() {
             </div>
           </div>
 
+          {ordered.whatsappUrl && (
+            <a
+              href={ordered.whatsappUrl}
+              target="_blank"
+              rel="noopener"
+              className="mb-3 w-full py-3.5 text-sm font-bold rounded-full inline-flex items-center justify-center gap-2 bg-[#25D366] text-white hover:opacity-90 transition"
+            >
+              <MessageCircle className="w-4 h-4" />
+              Enviar mi pedido por WhatsApp
+            </a>
+          )}
+          <p className="text-[11px] text-[rgb(var(--secondary))] mb-4">
+            Te escribiremos para confirmar el pago y el envío. Guarda tu folio {ordered.folio}.
+          </p>
           <Link href="/catalog" className="btn-sunset w-full py-3.5 text-xs rounded-full">
             Volver a la Tienda
           </Link>
@@ -130,6 +227,21 @@ export default function CheckoutPage() {
                       placeholder="andres@correo.com"
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      className="w-full px-4 py-2.5 bg-[rgb(var(--bg))] border border-[rgb(var(--stroke))] rounded-full focus:outline-none focus:border-[rgb(var(--accent))]"
+                    />
+                  </div>
+
+                  <div className="sm:col-span-2">
+                    <label className="block text-[10px] text-[rgb(var(--secondary))] uppercase mb-1">
+                      WhatsApp / teléfono
+                    </label>
+                    <input
+                      required
+                      type="tel"
+                      inputMode="tel"
+                      placeholder="55 1234 5678"
+                      value={formData.phone}
+                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                       className="w-full px-4 py-2.5 bg-[rgb(var(--bg))] border border-[rgb(var(--stroke))] rounded-full focus:outline-none focus:border-[rgb(var(--accent))]"
                     />
                   </div>
@@ -212,13 +324,22 @@ export default function CheckoutPage() {
                 </div>
               </div>
 
+              {error && (
+                <p role="alert" className="text-xs font-medium text-red-500 bg-red-500/10 border border-red-500/30 rounded-2xl px-4 py-3">
+                  {error}
+                </p>
+              )}
               <button
                 type="submit"
-                className="btn-sunset w-full py-4 text-sm font-bold flex items-center justify-center gap-2 rounded-full"
+                disabled={enviando}
+                className="btn-sunset w-full py-4 text-sm font-bold flex items-center justify-center gap-2 rounded-full disabled:opacity-60"
               >
                 <Lock className="w-4 h-4" />
-                <span>Confirmar Pedido (${subtotal.toLocaleString("es-MX")} MXN)</span>
+                <span>{enviando ? "Registrando pedido…" : `Confirmar Pedido ($${subtotal.toLocaleString("es-MX")} MXN)`}</span>
               </button>
+              <p className="text-[11px] text-[rgb(var(--secondary))] text-center">
+                Al confirmar registramos tu pedido y abrimos WhatsApp para coordinar el pago y el envío.
+              </p>
             </form>
 
             {/* Resumen de la Orden */}

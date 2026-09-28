@@ -29,6 +29,7 @@ export type StoreProduct = {
   craftNote: string;
   coordinates: string;
   inStock: boolean;
+  stock?: number; // piezas disponibles (viene de Supabase)
 };
 
 export const products: StoreProduct[] = [

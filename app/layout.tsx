@@ -5,6 +5,8 @@ import { ReactNode, Suspense } from "react";
 import ThemeProvider from "@/components/theme/ThemeProvider";
 import Navbar from "@/components/Navbar";
 import CartDrawer from "@/components/cart/CartDrawer";
+import StoreChrome from "@/components/site/StoreChrome";
+import { ProductsProvider } from "@/components/store/ProductsProvider";
 import { Playfair_Display, Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google";
 
 const editorialSerif = Playfair_Display({
@@ -57,16 +59,22 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         suppressHydrationWarning
       >
         <ThemeProvider>
-          {/* Barra de navegación de la tienda */}
-          <Suspense fallback={null}>
-            <Navbar />
-          </Suspense>
+          <ProductsProvider>
+            {/* Barra de navegación de la tienda (se oculta en /admin) */}
+            <StoreChrome>
+              <Suspense fallback={null}>
+                <Navbar />
+              </Suspense>
+            </StoreChrome>
 
-          {/* Contenido de la tienda */}
-          <div className="relative">{children}</div>
+            {/* Contenido de la tienda */}
+            <div className="relative">{children}</div>
 
-          {/* Cajón del carrito de compras */}
-          <CartDrawer />
+            {/* Cajón del carrito de compras */}
+            <StoreChrome>
+              <CartDrawer />
+            </StoreChrome>
+          </ProductsProvider>
         </ThemeProvider>
       </body>
     </html>

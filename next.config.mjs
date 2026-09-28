@@ -5,7 +5,9 @@ const nextConfig = {
   images: {
     remotePatterns: [
       { protocol: 'https', hostname: 'images.unsplash.com' },
-      { protocol: 'https', hostname: 'cdn.sanity.io' }
+      { protocol: 'https', hostname: 'cdn.sanity.io' },
+      // Fotos subidas desde /admin (Supabase Storage)
+      { protocol: 'https', hostname: '*.supabase.co' }
     ]
   },
   experimental: { serverActions: { bodySizeLimit: '2mb' } }
