@@ -76,8 +76,8 @@ const POPULAR_SEARCH_PILLS = [
 function CatalogContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const collectionInUrl = (searchParams.get("collection") || "") as MirarCollection | "";
-  const segmentInUrl = (searchParams.get("segment") || "") as "men" | "women" | "unisex" | "";
+  const collectionInUrl = (searchParams?.get("collection") || "") as MirarCollection | "";
+  const segmentInUrl = (searchParams?.get("segment") || "") as "men" | "women" | "unisex" | "";
 
   const [q, setQ] = useState("");
   const [collection, setCollection] = useState<typeof collectionInUrl>(collectionInUrl);
@@ -123,7 +123,7 @@ function CatalogContent() {
   const handleCollectionChange = useCallback(
     (val: MirarCollection | "") => {
       setCollection(val);
-      const sp = new URLSearchParams(searchParams.toString());
+      const sp = new URLSearchParams(searchParams ? searchParams.toString() : "");
       if (val) sp.set("collection", val);
       else sp.delete("collection");
       router.push(`/catalog?${sp.toString()}`);
@@ -304,12 +304,12 @@ function CatalogContent() {
   );
 
   return (
-    <main className="w-full min-h-screen bg-[rgb(var(--bg))] text-[rgb(var(--fg))] px-5 sm:px-8 md:px-12 py-10 transition-colors">
+    <main className="w-full min-h-screen bg-[rgb(var(--bg))] text-[rgb(var(--fg))] px-5 sm:px-8 md:px-12 py-6 sm:py-8 transition-colors">
       {/* Modal de ayuda y guía anatómica de calce */}
       <FitHelpModal isOpen={isFitHelpOpen} onClose={() => setIsFitHelpOpen(false)} />
 
       {/* HEADER DEL CATÁLOGO CON BOTÓN DE ¿NECESITAS AYUDA? */}
-      <div className="max-w-7xl mx-auto pb-6 border-b border-[rgb(var(--stroke))] mb-8">
+      <div className="max-w-7xl mx-auto pb-5 border-b border-[rgb(var(--stroke))] mb-6">
         <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
           <div>
             <span className="text-xs uppercase font-medium tracking-[0.2em] text-[rgb(var(--secondary))] block mb-1">
@@ -364,7 +364,7 @@ function CatalogContent() {
       </div>
 
       {/* 1. SECCIÓN «CONOCE LA GAMA» HASTA ARRIBA DEL CATÁLOGO */}
-      <section className="max-w-7xl mx-auto mb-12 pb-10 border-b border-[rgb(var(--stroke))]">
+      <section className="max-w-7xl mx-auto mb-6 pb-6 border-b border-[rgb(var(--stroke))]">
         <div className="flex items-end justify-between gap-4 mb-5">
           <div>
             <span className="text-[11px] uppercase font-medium tracking-[0.2em] text-[rgb(var(--secondary))] block">
@@ -451,7 +451,7 @@ function CatalogContent() {
       </section>
 
       {/* 2. BARRA DE BÚSQUEDA PREDICTIVA PRINCIPAL CON AUTOCOMPLETADO */}
-      <div className="max-w-7xl mx-auto mb-10">
+      <div className="max-w-7xl mx-auto mb-6">
         <div ref={searchContainerRef} className="relative z-30">
           <div className="rounded-full p-2 bg-[rgb(var(--card))] border border-[rgb(var(--stroke))] focus-within:border-[rgb(var(--accent))] transition-all shadow-sm hover:shadow-md flex items-center gap-3">
             <div className="pl-3 text-[rgb(var(--accent))] flex items-center justify-center">
@@ -942,7 +942,7 @@ function CatalogContent() {
             </div>
           ) : (
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filtered.map((product) => (
+              {filtered.map((product, idx) => (
                 <ProductCard
                   key={product.id}
                   id={product.id}
@@ -957,6 +957,7 @@ function CatalogContent() {
                   shape={product.shape}
                   refCode={product.ref}
                   sustainabilityBadge={product.sustainabilityBadge}
+                  index={idx}
                 />
               ))}
             </div>

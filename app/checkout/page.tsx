@@ -28,7 +28,7 @@ export default function CheckoutPage() {
 
   if (ordered) {
     return (
-      <main className="w-full min-h-screen bg-[rgb(var(--bg))] text-[rgb(var(--fg))] px-5 py-20 flex items-center justify-center">
+      <main className="w-full min-h-screen bg-[rgb(var(--bg))] text-[rgb(var(--fg))] px-5 py-10 sm:py-12 flex items-center justify-center">
         <div className="max-w-xl w-full p-8 sm:p-10 magazine-frame rounded-3xl shadow-xl text-center bg-[rgb(var(--card))]">
           <div className="w-16 h-16 rounded-full bg-[rgb(var(--accent))] text-[rgb(var(--accent-fg))] flex items-center justify-center mx-auto mb-6 border border-[rgb(var(--fg))] shadow-md">
             <CheckCircle2 className="w-9 h-9" />
@@ -68,9 +68,9 @@ export default function CheckoutPage() {
   }
 
   return (
-    <main className="w-full min-h-screen bg-[rgb(var(--bg))] text-[rgb(var(--fg))] px-5 sm:px-8 md:px-12 py-12">
+    <main className="w-full min-h-screen bg-[rgb(var(--bg))] text-[rgb(var(--fg))] px-5 sm:px-8 md:px-12 py-8 sm:py-10">
       <div className="max-w-6xl mx-auto">
-        <div className="mb-8 pb-4 border-b border-[rgb(var(--stroke))] flex items-center justify-between">
+        <div className="mb-6 pb-4 border-b border-[rgb(var(--stroke))] flex items-center justify-between">
           <Link
             href="/catalog"
             className="inline-flex items-center gap-2 text-xs font-mono font-bold uppercase text-[rgb(var(--fg))] hover:text-[rgb(var(--accent))] transition-colors px-3.5 py-1.5 rounded-full border border-[rgb(var(--stroke))] bg-[rgb(var(--card))]"
@@ -84,7 +84,7 @@ export default function CheckoutPage() {
         </div>
 
         {items.length === 0 ? (
-          <section className="max-w-xl mx-auto text-center py-16 magazine-frame rounded-3xl p-8 bg-[rgb(var(--card))]">
+          <section className="max-w-xl mx-auto text-center py-10 magazine-frame rounded-3xl p-8 bg-[rgb(var(--card))]">
             <h1 className="font-serif font-bold text-2xl mb-3 text-[rgb(var(--fg))]">
               Tu bolsa de compra está vacía
             </h1>

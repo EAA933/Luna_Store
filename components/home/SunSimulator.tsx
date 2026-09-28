@@ -89,9 +89,9 @@ export default function SunSimulator() {
   const [filterActive, setFilterActive] = useState(true);
 
   return (
-    <section className="w-full py-20 lg:py-32 px-5 sm:px-8 md:px-12 bg-[rgb(var(--bg))] border-b border-[rgb(var(--stroke))] transition-colors">
+    <section className="w-full py-8 lg:py-12 px-5 sm:px-8 md:px-12 bg-[rgb(var(--bg))] border-b border-[rgb(var(--stroke))] transition-colors">
       <div className="max-w-7xl mx-auto">
-        <div className="max-w-2xl mb-12 sm:mb-16">
+        <div className="max-w-2xl mb-6 sm:mb-8">
           <span className="text-xs uppercase font-medium tracking-[0.2em] text-[rgb(var(--secondary))]">
             SIMULADOR ÓPTICO // LIGHTLAB
           </span>
@@ -104,7 +104,7 @@ export default function SunSimulator() {
         </div>
 
         {/* Selector de Lentes en Píldoras Segmentadas Apple-style */}
-        <div className="flex flex-wrap items-center gap-2 mb-8 p-1.5 bg-[rgb(var(--card))] border border-[rgb(var(--stroke))] rounded-full w-fit">
+        <div className="flex flex-wrap items-center gap-2 mb-6 p-1.5 bg-[rgb(var(--card))] border border-[rgb(var(--stroke))] rounded-full w-fit">
           {LENS_PRESETS.map((lens) => {
             const isSelected = selectedLens.id === lens.id;
             return (

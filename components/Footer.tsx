@@ -18,9 +18,9 @@ export default function Footer() {
 
   return (
     <footer className="w-full bg-[rgb(var(--card))] text-[rgb(var(--secondary))] text-xs border-t border-[rgb(var(--stroke))] transition-colors">
-      <div className="max-w-7xl mx-auto px-5 sm:px-8 md:px-12 py-12 md:py-16">
+      <div className="max-w-7xl mx-auto px-5 sm:px-8 md:px-12 py-8 md:py-10">
         {/* Aviso legal sutil al estilo Apple */}
-        <div className="pb-8 border-b border-[rgb(var(--stroke))] leading-relaxed space-y-2">
+        <div className="pb-5 border-b border-[rgb(var(--stroke))] leading-relaxed space-y-2">
           <p>
             1. Todas las monturas MIRAR incluyen micas polarizadas o minerales certificadas con filtro UV400 conforme a la norma europea EN ISO 12312-1.
           </p>
@@ -33,7 +33,7 @@ export default function Footer() {
         </div>
 
         {/* Columnas de navegación del Footer */}
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 py-10 border-b border-[rgb(var(--stroke))]">
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 py-6 sm:py-8 border-b border-[rgb(var(--stroke))]">
           {/* Columna 1: Colecciones */}
           <div className="space-y-3">
             <h4 className="font-semibold text-[rgb(var(--fg))]">Colecciones</h4>

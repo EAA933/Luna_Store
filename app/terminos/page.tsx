@@ -5,10 +5,10 @@ import { ArrowLeft } from "lucide-react";
 export default function TerminosPage() {
   return (
     <main className="w-full bg-[rgb(var(--bg))] text-floema-fg min-h-screen">
-      <section className="container-floema py-16 max-w-4xl mx-auto">
+      <section className="container-floema py-10 sm:py-12 max-w-4xl mx-auto">
         <Link
           href="/catalog"
-          className="inline-flex items-center gap-2 text-xs font-mono font-bold uppercase mb-8 hover:text-floema-accent transition-colors"
+          className="inline-flex items-center gap-2 text-xs font-mono font-bold uppercase mb-6 hover:text-floema-accent transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
           <span>Volver al Catálogo</span>

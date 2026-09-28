@@ -63,9 +63,9 @@ export default function CaliberFitGuide() {
   const data = FIT_DATA[activeTab];
 
   return (
-    <section className="w-full py-20 lg:py-32 px-5 sm:px-8 md:px-12 bg-[rgb(var(--card))] border-b border-[rgb(var(--stroke))] transition-colors">
+    <section className="w-full py-8 lg:py-12 px-5 sm:px-8 md:px-12 bg-[rgb(var(--card))] border-b border-[rgb(var(--stroke))] transition-colors">
       <div className="max-w-7xl mx-auto">
-        <div className="max-w-2xl mb-12 sm:mb-16">
+        <div className="max-w-2xl mb-6 sm:mb-8">
           <span className="text-xs uppercase font-medium tracking-[0.2em] text-[rgb(var(--secondary))]">
             ERGONOMÍA FACIAL
           </span>
@@ -78,7 +78,7 @@ export default function CaliberFitGuide() {
         </div>
 
         {/* Selector Segmentado Apple-style */}
-        <div className="flex items-center gap-1.5 p-1 bg-[rgb(var(--bg))] border border-[rgb(var(--stroke))] rounded-full w-fit mb-12">
+        <div className="flex items-center gap-1.5 p-1 bg-[rgb(var(--bg))] border border-[rgb(var(--stroke))] rounded-full w-fit mb-6 sm:mb-8">
           {(["narrow", "medium", "wide"] as FaceType[]).map((type) => {
             const isSelected = activeTab === type;
             const labels: Record<FaceType, string> = {

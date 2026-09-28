@@ -1,12 +1,12 @@
 // components/Hero.tsx
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 import { useCartStore } from "@/components/cart/useCart";
-import { Check, ChevronRight, Sun, Sparkles, ArrowRight } from "lucide-react";
+import { Check, ChevronRight, Sun } from "lucide-react";
 
 interface ModelHero {
   id: string;
@@ -19,6 +19,7 @@ interface ModelHero {
   price: number;
   image: string;
   bgImage: string;
+  bgFallback: string;
   bgAlt: string;
   atmosphere: string;
   colorDot: string;
@@ -33,13 +34,15 @@ const HERO_MODELS: ModelHero[] = [
     slug: "brisa-costera",
     name: "Brisa",
     ref: "MR-01",
-    tagline: "Forjado en acero quirúrgico 316L y bio-acetato curado. Una silueta limpia inspirada en la frescura del viento costero.",
+    tagline:
+      "Forjado en acero quirúrgico 316L y bio-acetato curado. Una silueta limpia inspirada en la frescura del viento costero.",
     material: "Acero Quirúrgico 316L & Micas Obsidiana",
     finish: "Titanio Grafito",
     price: 1899,
     image: "/images/image1.png",
-    bgImage: "/images/model-brisa.jpg",
-    bgAlt: "Persona en la playa al atardecer sintiendo la brisa marina con lentes Brisa",
+    bgImage: "/images/hero-person-sunset.jpg",
+    bgFallback: "/images/hero-person-sunset.jpg",
+    bgAlt: "Persona sintiendo la brisa marina al atardecer con lentes de sol Brisa",
     atmosphere: "Brisa marina al atardecer · 14.5% VLT",
     colorDot: "bg-slate-300",
     caliber: "54 mm",
@@ -51,13 +54,15 @@ const HERO_MODELS: ModelHero[] = [
     slug: "duna-ambar",
     name: "Duna",
     ref: "MR-02",
-    tagline: "Bio-acetato vegetal pulido en seco durante 72 horas. Calidez táctil e iluminación dorada como las dunas del desierto.",
+    tagline:
+      "Bio-acetato vegetal pulido en seco durante 72 horas. Calidez táctil e iluminación dorada como las dunas del desierto.",
     material: "Bio-Acetato de Algodón 8mm",
     finish: "Carey Ámbar Miel",
     price: 2199,
     image: "/images/image2.png",
-    bgImage: "/images/model-duna.jpg",
-    bgAlt: "Atardecer dorado sobre dunas de arena cálida con lentes Duna",
+    bgImage: "/images/Gemini_Generated_Image_uze0o2uze0o2uze0.jpg",
+    bgFallback: "/images/hero-sunset.jpg",
+    bgAlt: "Lentes Duna en bio-acetato carey ámbar sobre dunas doradas al atardecer",
     atmosphere: "Sol poniente y arena dorada · Mineral Cat. 3",
     colorDot: "bg-amber-400",
     caliber: "51 mm",
@@ -69,13 +74,15 @@ const HERO_MODELS: ModelHero[] = [
     slug: "marea-marina",
     name: "Marea",
     ref: "MR-03",
-    tagline: "Polímero circular extraído de redes recuperadas del océano. Memoria elástica, ligereza total y protección polarizada.",
+    tagline:
+      "Polímero circular extraído de redes recuperadas del océano. Memoria elástica, ligereza total y protección polarizada.",
     material: "rePlastic® Marino Circular",
     finish: "Verde Salvia Profundo",
     price: 1699,
     image: "/images/image3.png",
-    bgImage: "/images/model-marea.jpg",
-    bgAlt: "Oleaje del mar y costa abierta con brisa y reflejos marinos",
+    bgImage: "/images/Gemini_Generated_Image_edgigwedgigwedgi.jpg",
+    bgFallback: "/images/hero-ocean.jpg",
+    bgAlt: "Lentes Marea en polímero marino frente al oleaje y costa abierta",
     atmosphere: "Marea alta y reflejos acuáticos · Polarizado HD",
     colorDot: "bg-emerald-400",
     caliber: "49 mm",
@@ -87,13 +94,15 @@ const HERO_MODELS: ModelHero[] = [
     slug: "ocaso-solar",
     name: "Ocaso",
     ref: "MR-04",
-    tagline: "Doble puente aviador contemporáneo de cobre y titanio con lentes degradadas para contemplar la caída del sol.",
+    tagline:
+      "Doble puente aviador contemporáneo de cobre y titanio con lentes degradadas para contemplar la caída del sol.",
     material: "Cobre & Titanio Grado Aeroespacial",
     finish: "Cobre Pulido al Ocaso",
     price: 2399,
     image: "/images/image4.png",
-    bgImage: "/images/model-ocaso.jpg",
-    bgAlt: "Persona contemplando un espectacular ocaso sobre el horizonte con lentes Ocaso",
+    bgImage: "/images/Gemini_Generated_Image_aofjj1aofjj1aofj.jpg",
+    bgFallback: "/images/hero-lifestyle.jpg",
+    bgAlt: "Lentes aviador Ocaso contemplando el horizonte crepuscular de atardecer",
     atmosphere: "Hora dorada en el horizonte · Doble filtro UV400",
     colorDot: "bg-orange-400",
     caliber: "58 mm",
@@ -105,11 +114,76 @@ const HERO_MODELS: ModelHero[] = [
 export default function Hero() {
   const [selectedIdx, setSelectedIdx] = useState(0);
   const [added, setAdded] = useState(false);
+  const [imgErrors, setImgErrors] = useState<Record<string, boolean>>({});
+  const [isDragging, setIsDragging] = useState(false);
+  const [uploadToast, setUploadToast] = useState<string | null>(null);
+  const [customBgs, setCustomBgs] = useState<Record<string, string>>({});
 
   const add = useCartStore((s) => s.add);
   const setOpen = useCartStore((s) => s.setOpen);
 
   const current = HERO_MODELS[selectedIdx];
+
+  useEffect(() => {
+    fetch("/api/upload-hero")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data?.status) {
+          const updated: Record<string, string> = {};
+          if (data.status.duna)
+            updated["2"] = `/images/Gemini_Generated_Image_uze0o2uze0o2uze0.jpg?v=${Date.now()}`;
+          if (data.status.marea)
+            updated["3"] = `/images/Gemini_Generated_Image_edgigwedgigwedgi.jpg?v=${Date.now()}`;
+          if (data.status.ocaso)
+            updated["4"] = `/images/Gemini_Generated_Image_aofjj1aofjj1aofj.jpg?v=${Date.now()}`;
+          setCustomBgs(updated);
+        }
+      })
+      .catch(() => {});
+  }, []);
+
+  const handleUploadFile = async (file: File) => {
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("model", current.slug);
+
+    try {
+      const res = await fetch("/api/upload-hero", {
+        method: "POST",
+        body: formData,
+      });
+      const data = await res.json();
+      if (res.ok && data.path) {
+        setCustomBgs((prev) => ({ ...prev, [current.id]: data.path }));
+        setUploadToast(`Fondo aplicado a ${current.name}`);
+        setTimeout(() => setUploadToast(null), 3000);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const onDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(true);
+  };
+
+  const onDragLeave = () => {
+    setIsDragging(false);
+  };
+
+  const onDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(false);
+    const file = e.dataTransfer.files?.[0];
+    if (file) {
+      handleUploadFile(file);
+    }
+  };
+
+  const activeBg =
+    customBgs[current.id] ||
+    (imgErrors[current.id] ? current.bgFallback : current.bgImage);
 
   function handleBuy(e: React.MouseEvent) {
     e.preventDefault();
@@ -130,16 +204,41 @@ export default function Hero() {
   }
 
   return (
-    <section className="relative w-full bg-[rgb(var(--bg))] pt-6 pb-12 sm:pt-8 sm:pb-16 px-4 sm:px-6 md:px-10 transition-colors">
+    <section className="relative w-full bg-[rgb(var(--bg))] pt-3 pb-4 sm:pt-4 sm:pb-6 px-4 sm:px-6 md:px-10 transition-colors">
       <div className="max-w-7xl mx-auto">
-        {/* LIENZO HERO PRINCIPAL CON FONDO CAMBIANTE */}
-        <div className="relative w-full min-h-[540px] sm:min-h-[580px] lg:min-h-[640px] rounded-3xl overflow-hidden border border-[rgb(var(--stroke))] shadow-2xl flex flex-col justify-between p-6 sm:p-10 lg:p-12">
+        {/* LIENZO HERO PRINCIPAL MINIMALISTA CON FONDO DINÁMICO */}
+        <div
+          onDragOver={onDragOver}
+          onDragLeave={onDragLeave}
+          onDrop={onDrop}
+          className="relative w-full min-h-[540px] sm:min-h-[580px] lg:min-h-[640px] rounded-3xl overflow-hidden border border-[rgb(var(--stroke))] shadow-2xl flex flex-col justify-between p-6 sm:p-10 lg:p-12 transition-all"
+        >
+          {/* OVERLAY DE ARRASTRE SUTIL */}
+          {isDragging && (
+            <div className="absolute inset-0 z-30 bg-black/75 backdrop-blur-sm border-2 border-dashed border-amber-400 rounded-3xl flex items-center justify-center pointer-events-none transition-all">
+              <div className="text-center p-6 bg-stone-900/90 rounded-2xl border border-white/10 shadow-2xl">
+                <p className="text-base font-medium text-white">
+                  Suelta la imagen para {current.name}
+                </p>
+                <p className="text-xs text-stone-400 mt-1">
+                  Se guardará como fondo oficial de este modelo
+                </p>
+              </div>
+            </div>
+          )}
+
+          {/* NOTIFICACIÓN DISCRETA DE FONDO ACTUALIZADO */}
+          {uploadToast && (
+            <div className="absolute top-6 right-6 z-40 px-4 py-2 rounded-full bg-emerald-950/90 border border-emerald-500/50 text-emerald-200 text-xs shadow-xl animate-in fade-in slide-in-from-top-2">
+              ✓ {uploadToast}
+            </div>
+          )}
           
-          {/* 1. FONDO FOTOGRÁFICO DINÁMICO QUE VA CAMBIANDO (PERSONA EN PLAYA / ATARDECER) */}
+          {/* 1. FONDO FOTOGRÁFICO DINÁMICO QUE CAMBIA CON CADA MODELO REFLEJANDO SU NOMBRE */}
           <div className="absolute inset-0 z-0">
             <AnimatePresence mode="wait">
               <motion.div
-                key={current.id}
+                key={`${current.id}-${activeBg}`}
                 initial={{ opacity: 0, scale: 1.03 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0 }}
@@ -147,12 +246,15 @@ export default function Hero() {
                 className="relative w-full h-full"
               >
                 <Image
-                  src={current.bgImage}
+                  src={activeBg}
                   alt={current.bgAlt}
                   fill
                   priority
                   referrerPolicy="no-referrer"
                   className="object-cover object-center"
+                  onError={() => {
+                    setImgErrors((prev) => ({ ...prev, [current.id]: true }));
+                  }}
                 />
                 {/* Degradados sutiles para legibilidad y elegancia visual */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-black/70 pointer-events-none" />
@@ -161,7 +263,7 @@ export default function Hero() {
             </AnimatePresence>
           </div>
 
-          {/* 2. ARRIBA A LA IZQUIERDA: ÓPTICA DE PRECISIÓN, MODELOS Y DESCRIPCIÓN */}
+          {/* 2. ARRIBA A LA IZQUIERDA: IDENTIDAD, SELECTOR MINIMALISTA Y ESPECIFICACIONES */}
           <div className="relative z-10 max-w-xl text-left space-y-3">
             <AnimatePresence mode="wait">
               <motion.div
@@ -195,7 +297,7 @@ export default function Hero() {
               </motion.p>
             </AnimatePresence>
 
-            {/* SELECTOR DE SILUETAS CON NOMBRES NATURALES (BRISA, DUNA, MAREA, OCASO) */}
+            {/* SELECTOR DE SILUETAS LIMPIO Y MINIMALISTA (BRISA, DUNA, MAREA, OCASO) */}
             <div className="pt-2 flex flex-wrap items-center gap-2">
               <span className="text-[11px] uppercase tracking-wider text-white/60 block mr-1 font-medium">
                 Modelo:
@@ -244,7 +346,7 @@ export default function Hero() {
           {/* 3. ESPACIO CENTRAL LIMPIO Y NEGATIVO PARA APRECIAR LA FOTOGRAFÍA */}
           <div className="flex-1 min-h-[60px] sm:min-h-[100px]" />
 
-          {/* 4. ABAJO A LA DERECHA: COMPRAR [MODELO] Y CONOCER MÁS */}
+          {/* 4. ABAJO: PRECIO A LA IZQUIERDA Y BOTONES A LA DERECHA */}
           <div className="relative z-10 flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 pt-4 border-t border-white/15">
             {/* Especificaciones sutiles a la izquierda abajo */}
             <AnimatePresence mode="wait">

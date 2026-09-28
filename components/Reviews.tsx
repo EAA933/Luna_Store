@@ -30,9 +30,9 @@ const reviews = [
 
 export default function Reviews() {
   return (
-    <section className="w-full py-20 lg:py-32 px-5 sm:px-8 md:px-12 bg-[rgb(var(--card))] border-b border-[rgb(var(--stroke))] transition-colors">
+    <section className="w-full py-8 lg:py-12 px-5 sm:px-8 md:px-12 bg-[rgb(var(--card))] border-b border-[rgb(var(--stroke))] transition-colors">
       <div className="max-w-7xl mx-auto">
-        <div className="text-center max-w-xl mx-auto mb-16">
+        <div className="text-center max-w-xl mx-auto mb-6 sm:mb-8">
           <span className="text-xs uppercase font-medium tracking-[0.2em] text-[rgb(var(--secondary))]">
             EXPERIENCIAS REALES
           </span>

@@ -42,10 +42,10 @@ const collections = [
 
 export default function Collections() {
   return (
-    <section className="w-full py-20 lg:py-32 px-5 sm:px-8 md:px-12 bg-[rgb(var(--bg))] border-b border-[rgb(var(--stroke))] transition-colors">
+    <section className="w-full py-8 lg:py-12 px-5 sm:px-8 md:px-12 bg-[rgb(var(--bg))] border-b border-[rgb(var(--stroke))] transition-colors">
       <div className="max-w-7xl mx-auto">
         {/* Encabezado Editorial Apple */}
-        <div className="max-w-2xl mb-14 sm:mb-20">
+        <div className="max-w-2xl mb-6 sm:mb-8">
           <span className="text-xs uppercase font-medium tracking-[0.2em] text-[rgb(var(--secondary))]">
             ARQUITECTURA DE MATERIALES
           </span>

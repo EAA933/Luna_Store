@@ -21,7 +21,7 @@ const NAV_LINKS = [
 export default function Navbar() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const currentCollection = searchParams.get("collection");
+  const currentCollection = searchParams?.get("collection");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (

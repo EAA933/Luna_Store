@@ -3,9 +3,10 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { motion } from "framer-motion";
 import { useCartStore } from "@/components/cart/useCart";
 import { ArrowRight, Check, Plus, ChevronRight } from "lucide-react";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 
 type Props = {
   id: string;
@@ -20,6 +21,7 @@ type Props = {
   shape?: string;
   refCode?: string;
   sustainabilityBadge?: string;
+  index?: number;
 };
 
 export default function ProductCard({
@@ -35,11 +37,49 @@ export default function ProductCard({
   shape,
   refCode,
   sustainabilityBadge,
+  index = 0,
 }: Props) {
   const add = useCartStore((s) => s.add);
   const setOpen = useCartStore((s) => s.setOpen);
   const [justAdded, setJustAdded] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+  const [animationDone, setAnimationDone] = useState(false);
+  const cardRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const el = cardRef.current;
+    if (!el) return;
+
+    if (typeof window !== "undefined" && !("IntersectionObserver" in window)) {
+      setIsVisible(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const [entry] = entries;
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.unobserve(entry.target);
+        }
+      },
+      {
+        root: null,
+        rootMargin: "0px 0px -40px 0px",
+        threshold: 0.08,
+      }
+    );
+
+    observer.observe(el);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
+  // Delay progresivo para efecto escalonado estilo Apple al hacer scroll
+  const delayMs = (index % 3) * 110;
 
   function handleAdd(e: React.MouseEvent) {
     e.preventDefault();
@@ -51,10 +91,33 @@ export default function ProductCard({
   }
 
   return (
-    <article
+    <motion.article
+      ref={cardRef as any}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className="group relative flex flex-col justify-between rounded-3xl bg-[rgb(var(--card))] border border-[rgb(var(--stroke))] p-6 sm:p-8 transition-all duration-500 ease-out hover:shadow-2xl hover:border-[rgb(var(--stroke-strong))] overflow-hidden"
+      onAnimationEnd={() => setAnimationDone(true)}
+      whileHover={{
+        scale: 1.025,
+        y: -4,
+        boxShadow:
+          "0 22px 45px -12px rgba(0, 0, 0, 0.18), 0 8px 20px -8px rgba(0, 0, 0, 0.10)",
+      }}
+      transition={{
+        type: "spring",
+        stiffness: 400,
+        damping: 30,
+        mass: 0.8,
+      }}
+      style={
+        !animationDone
+          ? isVisible
+            ? { animationDelay: `${delayMs}ms` }
+            : { opacity: 0, transform: "translateY(24px)" }
+          : undefined
+      }
+      className={`group relative flex flex-col justify-between rounded-3xl bg-[rgb(var(--card))] border border-[rgb(var(--stroke))] p-6 sm:p-8 transition-[border-color,background-color] duration-300 hover:border-[rgb(var(--stroke-strong))] cursor-pointer overflow-hidden ${
+        isVisible ? (!animationDone ? "apple-fade-in" : "") : "opacity-0"
+      }`}
     >
       <div>
         {/* Cabecera sutil: silueta y polarizado sin cajas estridentes */}
@@ -141,6 +204,6 @@ export default function ProductCard({
           </button>
         </div>
       </div>
-    </article>
+    </motion.article>
   );
 }

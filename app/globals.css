@@ -238,18 +238,27 @@
   text-underline-offset: 4px;
 }
 
-/* Transición suave para scroll */
+/* Transición suave para scroll y revelado progresivo estilo Apple */
 .apple-fade-in {
-  animation: appleFadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: appleFadeIn 0.85s cubic-bezier(0.16, 1, 0.3, 1) both;
+  will-change: opacity, transform;
 }
 
 @keyframes appleFadeIn {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(24px);
   }
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .apple-fade-in {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
   }
 }

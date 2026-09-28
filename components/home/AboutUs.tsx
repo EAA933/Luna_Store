@@ -4,8 +4,8 @@ import { ChevronRight } from "lucide-react";
 
 export default function AboutUs() {
   return (
-    <section className="w-full px-5 sm:px-8 md:px-12 py-24 lg:py-36 bg-[rgb(var(--bg))] border-b border-[rgb(var(--stroke))] transition-colors">
-      <div className="max-w-4xl mx-auto text-center space-y-6">
+    <section className="w-full px-5 sm:px-8 md:px-12 py-8 lg:py-12 bg-[rgb(var(--bg))] border-b border-[rgb(var(--stroke))] transition-colors">
+      <div className="max-w-4xl mx-auto text-center space-y-4">
         <span className="text-xs uppercase font-medium tracking-[0.2em] text-[rgb(var(--secondary))]">
           EL MANIFIESTO MIRAR
         </span>

@@ -4,6 +4,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import AddToCartButton from "@/components/cart/AddToCartButton";
+import RecentlyViewed from "@/components/product/RecentlyViewed";
 import { getProduct, products } from "@/lib/products";
 import { formatCurrency } from "@/lib/utils";
 import {
@@ -59,7 +60,7 @@ export default async function ProductPage({
   if (!p) notFound();
 
   return (
-    <main className="w-full bg-[rgb(var(--bg))] text-[rgb(var(--fg))] min-h-screen pb-24 transition-colors">
+    <main className="w-full bg-[rgb(var(--bg))] text-[rgb(var(--fg))] min-h-screen pb-12 transition-colors">
       {/* Barra de retorno minimalista Apple-style */}
       <div className="border-b border-[rgb(var(--stroke))] bg-[rgb(var(--bg))]">
         <div className="max-w-7xl mx-auto px-5 sm:px-8 md:px-12 py-3 flex items-center justify-between text-xs text-[rgb(var(--secondary))]">
@@ -78,10 +79,10 @@ export default async function ProductPage({
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-5 sm:px-8 md:px-12 pt-10 sm:pt-16">
-        <section className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+      <div className="max-w-7xl mx-auto px-5 sm:px-8 md:px-12 pt-6 sm:pt-8">
+        <section className="grid lg:grid-cols-12 gap-8 lg:gap-10 items-start">
           {/* Columna Izquierda: Imagen Protagonista en Escenario Limpio */}
-          <div className="lg:col-span-7 flex flex-col gap-8">
+          <div className="lg:col-span-7 flex flex-col gap-6">
             <div className="relative rounded-3xl overflow-hidden bg-[rgb(var(--card))] border border-[rgb(var(--stroke))] aspect-[4/3] flex items-center justify-center p-8 sm:p-12">
               <div className="relative w-full h-full">
                 <Image
@@ -223,6 +224,21 @@ export default async function ProductPage({
             </div>
           </div>
         </section>
+
+        {/* Sección horizontal de modelos recientemente explorados */}
+        <RecentlyViewed
+          currentProduct={{
+            id: p.id,
+            slug: p.slug,
+            name: p.name,
+            price: p.price,
+            image: p.image,
+            ref: p.ref,
+            collection: p.collection,
+            shape: p.shape,
+            polarized: p.polarized,
+          }}
+        />
       </div>
     </main>
   );

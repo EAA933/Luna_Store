@@ -38,8 +38,8 @@ export default function BestSellers() {
   }
 
   return (
-    <section id="top-ventas" className="w-full py-20 lg:py-28 bg-[rgb(var(--bg))] border-b border-[rgb(var(--stroke))] transition-colors">
-      <div className="container-floema mb-8 flex flex-wrap items-end justify-between gap-6">
+    <section id="top-ventas" className="w-full pt-2 pb-8 lg:pt-3 lg:pb-10 bg-[rgb(var(--bg))] border-b border-[rgb(var(--stroke))] transition-colors">
+      <div className="container-floema mb-5 flex flex-wrap items-end justify-between gap-6">
         <div>
           <span className="text-xs uppercase font-medium tracking-[0.2em] text-[rgb(var(--secondary))]">
             LÍNEA PRINCIPAL

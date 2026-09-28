@@ -10,23 +10,23 @@ export default function CartPage() {
 
   return (
     <main className="w-full bg-[rgb(var(--bg))] text-[rgb(var(--fg))] min-h-screen">
-      <section className="container-floema py-16 max-w-4xl mx-auto">
+      <section className="container-floema py-10 sm:py-12 max-w-4xl mx-auto">
         <Link
           href="/catalog"
-          className="inline-flex items-center gap-2 text-xs font-mono font-bold uppercase mb-8 hover:text-[rgb(var(--accent))] transition-colors px-4 py-2 rounded-full border border-[rgb(var(--stroke))] bg-[rgb(var(--card))]"
+          className="inline-flex items-center gap-2 text-xs font-mono font-bold uppercase mb-6 hover:text-[rgb(var(--accent))] transition-colors px-4 py-2 rounded-full border border-[rgb(var(--stroke))] bg-[rgb(var(--card))]"
         >
           <ArrowLeft className="w-4 h-4" />
           <span>Volver al Catálogo</span>
         </Link>
 
-        <div className="inline-flex items-center gap-2 mb-4 px-3.5 py-1 bg-[rgb(var(--accent))]/10 border border-[rgb(var(--accent))]/30 rounded-full">
+        <div className="inline-flex items-center gap-2 mb-3 px-3.5 py-1 bg-[rgb(var(--accent))]/10 border border-[rgb(var(--accent))]/30 rounded-full">
           <span className="w-2 h-2 rounded-full bg-[rgb(var(--accent))] animate-pulse" />
           <span className="font-mono text-xs uppercase tracking-[0.16em] text-[rgb(var(--accent))] font-bold">
             TIENDA OFICIAL MIRAR // BOLSA DE COMPRA
           </span>
         </div>
 
-        <h1 className="font-serif text-4xl sm:text-5xl tracking-tight mb-8 text-[rgb(var(--fg))]">
+        <h1 className="font-serif text-3xl sm:text-4xl tracking-tight mb-6 text-[rgb(var(--fg))]">
           Tu Bolsa de Compra [{items.reduce((a, b) => a + b.qty, 0)}]
         </h1>
 

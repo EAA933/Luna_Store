@@ -48,7 +48,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <head>
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var w=typeof window!=="undefined"?window:typeof self!=="undefined"?self:globalThis;if(!w)return;var d=Object.getOwnPropertyDescriptor(w,"fetch")||(w.Window&&Object.getOwnPropertyDescriptor(w.Window.prototype,"fetch"));if(d&&d.get&&!d.set){var orig=d.get,val=undefined;Object.defineProperty(w,"fetch",{get:function(){return val||orig.call(this);},set:function(v){val=v;},configurable:true,enumerable:true});}}catch(e){}})();`,
+            __html: `(function(){try{var r=typeof globalThis!=="undefined"?globalThis:typeof window!=="undefined"?window:typeof self!=="undefined"?self:null;if(!r)return;var patch=function(obj){if(!obj)return;var d=Object.getOwnPropertyDescriptor(obj,"fetch");if(d&&d.get&&!d.set){Object.defineProperty(obj,"fetch",{get:d.get,set:function(v){Object.defineProperty(this,"fetch",{value:v,writable:true,configurable:true,enumerable:true});},configurable:true,enumerable:true});}};patch(r);if(r.Window)patch(r.Window.prototype);}catch(e){}})();`,
           }}
         />
       </head>

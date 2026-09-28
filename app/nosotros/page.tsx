@@ -8,7 +8,7 @@ export default function NosotrosPage() {
   return (
     <main className="w-full bg-[rgb(var(--bg))] text-[rgb(var(--fg))] min-h-screen transition-colors">
       {/* SECCIÓN PRINCIPAL: EL MANIFIESTO MIRAR */}
-      <section className="px-5 sm:px-8 md:px-12 py-20 lg:py-28 border-b border-[rgb(var(--stroke))]">
+      <section className="px-5 sm:px-8 md:px-12 py-12 lg:py-16 border-b border-[rgb(var(--stroke))]">
         <div className="max-w-4xl mx-auto text-center space-y-6">
           <span className="text-xs uppercase font-medium tracking-[0.2em] text-[rgb(var(--secondary))]">
             EL MANIFIESTO MIRAR
@@ -47,9 +47,9 @@ export default function NosotrosPage() {
       </section>
 
       {/* SECCIÓN DE HISTORIA Y DISCIPLINA */}
-      <section className="px-5 sm:px-8 md:px-12 py-20 lg:py-28 border-b border-[rgb(var(--stroke))] bg-[rgb(var(--card))]">
+      <section className="px-5 sm:px-8 md:px-12 py-12 lg:py-16 border-b border-[rgb(var(--stroke))] bg-[rgb(var(--card))]">
         <div className="max-w-5xl mx-auto">
-          <div className="max-w-3xl mb-12 sm:mb-16">
+          <div className="max-w-3xl mb-8 sm:mb-10">
             <span className="text-xs uppercase font-medium tracking-[0.2em] text-[rgb(var(--secondary))]">
               HISTORIA &amp; DISCIPLINA
             </span>
@@ -102,7 +102,7 @@ export default function NosotrosPage() {
       </section>
 
       {/* FOTOGRAFÍA EDITORIAL DE ESTILO DE VIDA */}
-      <section className="px-5 sm:px-8 md:px-12 py-16 max-w-6xl mx-auto">
+      <section className="px-5 sm:px-8 md:px-12 py-10 lg:py-12 max-w-6xl mx-auto">
         <div className="relative aspect-[21/9] rounded-3xl overflow-hidden bg-neutral-900 border border-[rgb(var(--stroke))] shadow-xl">
           <Image
             src="/images/hero-person-sunset.jpg"
