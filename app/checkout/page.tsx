@@ -4,47 +4,13 @@
 import Link from "next/link";
 import { useCartStore } from "@/components/cart/useCart";
 import { useState } from "react";
-import { ShieldCheck, Truck, ArrowLeft, CheckCircle2, Package, Lock, MessageCircle } from "lucide-react";
-import { WHATSAPP_NUMBER } from "@/lib/supabase";
+import { ArrowLeft, Lock } from "lucide-react";
 import { envioGratis, faltaParaEnvioGratis, ENVIO_GRATIS_DESDE } from "@/lib/tienda";
 
-type Confirmacion = {
-  folio: string;
-  items: { name: string; ref?: string; price: number; qty: number }[];
-  subtotal: number;
-  whatsappUrl: string | null;
-};
-
-const METODOS: Record<string, string> = {
-  mercadopago: "Mercado Pago",
-};
-
-type Datos = { name: string; phone: string; address: string; city: string; zip: string; paymentMethod: string };
-
-function mensajeWhatsApp(c: Omit<Confirmacion, "whatsappUrl">, d: Datos) {
-  const lineas = c.items
-    .map((i) => `• ${i.name}${i.ref ? ` (${i.ref})` : ""} x${i.qty} — $${(i.price * i.qty).toLocaleString("es-MX")}`)
-    .join("\n");
-  return [
-    `Hola MIRAR, acabo de hacer el pedido *${c.folio}*:`,
-    lineas,
-    `*Total: $${c.subtotal.toLocaleString("es-MX")} MXN*`,
-    envioGratis(c.subtotal) ? "Envío: gratis" : "Envío: por cotizar",
-    "",
-    `Nombre: ${d.name}`,
-    d.phone ? `Teléfono: ${d.phone}` : "",
-    `Envío: ${d.address}, ${d.city}, C.P. ${d.zip}`,
-    `Pago preferido: ${METODOS[d.paymentMethod] || d.paymentMethod}`,
-  ]
-    .filter(Boolean)
-    .join("\n");
-}
-
 export default function CheckoutPage() {
-  const { items, clear } = useCartStore();
+  const { items } = useCartStore();
   const subtotal = items.reduce((a, i) => a + i.price * i.qty, 0);
 
-  const [ordered, setOrdered] = useState<Confirmacion | null>(null);
   const [enviando, setEnviando] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [formData, setFormData] = useState({
@@ -63,7 +29,6 @@ export default function CheckoutPage() {
     setEnviando(true);
     setError(null);
 
-    let conf: Omit<Confirmacion, "whatsappUrl">;
     try {
       // El servidor toma precios y stock de la base; el navegador solo manda slug y cantidad.
       const res = await fetch("/api/orders", {
@@ -96,71 +61,7 @@ export default function CheckoutPage() {
           : "No pudimos registrar tu pedido. Revisa tu conexión e inténtalo de nuevo."
       );
       setEnviando(false);
-      return;
     }
-
-    const whatsappUrl = WHATSAPP_NUMBER
-      ? `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(mensajeWhatsApp(conf, formData))}`
-      : null;
-    setOrdered({ ...conf, whatsappUrl });
-    clear();
-    setEnviando(false);
-  }
-
-  if (ordered) {
-    return (
-      <main className="w-full min-h-screen bg-[rgb(var(--bg))] text-[rgb(var(--fg))] px-5 py-10 sm:py-12 flex items-center justify-center">
-        <div className="max-w-xl w-full p-8 sm:p-10 magazine-frame rounded-3xl shadow-xl text-center bg-[rgb(var(--card))]">
-          <div className="w-16 h-16 rounded-full bg-[rgb(var(--accent))] text-[rgb(var(--accent-fg))] flex items-center justify-center mx-auto mb-6 border border-[rgb(var(--fg))] shadow-md">
-            <CheckCircle2 className="w-9 h-9" />
-          </div>
-
-          <span className="editorial-stamp mb-3">{`PEDIDO REGISTRADO // ${ordered.folio}`}</span>
-
-          <h1 className="font-serif font-bold text-3xl sm:text-4xl mt-3 mb-4 text-[rgb(var(--fg))]">
-            ¡Gracias por tu Compra en MIRAR!
-          </h1>
-
-          <p className="text-xs sm:text-sm text-[rgb(var(--fg))]/80 font-sans leading-relaxed mb-6">
-            Hemos recibido tu orden correctamente. Revisaremos tus lentes y los prepararemos para enviarlos a {formData.address || "tu domicilio"}.
-          </p>
-
-          <div className="p-4 bg-[rgb(var(--card-warm))]/60 border border-[rgb(var(--stroke))] rounded-2xl font-mono text-xs text-left mb-6 space-y-2">
-            <div className="flex justify-between">
-              <span className="text-[rgb(var(--secondary))]">CLIENTE:</span>
-              <span className="font-bold">{formData.name || "Invitado"}</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-[rgb(var(--secondary))]">DESTINO:</span>
-              <span className="font-bold">{formData.city || "México"}, C.P. {formData.zip || "06700"}</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-[rgb(var(--secondary))]">ENVÍO:</span>
-              <span className="text-[rgb(var(--accent))] font-bold">{envioGratis(ordered.subtotal) ? "GRATIS" : "POR COTIZAR"}</span>
-            </div>
-          </div>
-
-          {ordered.whatsappUrl && (
-            <a
-              href={ordered.whatsappUrl}
-              target="_blank"
-              rel="noopener"
-              className="mb-3 w-full py-3.5 text-sm font-bold rounded-full inline-flex items-center justify-center gap-2 bg-[#25D366] text-white hover:opacity-90 transition"
-            >
-              <MessageCircle className="w-4 h-4" />
-              Mandar mensaje por WhatsApp
-            </a>
-          )}
-          <p className="text-[11px] text-[rgb(var(--secondary))] mb-4">
-            Te escribiremos para confirmar el pago y el envío. Guarda tu folio {ordered.folio}: con él podrás{" "}
-            <Link href={`/resenas?folio=${ordered.folio}`} className="underline">dejar tu reseña</Link> cuando recibas tus lentes.
-          </p>
-          <Link href="/catalog" className="btn-sunset w-full py-3.5 text-xs rounded-full">
-            Volver a la Tienda
-          </Link>
-        </div>
-      </main>
-    );
   }
 
   return (

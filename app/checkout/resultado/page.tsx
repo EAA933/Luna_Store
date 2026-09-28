@@ -4,8 +4,7 @@
 import { Suspense, useEffect, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { CheckCircle2, Clock, XCircle, MessageCircle } from "lucide-react";
-import { WHATSAPP_NUMBER } from "@/lib/supabase";
+import { CheckCircle2, Clock, XCircle } from "lucide-react";
 import { useCartStore } from "@/components/cart/useCart";
 
 type Estado = "cargando" | "pagado" | "pendiente" | "rechazado" | "reembolsado";
@@ -33,16 +32,12 @@ function Resultado() {
     return () => { vivo = false; };
   }, [folio, clear]);
 
-  const wa = WHATSAPP_NUMBER
-    ? `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(`Hola MIRAR, tengo una duda sobre mi pedido ${folio}.`)}`
-    : null;
-
   const vistas: Record<Estado, { icon: typeof Clock; titulo: string; texto: string; color: string }> = {
     cargando: { icon: Clock, titulo: "Confirmando tu pago…", texto: "Esto toma solo unos segundos.", color: "text-[rgb(var(--secondary))]" },
-    pagado: { icon: CheckCircle2, titulo: "¡Pago recibido!", texto: "Tu pedido está confirmado. Te escribiremos por WhatsApp con los datos de envío.", color: "text-emerald-500" },
-    pendiente: { icon: Clock, titulo: "Pago en proceso", texto: "Si pagaste en efectivo (OXXO), se confirmará cuando se acredite. Te avisaremos por WhatsApp.", color: "text-amber-500" },
-    rechazado: { icon: XCircle, titulo: "El pago no se completó", texto: "No se hizo ningún cargo. Escríbenos por WhatsApp y te ayudamos a terminar tu compra.", color: "text-red-500" },
-    reembolsado: { icon: XCircle, titulo: "Pago reembolsado", texto: "Este pago fue devuelto. Si tienes dudas, escríbenos.", color: "text-[rgb(var(--secondary))]" },
+    pagado: { icon: CheckCircle2, titulo: "¡Pago recibido!", texto: "Tu pedido está confirmado. Te avisaremos cuando tus lentes vayan en camino.", color: "text-emerald-500" },
+    pendiente: { icon: Clock, titulo: "Pago en proceso", texto: "Si pagaste en efectivo (OXXO), se confirmará automáticamente cuando se acredite.", color: "text-amber-500" },
+    rechazado: { icon: XCircle, titulo: "El pago no se completó", texto: "No se hizo ningún cargo. Puedes volver a intentarlo desde tu bolsa.", color: "text-red-500" },
+    reembolsado: { icon: XCircle, titulo: "Pago reembolsado", texto: "Este pago fue devuelto a tu medio de pago.", color: "text-[rgb(var(--secondary))]" },
   };
   const v = vistas[estado];
   const Icon = v.icon;
@@ -54,12 +49,6 @@ function Resultado() {
       <h1 className="text-3xl font-semibold tracking-tight mb-3">{v.titulo}</h1>
       <p className="text-sm text-[rgb(var(--secondary))] mb-6">{v.texto}</p>
       <div className="space-y-3">
-        {wa && estado !== "cargando" && (
-          <a href={wa} target="_blank" rel="noopener"
-            className="w-full py-3.5 text-sm font-bold rounded-full inline-flex items-center justify-center gap-2 bg-[#25D366] text-white">
-            <MessageCircle className="w-4 h-4" /> Escribir por WhatsApp
-          </a>
-        )}
         <Link href="/catalog" className="btn-apple-secondary w-full py-3 text-sm rounded-full inline-flex justify-center">
           Volver a la tienda
         </Link>
