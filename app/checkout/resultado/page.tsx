@@ -40,7 +40,7 @@ function Resultado() {
   const vistas: Record<Estado, { icon: typeof Clock; titulo: string; texto: string; color: string }> = {
     cargando: { icon: Clock, titulo: "Confirmando tu pago…", texto: "Esto toma solo unos segundos.", color: "text-[rgb(var(--secondary))]" },
     pagado: { icon: CheckCircle2, titulo: "¡Pago recibido!", texto: "Tu pedido está confirmado. Te escribiremos por WhatsApp con los datos de envío.", color: "text-emerald-500" },
-    pendiente: { icon: Clock, titulo: "Pago en proceso", texto: "Si pagaste en OXXO o por transferencia, se confirmará cuando se acredite. Te avisaremos por WhatsApp.", color: "text-amber-500" },
+    pendiente: { icon: Clock, titulo: "Pago en proceso", texto: "Si pagaste en efectivo (OXXO), se confirmará cuando se acredite. Te avisaremos por WhatsApp.", color: "text-amber-500" },
     rechazado: { icon: XCircle, titulo: "El pago no se completó", texto: "No se hizo ningún cargo. Escríbenos por WhatsApp y te ayudamos a terminar tu compra.", color: "text-red-500" },
     reembolsado: { icon: XCircle, titulo: "Pago reembolsado", texto: "Este pago fue devuelto. Si tienes dudas, escríbenos.", color: "text-[rgb(var(--secondary))]" },
   };

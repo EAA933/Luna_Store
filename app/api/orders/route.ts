@@ -8,11 +8,6 @@ import { envioGratis } from "@/lib/tienda";
 
 export const dynamic = "force-dynamic";
 
-const METODOS: Record<string, string> = {
-  mercadopago: "Mercado Pago",
-  transferencia: "Transferencia (por WhatsApp)",
-};
-
 type Body = {
   customer: { name: string; email: string; phone: string; address: string; city: string; zip: string; payment: string };
   items: { slug: string; qty: number }[];
@@ -30,8 +25,9 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Solicitud inválida." }, { status: 400 });
   }
 
-  const pagoMP = body.customer?.payment === "mercadopago" && mpConfigurado();
-  const customer = { ...body.customer, payment: pagoMP ? "mercadopago" : "transferencia" };
+  // Solo se cobra con Mercado Pago.
+  if (!mpConfigurado()) return NextResponse.json({ error: "Los pagos no están disponibles en este momento." }, { status: 503 });
+  const customer = { ...body.customer, payment: "mercadopago" };
 
   // Precios y stock los decide la base (create_order), nunca el navegador.
   const sb = createClient(url, key, { auth: { persistSession: false } });
@@ -41,18 +37,16 @@ export async function POST(req: NextRequest) {
   const pedido = data as { folio: string; items: LineaPedido[]; subtotal: number };
 
   let pagoUrl: string | null = null;
-  if (pagoMP) {
-    try {
-      pagoUrl = await crearPreferencia({
-        folio: pedido.folio,
-        items: pedido.items,
-        email: customer.email,
-        nombre: customer.name,
-        origin: process.env.NEXT_PUBLIC_SITE_URL || req.nextUrl.origin,
-      });
-    } catch (e) {
-      console.error("[mp] preferencia", e);
-    }
+  try {
+    pagoUrl = await crearPreferencia({
+      folio: pedido.folio,
+      items: pedido.items,
+      email: customer.email,
+      nombre: customer.name,
+      origin: process.env.NEXT_PUBLIC_SITE_URL || req.nextUrl.origin,
+    });
+  } catch (e) {
+    console.error("[mp] preferencia", e);
   }
 
   const lineas = pedido.items.map((i) => `• ${i.name} x${i.qty} — ${pesos(i.price * i.qty)}`).join("\n");
@@ -66,11 +60,12 @@ export async function POST(req: NextRequest) {
       customer.phone ? `📱 ${customer.phone}` : "",
       `✉️ ${customer.email}`,
       `📍 ${customer.address}, ${customer.city}, C.P. ${customer.zip}`,
-      `💳 ${METODOS[customer.payment]}${pagoUrl ? " — esperando pago" : ""}`,
+      pagoUrl ? "💳 Mercado Pago — esperando pago" : "⚠️ No se pudo generar el link de Mercado Pago; cancela este pedido en /admin.",
     ]
       .filter(Boolean)
       .join("\n")
   );
 
+  if (!pagoUrl) return NextResponse.json({ error: "No pudimos conectar con Mercado Pago. Inténtalo de nuevo." }, { status: 502 });
   return NextResponse.json({ ...pedido, pagoUrl });
 }

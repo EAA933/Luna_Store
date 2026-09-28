@@ -17,7 +17,6 @@ type Confirmacion = {
 
 const METODOS: Record<string, string> = {
   mercadopago: "Mercado Pago",
-  transferencia: "Transferencia bancaria",
 };
 
 type Datos = { name: string; phone: string; address: string; city: string; zip: string; paymentMethod: string };
@@ -85,12 +84,10 @@ export default function CheckoutPage() {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data?.error || "error");
-      // Mercado Pago: mandamos al cliente a pagar; regresa a /checkout/resultado.
-      if (data.pagoUrl) {
-        window.location.href = data.pagoUrl;
-        return;
-      }
-      conf = data as Omit<Confirmacion, "whatsappUrl">;
+      // Mandamos al cliente a pagar a Mercado Pago; regresa a /checkout/resultado.
+      if (!data.pagoUrl) throw new Error("sin-link");
+      window.location.href = data.pagoUrl;
+      return;
     } catch (ex) {
       const msg = ex instanceof Error ? ex.message : "";
       setError(
@@ -299,29 +296,14 @@ export default function CheckoutPage() {
                   Método de Pago Seguro
                 </h2>
 
-                <div className="space-y-2 font-mono text-xs">
-                  {[
-                    { id: "mercadopago", label: "Mercado Pago — tarjeta de crédito/débito, OXXO y más" },
-                    { id: "transferencia", label: "Transferencia bancaria — te mandamos los datos por WhatsApp" },
-                  ].map((pm) => (
-                    <label
-                      key={pm.id}
-                      className={`flex items-center gap-3 p-3.5 border cursor-pointer transition-all rounded-2xl ${
-                        formData.paymentMethod === pm.id
-                          ? "bg-[rgb(var(--accent))] text-[rgb(var(--accent-fg))] border-[rgb(var(--fg))] font-bold shadow-sm"
-                          : "bg-[rgb(var(--bg))] border-[rgb(var(--stroke))] text-[rgb(var(--fg))]"
-                      }`}
-                    >
-                      <input
-                        type="radio"
-                        name="payment"
-                        checked={formData.paymentMethod === pm.id}
-                        onChange={() => setFormData({ ...formData, paymentMethod: pm.id })}
-                        className="accent-[rgb(var(--fg))]"
-                      />
-                      <span>{pm.label}</span>
-                    </label>
-                  ))}
+                <div className="flex items-center gap-3 p-4 border rounded-2xl bg-[rgb(var(--bg))] border-[rgb(var(--stroke))] text-sm">
+                  <Lock className="w-4 h-4 text-[rgb(var(--accent))] shrink-0" />
+                  <div>
+                    <p className="font-semibold text-[rgb(var(--fg))]">Mercado Pago</p>
+                    <p className="text-xs text-[rgb(var(--secondary))]">
+                      Tarjeta de crédito o débito, efectivo en OXXO y más. Pagas en la página segura de Mercado Pago.
+                    </p>
+                  </div>
                 </div>
               </div>
 
@@ -338,16 +320,12 @@ export default function CheckoutPage() {
                 <Lock className="w-4 h-4" />
                 <span>
                   {enviando
-                    ? "Registrando pedido…"
-                    : formData.paymentMethod === "mercadopago"
-                      ? `Pagar con Mercado Pago ($${subtotal.toLocaleString("es-MX")} MXN)`
-                      : `Confirmar pedido ($${subtotal.toLocaleString("es-MX")} MXN)`}
+                    ? "Conectando con Mercado Pago…"
+                    : `Pagar con Mercado Pago ($${subtotal.toLocaleString("es-MX")} MXN)`}
                 </span>
               </button>
               <p className="text-[11px] text-[rgb(var(--secondary))] text-center">
-                {formData.paymentMethod === "mercadopago"
-                  ? "Te llevamos a Mercado Pago para pagar de forma segura. MIRAR nunca ve los datos de tu tarjeta."
-                  : "Registramos tu pedido y te contactamos por WhatsApp con los datos para transferir."}
+                Te llevamos a Mercado Pago para pagar de forma segura. MIRAR nunca ve los datos de tu tarjeta.
               </p>
             </form>
 
