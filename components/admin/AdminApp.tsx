@@ -59,6 +59,28 @@ function Login() {
   );
 }
 
+/** Pregunta a Mercado Pago por los pedidos que siguen sin pagar y guarda el resultado. */
+async function sincronizarPagos(orders: Order[]): Promise<boolean> {
+  const sb = getSupabase();
+  const hace14 = Date.now() - 14 * 864e5;
+  const revisar = orders.filter((o) =>
+    o.payment_method === "mercadopago" && o.payment_status === "pendiente" &&
+    o.status !== "cancelado" && new Date(o.created_at).getTime() > hace14
+  );
+  let cambio = false;
+  for (const o of revisar.slice(0, 15)) {
+    const r = await fetch(`/api/mp/estado?folio=${encodeURIComponent(o.folio)}`).then((x) => x.json()).catch(() => null);
+    if (!r?.estado || r.estado === o.payment_status) continue;
+    const { error } = await sb!.from("orders").update({
+      payment_status: r.estado,
+      mp_payment_id: r.pagoId,
+      ...(r.estado === "pagado" && o.status === "nuevo" ? { status: "confirmado" } : {}),
+    }).eq("id", o.id);
+    if (!error) cambio = true;
+  }
+  return cambio;
+}
+
 export default function AdminApp() {
   const [session, setSession] = useState<Session | null | undefined>(undefined);
   const [tab, setTab] = useState<Tab>("resumen");
@@ -85,7 +107,9 @@ export default function AdminApp() {
     ]);
     if (o.error || p.error) { setError((o.error || p.error)!.message); return; }
     setError(null);
-    setOrders(o.data as Order[]);
+    const lista = o.data as Order[];
+    setOrders(lista);
+    sincronizarPagos(lista).then((cambio) => { if (cambio) cargar(); });
     setProducts(p.data as ProductRow[]);
     setActualizado(new Date());
   }, []);

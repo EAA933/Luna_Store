@@ -13,6 +13,18 @@ function Estado({ status }: { status: OrderStatus }) {
   return <span className={`rounded-full border px-2.5 py-0.5 text-xs font-medium ${e.color}`}>{e.label}</span>;
 }
 
+function Pago({ o }: { o: Order }) {
+  const s = o.payment_status || "pendiente";
+  const estilos: Record<string, string> = {
+    pagado: "bg-emerald-500/15 text-emerald-500 border-emerald-500/30",
+    pendiente: "bg-zinc-500/10 text-[rgb(var(--secondary))] border-[rgb(var(--stroke))]",
+    rechazado: "bg-red-500/15 text-red-500 border-red-500/30",
+    reembolsado: "bg-zinc-500/15 text-zinc-400 border-zinc-500/30",
+  };
+  const texto = s === "pagado" ? "Pagado ✓" : s === "pendiente" ? "Sin pagar" : s === "rechazado" ? "Pago rechazado" : "Reembolsado";
+  return <span className={`rounded-full border px-2.5 py-0.5 text-xs font-medium ${estilos[s]}`}>{texto}</span>;
+}
+
 /** Enlace de WhatsApp al cliente (asume lada de México si viene a 10 dígitos). */
 function waCliente(o: Order) {
   let d = (o.phone || "").replace(/\D/g, "");
@@ -57,6 +69,14 @@ function TarjetaPedido({ o, products, recargar }: { o: Order; products: ProductR
     setGuardando(false);
   }
 
+  async function marcarPagado() {
+    setGuardando(true);
+    const cambios = { payment_status: "pagado", ...(o.status === "nuevo" ? { status: "confirmado" } : {}) };
+    const { error } = await getSupabase()!.from("orders").update(cambios).eq("id", o.id);
+    setGuardando(false);
+    if (error) setAviso(error.message); else recargar();
+  }
+
   async function guardarNotas() {
     setGuardando(true);
     const { error } = await getSupabase()!.from("orders").update({ admin_notes: notas }).eq("id", o.id);
@@ -73,6 +93,7 @@ function TarjetaPedido({ o, products, recargar }: { o: Order; products: ProductR
       <button onClick={() => setAbierto(!abierto)} className="flex w-full flex-wrap items-center gap-x-4 gap-y-2 p-4 text-left">
         <span className="font-mono text-sm font-semibold">{o.folio}</span>
         <Estado status={o.status} />
+        <Pago o={o} />
         <span className="text-sm">{o.customer_name}</span>
         <span className="text-xs text-[rgb(var(--secondary))]">{fecha(o.created_at)}</span>
         <span className="ml-auto text-sm font-semibold tabular-nums">{mxn(o.subtotal)} <span className="font-normal text-[rgb(var(--secondary))]">· {piezas} pzs</span></span>
@@ -122,7 +143,13 @@ function TarjetaPedido({ o, products, recargar }: { o: Order; products: ProductR
               <p className="font-medium">{o.customer_name}</p>
               <p className="flex items-start gap-2 text-[rgb(var(--secondary))]"><MapPin className="w-3.5 h-3.5 mt-0.5 shrink-0" />{o.address}, {o.city}, C.P. {o.zip}</p>
               {o.phone && <p className="text-[rgb(var(--secondary))]">Tel. {o.phone}</p>}
-              <p className="text-[rgb(var(--secondary))]">Pago preferido: {PAGOS[o.payment_method] || o.payment_method || "—"}</p>
+              <p className="text-[rgb(var(--secondary))]">Pago: {PAGOS[o.payment_method] || o.payment_method || "—"}</p>
+              {o.mp_payment_id && <p className="text-[rgb(var(--secondary))]">Operación Mercado Pago #{o.mp_payment_id}</p>}
+              {o.payment_method !== "mercadopago" && o.payment_status !== "pagado" && (
+                <button onClick={() => marcarPagado()} disabled={guardando} className="mt-1 rounded-full border border-emerald-500/40 px-3 py-1 text-xs text-emerald-500">
+                  Marcar como pagado
+                </button>
+              )}
             </div>
             <div className="flex flex-wrap gap-2">
               {wa && (

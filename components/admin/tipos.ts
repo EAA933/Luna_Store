@@ -1,5 +1,6 @@
 // Tipos y utilidades compartidas del panel de administrador.
 export type OrderStatus = "nuevo" | "confirmado" | "enviado" | "entregado" | "cancelado";
+export type PaymentStatus = "pendiente" | "pagado" | "rechazado" | "reembolsado";
 
 export type OrderItem = { slug: string; name: string; ref?: string; price: number; qty: number };
 
@@ -17,6 +18,8 @@ export type Order = {
   status: OrderStatus;
   admin_notes: string;
   payment_method: string;
+  payment_status: PaymentStatus;
+  mp_payment_id: string | null;
   created_at: string;
   updated_at: string;
 };
@@ -30,6 +33,8 @@ export const ESTADOS: { id: OrderStatus; label: string; color: string }[] = [
 ];
 
 export const PAGOS: Record<string, string> = {
+  mercadopago: "Mercado Pago",
+  transferencia: "Transferencia",
   card: "Tarjeta",
   spei: "Transferencia SPEI",
   oxxo: "Efectivo OXXO",

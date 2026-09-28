@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useCartStore } from "@/components/cart/useCart";
 import { useState } from "react";
 import { ShieldCheck, Truck, ArrowLeft, CheckCircle2, Package, Lock, MessageCircle } from "lucide-react";
-import { getSupabase, WHATSAPP_NUMBER } from "@/lib/supabase";
+import { WHATSAPP_NUMBER } from "@/lib/supabase";
 import { envioGratis, faltaParaEnvioGratis, ENVIO_GRATIS_DESDE } from "@/lib/tienda";
 
 type Confirmacion = {
@@ -16,9 +16,8 @@ type Confirmacion = {
 };
 
 const METODOS: Record<string, string> = {
-  card: "Tarjeta de crédito / débito",
-  spei: "Transferencia SPEI",
-  oxxo: "Efectivo en OXXO",
+  mercadopago: "Mercado Pago",
+  transferencia: "Transferencia bancaria",
 };
 
 type Datos = { name: string; phone: string; address: string; city: string; zip: string; paymentMethod: string };
@@ -56,7 +55,7 @@ export default function CheckoutPage() {
     address: "",
     city: "",
     zip: "",
-    paymentMethod: "card",
+    paymentMethod: "mercadopago",
   });
 
   async function handleOrder(e: React.FormEvent) {
@@ -65,13 +64,14 @@ export default function CheckoutPage() {
     setEnviando(true);
     setError(null);
 
-    const supabase = getSupabase();
     let conf: Omit<Confirmacion, "whatsappUrl">;
     try {
-      if (supabase) {
-        // El servidor toma precios y stock de la base; el navegador solo manda slug y cantidad.
-        const { data, error: err } = await supabase.rpc("create_order", {
-          p_customer: {
+      // El servidor toma precios y stock de la base; el navegador solo manda slug y cantidad.
+      const res = await fetch("/api/orders", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          customer: {
             name: formData.name,
             email: formData.email,
             phone: formData.phone,
@@ -80,17 +80,17 @@ export default function CheckoutPage() {
             zip: formData.zip,
             payment: formData.paymentMethod,
           },
-          p_items: items.map((i) => ({ slug: i.slug, qty: i.qty })),
-        });
-        if (err) throw new Error(err.message);
-        conf = data as Omit<Confirmacion, "whatsappUrl">;
-      } else {
-        conf = {
-          folio: "MR-" + Date.now().toString(36).toUpperCase(),
-          items: items.map((i) => ({ name: i.name, price: i.price, qty: i.qty })),
-          subtotal,
-        };
+          items: items.map((i) => ({ slug: i.slug, qty: i.qty })),
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data?.error || "error");
+      // Mercado Pago: mandamos al cliente a pagar; regresa a /checkout/resultado.
+      if (data.pagoUrl) {
+        window.location.href = data.pagoUrl;
+        return;
       }
+      conf = data as Omit<Confirmacion, "whatsappUrl">;
     } catch (ex) {
       const msg = ex instanceof Error ? ex.message : "";
       setError(
@@ -108,7 +108,6 @@ export default function CheckoutPage() {
     setOrdered({ ...conf, whatsappUrl });
     clear();
     setEnviando(false);
-    if (whatsappUrl) window.open(whatsappUrl, "_blank", "noopener");
   }
 
   if (ordered) {
@@ -152,7 +151,7 @@ export default function CheckoutPage() {
               className="mb-3 w-full py-3.5 text-sm font-bold rounded-full inline-flex items-center justify-center gap-2 bg-[#25D366] text-white hover:opacity-90 transition"
             >
               <MessageCircle className="w-4 h-4" />
-              Enviar mi pedido por WhatsApp
+              Mandar mensaje por WhatsApp
             </a>
           )}
           <p className="text-[11px] text-[rgb(var(--secondary))] mb-4">
@@ -302,9 +301,8 @@ export default function CheckoutPage() {
 
                 <div className="space-y-2 font-mono text-xs">
                   {[
-                    { id: "card", label: "Tarjeta de Crédito / Débito (Visa, Mastercard, AMEX)" },
-                    { id: "spei", label: "Transferencia Bancaria Inmediata (SPEI)" },
-                    { id: "oxxo", label: "Pago en Efectivo OXXO Pay" },
+                    { id: "mercadopago", label: "Mercado Pago — tarjeta de crédito/débito, OXXO y más" },
+                    { id: "transferencia", label: "Transferencia bancaria — te mandamos los datos por WhatsApp" },
                   ].map((pm) => (
                     <label
                       key={pm.id}
@@ -338,10 +336,18 @@ export default function CheckoutPage() {
                 className="btn-sunset w-full py-4 text-sm font-bold flex items-center justify-center gap-2 rounded-full disabled:opacity-60"
               >
                 <Lock className="w-4 h-4" />
-                <span>{enviando ? "Registrando pedido…" : `Confirmar Pedido ($${subtotal.toLocaleString("es-MX")} MXN)`}</span>
+                <span>
+                  {enviando
+                    ? "Registrando pedido…"
+                    : formData.paymentMethod === "mercadopago"
+                      ? `Pagar con Mercado Pago ($${subtotal.toLocaleString("es-MX")} MXN)`
+                      : `Confirmar pedido ($${subtotal.toLocaleString("es-MX")} MXN)`}
+                </span>
               </button>
               <p className="text-[11px] text-[rgb(var(--secondary))] text-center">
-                Al confirmar registramos tu pedido y abrimos WhatsApp para coordinar el pago y el envío.
+                {formData.paymentMethod === "mercadopago"
+                  ? "Te llevamos a Mercado Pago para pagar de forma segura. MIRAR nunca ve los datos de tu tarjeta."
+                  : "Registramos tu pedido y te contactamos por WhatsApp con los datos para transferir."}
               </p>
             </form>
 
