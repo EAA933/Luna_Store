@@ -64,9 +64,7 @@ export default function DevolucionesPage() {
             <ul className="list-disc pl-5 space-y-1">
               <li>El reembolso se hace al mismo medio con el que pagaste, a través de Mercado Pago. El tiempo en que
                 se refleja depende de tu banco.</li>
-              <li>Si el producto llegó con defecto de fábrica o no es el que pediste, MIRAR cubre el envío de regreso.</li>
-              <li>En cualquier otro caso (por ejemplo, si cambiaste de opinión), el envío de regreso corre por cuenta
-                del cliente.</li>
+              <li>El costo del envío de regreso corre por cuenta del cliente.</li>
             </ul>
           </div>
         </div>
