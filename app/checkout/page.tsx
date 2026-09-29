@@ -21,7 +21,10 @@ export default function CheckoutPage() {
     name: "",
     email: "",
     phone: "",
-    address: "",
+    street: "",
+    extNum: "",
+    intNum: "",
+    colonia: "",
     city: "",
     state: "",
     zip: "",
@@ -35,6 +38,12 @@ export default function CheckoutPage() {
   }, []);
   const zona = zonas.find((z) => z.states.includes(formData.state));
   const envio = envioGratis(subtotal) ? 0 : zona ? zona.price : null;
+
+  // Dirección completa tal como se guarda en el pedido y la ves en /admin.
+  const direccion = [
+    `${formData.street.trim()} ${formData.extNum.trim()}${formData.intNum.trim() ? `, Int. ${formData.intNum.trim()}` : ""}`,
+    formData.colonia.trim() ? `Col. ${formData.colonia.trim()}` : "",
+  ].filter(Boolean).join(", ");
 
   async function handleOrder(e: React.FormEvent) {
     e.preventDefault();
@@ -52,7 +61,7 @@ export default function CheckoutPage() {
             name: formData.name,
             email: formData.email,
             phone: formData.phone,
-            address: formData.address,
+            address: direccion,
             city: formData.city,
             state: formData.state,
             zip: formData.zip,
@@ -162,14 +171,59 @@ export default function CheckoutPage() {
 
                   <div className="sm:col-span-2">
                     <label className="block text-[10px] text-[rgb(var(--secondary))] uppercase mb-1">
-                      Calle, número y colonia
+                      Calle
                     </label>
                     <input
                       required
                       type="text"
-                      placeholder="Álvaro Obregón 154, Roma Norte"
-                      value={formData.address}
-                      onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+                      placeholder="Av. Álvaro Obregón"
+                      value={formData.street}
+                      onChange={(e) => setFormData({ ...formData, street: e.target.value })}
+                      className="w-full px-4 py-2.5 bg-[rgb(var(--bg))] border border-[rgb(var(--stroke))] rounded-full focus:outline-none focus:border-[rgb(var(--accent))]"
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4 sm:col-span-2">
+                    <div>
+                      <label className="block text-[10px] text-[rgb(var(--secondary))] uppercase mb-1">
+                        Número exterior
+                      </label>
+                      <input
+                        required
+                        type="text"
+                        maxLength={12}
+                        placeholder="154"
+                        value={formData.extNum}
+                        onChange={(e) => setFormData({ ...formData, extNum: e.target.value })}
+                        className="w-full px-4 py-2.5 bg-[rgb(var(--bg))] border border-[rgb(var(--stroke))] rounded-full focus:outline-none focus:border-[rgb(var(--accent))]"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-[10px] text-[rgb(var(--secondary))] uppercase mb-1">
+                        Núm. interior (opcional)
+                      </label>
+                      <input
+                        type="text"
+                        maxLength={20}
+                        placeholder="Depto. 3B"
+                        value={formData.intNum}
+                        onChange={(e) => setFormData({ ...formData, intNum: e.target.value })}
+                        className="w-full px-4 py-2.5 bg-[rgb(var(--bg))] border border-[rgb(var(--stroke))] rounded-full focus:outline-none focus:border-[rgb(var(--accent))]"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="sm:col-span-2">
+                    <label className="block text-[10px] text-[rgb(var(--secondary))] uppercase mb-1">
+                      Colonia
+                    </label>
+                    <input
+                      required
+                      type="text"
+                      placeholder="Roma Norte"
+                      value={formData.colonia}
+                      onChange={(e) => setFormData({ ...formData, colonia: e.target.value })}
                       className="w-full px-4 py-2.5 bg-[rgb(var(--bg))] border border-[rgb(var(--stroke))] rounded-full focus:outline-none focus:border-[rgb(var(--accent))]"
                     />
                   </div>
@@ -219,7 +273,7 @@ export default function CheckoutPage() {
                     />
                   </div>
 
-                  <MapaEntrega street={formData.address} city={formData.city} state={formData.state} zip={formData.zip} />
+                  <MapaEntrega street={formData.street} number={formData.extNum} colonia={formData.colonia} city={formData.city} state={formData.state} zip={formData.zip} />
                 </div>
               </div>
 
