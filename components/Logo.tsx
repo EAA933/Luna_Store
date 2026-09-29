@@ -3,12 +3,13 @@
 
 interface LogoProps {
   className?: string;
+  /** Muestra "STUDIO" en pequeño debajo de MIRAR. */
   withTag?: boolean;
 }
 
 export default function Logo({ className = "h-7", withTag = true }: LogoProps) {
   return (
-    <div className={`inline-flex items-center gap-2.5 select-none group ${className}`}>
+    <div className={`inline-flex items-center gap-2.5 select-none group ${className}`} aria-label="MIRAR Studio">
       {/* Glifo geométrico óptico minimalista */}
       <div className="w-7 h-7 rounded-full bg-[rgb(var(--fg))] text-[rgb(var(--bg))] flex items-center justify-center transition-transform duration-500 ease-out group-hover:scale-105">
         <svg
@@ -25,8 +26,8 @@ export default function Logo({ className = "h-7", withTag = true }: LogoProps) {
         </svg>
       </div>
 
-      {/* Logotipo MIRAR: tipografía sans-serif limpia con espaciado controlado */}
-      <div className="flex flex-col">
+      {/* MIRAR grande y "STUDIO" pequeño con espaciado amplio, alineado al ancho de la palabra */}
+      <div className="flex flex-col justify-center">
         <div className="flex items-center gap-1">
           <span className="font-sans font-semibold text-lg tracking-[-0.03em] text-[rgb(var(--fg))] leading-none">
             MIRAR
@@ -34,8 +35,8 @@ export default function Logo({ className = "h-7", withTag = true }: LogoProps) {
           <span className="w-1 h-1 rounded-full bg-[rgb(var(--accent))]" />
         </div>
         {withTag && (
-          <span className="text-[9px] font-sans tracking-[0.16em] text-[rgb(var(--secondary))] uppercase leading-none mt-1">
-            Lentes de sol
+          <span className="text-[8px] font-sans font-medium tracking-[0.42em] text-[rgb(var(--secondary))] uppercase leading-none mt-[3px] pl-[1px]">
+            Studio
           </span>
         )}
       </div>

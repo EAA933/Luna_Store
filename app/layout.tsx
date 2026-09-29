@@ -29,11 +29,11 @@ const editorialMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "MIRAR — Lentes de sol de calidad a precio justo",
+  title: "MIRAR Studio — Lentes de sol de calidad a precio justo",
   description:
     "MIRAR es una tienda mexicana de lentes de sol de calidad a precio accesible. Protección UV400, 14 días para cambios y envío gratis en compras desde $1,299.",
   openGraph: {
-    title: "MIRAR — Lentes de sol de calidad a precio justo",
+    title: "MIRAR Studio — Lentes de sol de calidad a precio justo",
     description:
       "Lentes de sol con protección UV400, 14 días para cambios y envío gratis desde $1,299.",
     type: "website",

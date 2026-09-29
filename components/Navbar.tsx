@@ -44,7 +44,7 @@ export default function Navbar() {
         <div className="container-floema h-12 md:h-14 flex items-center justify-between">
           {/* Logotipo */}
           <Link href="/" className="flex items-center" onClick={() => setMobileMenuOpen(false)}>
-            <Logo withTag={false} />
+            <Logo />
           </Link>
 
           {/* Enlaces de navegación de escritorio estilo Apple */}
