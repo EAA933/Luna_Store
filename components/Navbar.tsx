@@ -28,7 +28,7 @@ export default function Navbar() {
       {/* Cinta superior minimalista al estilo de anuncios de Apple */}
       <div className="w-full bg-[rgb(var(--card))] border-b border-[rgb(var(--stroke))] px-4 py-1.5 text-center text-xs text-[rgb(var(--secondary))] transition-colors">
         <div className="max-w-7xl mx-auto flex items-center justify-center gap-2">
-          <span>Envío gratis en compras desde $1,299 · 30 días de prueba.</span>
+          <span>Envío gratis en compras desde $1,299 · 14 días para cambios.</span>
           <Link
             href="/catalog"
             className="text-[rgb(var(--accent))] hover:underline inline-flex items-center gap-0.5 font-medium ml-1"
@@ -109,7 +109,7 @@ export default function Navbar() {
             </div>
 
             <div className="pt-4 border-t border-[rgb(var(--stroke))] flex items-center justify-between text-xs text-[rgb(var(--secondary))]">
-              <span>Lentes de calidad con 30 días de prueba</span>
+              <span>Lentes de calidad con protección UV400</span>
               <Link
                 href="/catalog"
                 onClick={() => setMobileMenuOpen(false)}

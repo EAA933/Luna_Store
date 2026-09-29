@@ -29,13 +29,13 @@ const editorialMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "MIRAR — Tienda de Lentes de Sol & Estudio Óptico",
+  title: "MIRAR — Lentes de sol de calidad a precio justo",
   description:
-    "MIRAR es una tienda independiente de lentes de sol y diseño óptico. Monturas de acetato y acero con micas UV400. 30 días de prueba y envío gratis en compras desde $1,299.",
+    "MIRAR es una tienda mexicana de lentes de sol de calidad a precio accesible. Protección UV400, 14 días para cambios y envío gratis en compras desde $1,299.",
   openGraph: {
-    title: "MIRAR — Tienda Oficial de Lentes de Sol",
+    title: "MIRAR — Lentes de sol de calidad a precio justo",
     description:
-      "Gafas de sol de alta gama concebidas para la luz real. Colección Atardecer con bio-acetato curado y lentes polarizados HD.",
+      "Lentes de sol con protección UV400, 14 días para cambios y envío gratis desde $1,299.",
     type: "website",
   },
 };

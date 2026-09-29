@@ -126,7 +126,7 @@ export default function ProductCard({
             {refCode || `MR-0${id}`}
           </span>
           <span className="text-[11px]">
-            {polarized ? "Polarizado HD" : "Mineral UV400"}
+            {polarized ? "Polarizado · UV400" : "UV400"}
           </span>
         </div>
 

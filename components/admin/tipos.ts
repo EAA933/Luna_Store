@@ -13,8 +13,11 @@ export type Order = {
   address: string;
   city: string;
   zip: string;
+  state: string;
   items: OrderItem[];
   subtotal: number;
+  shipping: number;
+  total: number | null;
   status: OrderStatus;
   admin_notes: string;
   payment_method: string;

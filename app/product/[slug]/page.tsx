@@ -104,7 +104,7 @@ export default async function ProductPage({
               {/* Insignia sutil de polarizado */}
               <div className="absolute top-6 right-6">
                 <span className="text-xs px-3 py-1 rounded-full bg-[rgb(var(--bg))] border border-[rgb(var(--stroke))] text-[rgb(var(--secondary))] font-medium shadow-sm">
-                  {p.polarized ? "Polarizado HD" : "Mineral UV400"}
+                  {p.polarized ? "Polarizado · UV400" : "Protección UV400"}
                 </span>
               </div>
             </div>
@@ -112,14 +112,14 @@ export default async function ProductPage({
             {/* Ficha de fabricación y notas de taller */}
             <div className="p-8 rounded-3xl bg-[rgb(var(--card))] border border-[rgb(var(--stroke))]">
               <span className="text-xs uppercase font-medium tracking-[0.2em] text-[rgb(var(--secondary))] block mb-2">
-                NOTAS DE TALLER &amp; INGENIERÍA
+                DETALLES DEL MODELO
               </span>
               <p className="text-sm text-[rgb(var(--fg))] leading-relaxed mb-4">
                 {p.craftNote}
               </p>
               <div className="flex flex-wrap items-center justify-between gap-2 pt-4 border-t border-[rgb(var(--stroke))] text-xs text-[rgb(var(--secondary))] font-medium">
                 <span>Protección UV400</span>
-                <span className="text-[rgb(var(--accent))]">30 días de prueba</span>
+                <span className="text-[rgb(var(--accent))]">14 días para cambios</span>
               </div>
             </div>
           </div>
@@ -220,13 +220,13 @@ export default async function ProductPage({
               <div className="flex items-start gap-3">
                 <Truck className="w-4 h-4 text-[rgb(var(--fg))] flex-shrink-0 mt-0.5" />
                 <div>
-                  <strong className="text-[rgb(var(--fg))] font-medium">Envío gratis desde $1,299:</strong> Enviamos a todo México; en compras menores te cotizamos el envío por WhatsApp.
+                  <strong className="text-[rgb(var(--fg))] font-medium">Envío gratis desde $1,299:</strong> Enviamos a todo México; en compras menores el costo depende de tu estado y lo ves antes de pagar.
                 </div>
               </div>
               <div className="flex items-start gap-3">
                 <ShieldCheck className="w-4 h-4 text-[rgb(var(--fg))] flex-shrink-0 mt-0.5" />
                 <div>
-                  <strong className="text-[rgb(var(--fg))] font-medium">Lentes de calidad, 30 días de prueba:</strong> Si no te convencen, escríbenos y te ayudamos con el cambio o la devolución.
+                  <strong className="text-[rgb(var(--fg))] font-medium">14 días para cambios y devoluciones:</strong> Con el producto sin uso y en buen estado. <Link href="/devoluciones" className="underline">Ver condiciones</Link>.
                 </div>
               </div>
             </div>

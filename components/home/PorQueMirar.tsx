@@ -3,7 +3,7 @@
 // Reemplaza a AtelierCraft, WhyUs, AboutUs y ValueStrip (decían lo mismo cuatro veces).
 import Link from "next/link";
 import { Sun, ShieldCheck, Truck } from "lucide-react";
-import { ENVIO_GRATIS_DESDE, DIAS_PRUEBA } from "@/lib/tienda";
+import { ENVIO_GRATIS_DESDE, DIAS_DEVOLUCION } from "@/lib/tienda";
 
 const PILARES = [
   {
@@ -15,14 +15,14 @@ const PILARES = [
   {
     n: "02",
     icon: ShieldCheck,
-    title: `Calidad con ${DIAS_PRUEBA} días de prueba`,
-    text: `Revisamos cada par antes de enviarlo. Si en ${DIAS_PRUEBA} días no te convencen, escríbenos y lo resolvemos contigo.`,
+    title: `${DIAS_DEVOLUCION} días para cambios`,
+    text: `Revisamos cada par antes de enviarlo. Si no te convencen, tienes ${DIAS_DEVOLUCION} días para cambiarlos o devolverlos sin uso.`,
   },
   {
     n: "03",
     icon: Truck,
     title: `Envío gratis desde $${ENVIO_GRATIS_DESDE.toLocaleString("es-MX")}`,
-    text: "Enviamos a todo México. En compras menores te cotizamos el envío por WhatsApp al confirmar tu pedido.",
+    text: "Enviamos a todo México. En compras menores el costo depende de tu estado y lo ves antes de pagar.",
   },
 ];
 
@@ -46,8 +46,8 @@ export default function PorQueMirar() {
           </div>
           <div className="space-y-5">
             <p className="text-base sm:text-lg text-[rgb(var(--secondary))] leading-relaxed">
-              Hacemos lentes de sol sin logotipos gigantes ni promesas infladas: monturas bien hechas, micas que
-              protegen y un trato directo contigo desde el pedido hasta que los estrenas.
+              Lentes de sol de calidad a un precio accesible: monturas ligeras y resistentes, micas que protegen
+              y un trato directo contigo desde el pedido hasta que los estrenas.
             </p>
             <Link
               href="/catalog"

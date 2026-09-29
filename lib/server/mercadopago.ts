@@ -30,8 +30,12 @@ export async function crearPreferencia(opts: {
   email: string;
   nombre: string;
   origin: string;
+  envio: number;
+  zona: string;
 }): Promise<string> {
   const https = opts.origin.startsWith("https://");
+  // El link y las fichas de OXXO vencen antes de la cancelación automática (48 h).
+  const vence = new Date(Date.now() + 47 * 3600_000).toISOString().replace("Z", "+00:00");
   const volver = (estado: string) => `${opts.origin}/checkout/resultado?folio=${encodeURIComponent(opts.folio)}&r=${estado}`;
 
   const pref = await mp<{ init_point: string }>("/checkout/preferences", {
@@ -45,8 +49,16 @@ export async function crearPreferencia(opts: {
         quantity: i.qty,
         unit_price: i.price,
         currency_id: "MXN",
-      })),
+      })).concat(
+        opts.envio > 0
+          ? [{ id: "envio", title: `Envío a domicilio (${opts.zona})`, quantity: 1, unit_price: opts.envio, currency_id: "MXN" }]
+          : []
+      ),
       payer: { email: opts.email, name: opts.nombre },
+      metadata: { folio: opts.folio, email: opts.email, nombre: opts.nombre },
+      expires: true,
+      expiration_date_to: vence,
+      date_of_expiration: vence,
       back_urls: { success: volver("ok"), pending: volver("pendiente"), failure: volver("error") },
       // Mercado Pago solo acepta regreso automático y avisos hacia URLs públicas https.
       ...(https ? { auto_return: "approved", notification_url: `${opts.origin}/api/mp/webhook` } : {}),
@@ -58,6 +70,8 @@ export async function crearPreferencia(opts: {
 
 export type Pago = {
   id: number;
+  metadata?: { folio?: string; email?: string; nombre?: string };
+  additional_info?: { items?: { title: string; quantity: string | number; unit_price: string | number }[] };
   status: string; // approved | pending | in_process | rejected | cancelled | refunded ...
   status_detail: string;
   external_reference: string | null;

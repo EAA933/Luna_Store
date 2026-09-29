@@ -4,12 +4,11 @@ import { NextResponse, type NextRequest } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { avisarWhatsApp, pesos } from "@/lib/server/notificar";
 import { crearPreferencia, mpConfigurado, type LineaPedido } from "@/lib/server/mercadopago";
-import { envioGratis } from "@/lib/tienda";
 
 export const dynamic = "force-dynamic";
 
 type Body = {
-  customer: { name: string; email: string; phone: string; address: string; city: string; zip: string; payment: string };
+  customer: { name: string; email: string; phone: string; address: string; city: string; state: string; zip: string; payment: string };
   items: { slug: string; qty: number }[];
 };
 
@@ -34,7 +33,7 @@ export async function POST(req: NextRequest) {
   const { data, error } = await sb.rpc("create_order", { p_customer: customer, p_items: body.items });
   if (error) return NextResponse.json({ error: error.message }, { status: 400 });
 
-  const pedido = data as { folio: string; items: LineaPedido[]; subtotal: number };
+  const pedido = data as { folio: string; items: LineaPedido[]; subtotal: number; shipping: number; total: number; zone: string };
 
   let pagoUrl: string | null = null;
   try {
@@ -43,6 +42,8 @@ export async function POST(req: NextRequest) {
       items: pedido.items,
       email: customer.email,
       nombre: customer.name,
+      envio: pedido.shipping,
+      zona: pedido.zone,
       origin: process.env.NEXT_PUBLIC_SITE_URL || req.nextUrl.origin,
     });
   } catch (e) {
@@ -54,12 +55,13 @@ export async function POST(req: NextRequest) {
     [
       `🛍️ *Nuevo pedido ${pedido.folio}*`,
       lineas,
-      `*Total: ${pesos(pedido.subtotal)} MXN* (${envioGratis(pedido.subtotal) ? "envío gratis" : "envío por cotizar"})`,
+      `Envío: ${pedido.shipping ? pesos(pedido.shipping) : "gratis"} (${pedido.zone})`,
+      `*Total: ${pesos(pedido.total)} MXN*`,
       "",
       `👤 ${customer.name}`,
       customer.phone ? `📱 ${customer.phone}` : "",
       `✉️ ${customer.email}`,
-      `📍 ${customer.address}, ${customer.city}, C.P. ${customer.zip}`,
+      `📍 ${customer.address}, ${customer.city}, ${customer.state}, C.P. ${customer.zip}`,
       pagoUrl ? "💳 Mercado Pago — esperando pago" : "⚠️ No se pudo generar el link de Mercado Pago; cancela este pedido en /admin.",
     ]
       .filter(Boolean)

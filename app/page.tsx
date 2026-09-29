@@ -16,7 +16,7 @@ export default function HomePage() {
         <ShoppingExperience />
       </div>
 
-      {/* 3. Por qué MIRAR: manifiesto + garantías (UV400, 30 días de prueba, envío gratis) */}
+      {/* 3. Por qué MIRAR: manifiesto + garantías (UV400, 14 días para cambios, envío gratis) */}
       <PorQueMirar />
 
       {/* 4. Reseñas de clientes reales (solo aparece si hay aprobadas) */}

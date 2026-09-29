@@ -6,16 +6,17 @@
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import type { Session } from "@supabase/supabase-js";
-import { BarChart3, ExternalLink, Glasses, LogOut, MessageSquareQuote, Package, RefreshCw } from "lucide-react";
+import { BarChart3, ExternalLink, Glasses, LogOut, MessageSquareQuote, Package, RefreshCw, Truck } from "lucide-react";
 import { getSupabase, isSupabaseConfigured } from "@/lib/supabase";
 import type { ProductRow } from "@/lib/catalog";
 import Resumen from "./Resumen";
 import Pedidos from "./Pedidos";
 import Productos from "./Productos";
 import Resenas from "./Resenas";
+import Envios from "./Envios";
 import type { Order } from "./tipos";
 
-type Tab = "resumen" | "pedidos" | "productos" | "resenas";
+type Tab = "resumen" | "pedidos" | "productos" | "envios" | "resenas";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -137,6 +138,7 @@ export default function AdminApp() {
     { id: "resumen", label: "Resumen", icon: BarChart3 },
     { id: "pedidos", label: "Pedidos", icon: Package, badge: nuevos },
     { id: "productos", label: "Productos", icon: Glasses },
+    { id: "envios", label: "Envíos", icon: Truck },
     { id: "resenas", label: "Reseñas", icon: MessageSquareQuote, badge: resenasPendientes },
   ];
 
@@ -179,6 +181,7 @@ export default function AdminApp() {
         {tab === "resumen" && <Resumen orders={orders} products={products} irA={setTab} />}
         {tab === "pedidos" && <Pedidos orders={orders} products={products} recargar={cargar} />}
         {tab === "productos" && <Productos products={products} recargar={cargar} />}
+        {tab === "envios" && <Envios />}
         {tab === "resenas" && <Resenas products={products} onPendientes={setResenasPendientes} />}
         <button onClick={() => getSupabase()!.auth.signOut()} className="md:hidden mt-10 text-sm text-[rgb(var(--secondary))] underline">Cerrar sesión</button>
       </main>

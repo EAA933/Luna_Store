@@ -36,19 +36,19 @@ const HERO_MODELS: ModelHero[] = [
     name: "Brisa",
     ref: "MR-01",
     tagline:
-      "Forjado en acero quirúrgico 316L y bio-acetato curado. Una silueta limpia inspirada en la frescura del viento costero.",
-    material: "Acero Quirúrgico 316L & Micas Obsidiana",
-    finish: "Titanio Grafito",
+      "Silueta rectangular limpia para el día a día. Ligera, cómoda y con protección UV400.",
+    material: "Protección UV400",
+    finish: "Gris humo",
     price: 1899,
     image: "/images/catalogo/brisa-costera.jpg",
     bgImage: "/images/hero-brisa.jpg",
     bgFallback: "/images/hero-brisa.jpg",
     bgAlt: "Persona sintiendo la brisa marina al atardecer con lentes de sol Brisa",
-    atmosphere: "Brisa marina al atardecer · 14.5% VLT",
+    atmosphere: "Brisa marina al atardecer",
     colorDot: "bg-slate-300",
     caliber: "54 mm",
     weight: "28 g",
-    lensSpec: "Obsidiana Polarizada",
+    lensSpec: "Protección UV400",
   },
   {
     id: "2",
@@ -56,19 +56,19 @@ const HERO_MODELS: ModelHero[] = [
     name: "Duna",
     ref: "MR-02",
     tagline:
-      "Bio-acetato vegetal pulido en seco durante 72 horas. Calidez táctil e iluminación dorada como las dunas del desierto.",
-    material: "Bio-Acetato de Algodón 8mm",
+      "Tonos cálidos para la hora dorada. Una silueta redonda que combina con todo, con protección UV400.",
+    material: "Protección UV400",
     finish: "Carey Ámbar Miel",
     price: 2199,
     image: "/images/catalogo/duna-ambar.jpg",
     bgImage: "/images/hero-duna.jpg",
     bgFallback: "/images/hero-sunset.jpg",
-    bgAlt: "Lentes Duna en bio-acetato carey ámbar sobre dunas doradas al atardecer",
-    atmosphere: "Sol poniente y arena dorada · Mineral Cat. 3",
+    bgAlt: "Lentes Duna color carey sobre dunas doradas al atardecer",
+    atmosphere: "Sol poniente y arena dorada",
     colorDot: "bg-amber-400",
     caliber: "51 mm",
     weight: "34 g",
-    lensSpec: "Ámbar Mineral HD",
+    lensSpec: "Protección UV400",
   },
   {
     id: "3",
@@ -76,19 +76,19 @@ const HERO_MODELS: ModelHero[] = [
     name: "Marea",
     ref: "MR-03",
     tagline:
-      "Polímero circular extraído de redes recuperadas del océano. Memoria elástica, ligereza total y protección polarizada.",
-    material: "rePlastic® Marino Circular",
+      "Hechos para el mar y la ciudad: montura ligera, estilo relajado y protección UV400.",
+    material: "Protección UV400",
     finish: "Verde Salvia Profundo",
     price: 1699,
     image: "/images/catalogo/marea-marina.jpg",
     bgImage: "/images/hero-marea.jpg",
     bgFallback: "/images/hero-ocean.jpg",
-    bgAlt: "Lentes Marea en polímero marino frente al oleaje y costa abierta",
-    atmosphere: "Marea alta y reflejos acuáticos · Polarizado HD",
+    bgAlt: "Lentes Marea frente al oleaje y la costa",
+    atmosphere: "Marea alta y reflejos del mar",
     colorDot: "bg-emerald-400",
     caliber: "49 mm",
     weight: "21 g",
-    lensSpec: "Salvia Polarizado HD",
+    lensSpec: "Protección UV400",
   },
   {
     id: "4",
@@ -96,19 +96,19 @@ const HERO_MODELS: ModelHero[] = [
     name: "Ocaso",
     ref: "MR-04",
     tagline:
-      "Doble puente aviador contemporáneo de cobre y titanio con lentes degradadas para contemplar la caída del sol.",
-    material: "Cobre & Titanio Grado Aeroespacial",
+      "Aviador de doble puente con micas degradadas para ver caer el sol. Protección UV400.",
+    material: "Protección UV400",
     finish: "Cobre Pulido al Ocaso",
     price: 2399,
     image: "/images/catalogo/ocaso-solar.jpg",
     bgImage: "/images/hero-ocaso.jpg",
     bgFallback: "/images/hero-lifestyle.jpg",
     bgAlt: "Lentes aviador Ocaso contemplando el horizonte crepuscular de atardecer",
-    atmosphere: "Hora dorada en el horizonte · Doble filtro UV400",
+    atmosphere: "Hora dorada en el horizonte",
     colorDot: "bg-orange-400",
     caliber: "58 mm",
     weight: "26 g",
-    lensSpec: "Azul Ocaso Gradiente",
+    lensSpec: "Protección UV400",
   },
 ];
 
@@ -286,7 +286,7 @@ export default function Hero() {
 
             {/* Título arriba a la izquierda */}
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold tracking-[-0.03em] text-white leading-[1.05] drop-shadow-md">
-              Óptica de precisión.
+              Calidad a precio justo.
             </h1>
 
             <AnimatePresence mode="wait">
@@ -339,11 +339,11 @@ export default function Hero() {
                 transition={{ duration: 0.35 }}
                 className="hidden sm:inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-black/40 backdrop-blur-md border border-white/20 text-[11px] text-white/90"
               >
-                <span className="font-semibold text-white">Calibre {current.caliber}</span>
+                <span className="font-semibold text-white">{current.lensSpec}</span>
                 <span className="text-white/40">•</span>
-                <span>{current.lensSpec}</span>
+                <span>14 días para cambios</span>
                 <span className="text-white/40">•</span>
-                <span>{current.weight}</span>
+                <span>Envío gratis desde $1,299</span>
               </motion.div>
             </AnimatePresence>
           </div>

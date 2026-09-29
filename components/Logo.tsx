@@ -35,7 +35,7 @@ export default function Logo({ className = "h-7", withTag = true }: LogoProps) {
         </div>
         {withTag && (
           <span className="text-[9px] font-sans tracking-[0.16em] text-[rgb(var(--secondary))] uppercase leading-none mt-1">
-            Óptica de Precisión
+            Lentes de sol
           </span>
         )}
       </div>

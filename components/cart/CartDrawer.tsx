@@ -130,7 +130,7 @@ export default function CartDrawer() {
 
             <p className="text-[10px] font-mono text-[rgb(var(--secondary))] mb-4 flex items-center gap-1.5">
               <ShieldCheck className="w-3.5 h-3.5 text-[rgb(var(--accent))]" />
-              <span>Envío gratis desde $1,299 · 30 días de prueba.</span>
+              <span>Envío gratis desde $1,299 · 14 días para cambios.</span>
             </p>
 
             <Link

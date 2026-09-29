@@ -96,7 +96,7 @@ function TarjetaPedido({ o, products, recargar }: { o: Order; products: ProductR
         <Pago o={o} />
         <span className="text-sm">{o.customer_name}</span>
         <span className="text-xs text-[rgb(var(--secondary))]">{fecha(o.created_at)}</span>
-        <span className="ml-auto text-sm font-semibold tabular-nums">{mxn(o.subtotal)} <span className="font-normal text-[rgb(var(--secondary))]">· {piezas} pzs</span></span>
+        <span className="ml-auto text-sm font-semibold tabular-nums">{mxn(o.total ?? o.subtotal)} <span className="font-normal text-[rgb(var(--secondary))]">· {piezas} pzs</span></span>
         <ChevronDown className={`w-4 h-4 transition ${abierto ? "rotate-180" : ""}`} />
       </button>
 
@@ -116,7 +116,8 @@ function TarjetaPedido({ o, products, recargar }: { o: Order; products: ProductR
                     <td className="py-2 text-right tabular-nums">{mxn(it.price * it.qty)}</td>
                   </tr>
                 ))}
-                <tr className="border-t border-[rgb(var(--stroke))] font-semibold"><td className="pt-2" colSpan={3}>Total</td><td className="pt-2 text-right tabular-nums">{mxn(o.subtotal)}</td></tr>
+                <tr className="border-t border-[rgb(var(--stroke))]"><td className="pt-2" colSpan={3}>Envío</td><td className="pt-2 text-right tabular-nums">{o.shipping ? mxn(o.shipping) : "Gratis"}</td></tr>
+                <tr className="font-semibold"><td className="pt-1" colSpan={3}>Total</td><td className="pt-1 text-right tabular-nums">{mxn(o.total ?? o.subtotal + (o.shipping || 0))}</td></tr>
               </tbody>
             </table>
 
@@ -141,7 +142,7 @@ function TarjetaPedido({ o, products, recargar }: { o: Order; products: ProductR
             </label>
             <div className="rounded-xl bg-[rgb(var(--bg))] p-3 space-y-1.5">
               <p className="font-medium">{o.customer_name}</p>
-              <p className="flex items-start gap-2 text-[rgb(var(--secondary))]"><MapPin className="w-3.5 h-3.5 mt-0.5 shrink-0" />{o.address}, {o.city}, C.P. {o.zip}</p>
+              <p className="flex items-start gap-2 text-[rgb(var(--secondary))]"><MapPin className="w-3.5 h-3.5 mt-0.5 shrink-0" />{o.address}, {o.city}{o.state ? `, ${o.state}` : ""}, C.P. {o.zip}</p>
               {o.phone && <p className="text-[rgb(var(--secondary))]">Tel. {o.phone}</p>}
               <p className="text-[rgb(var(--secondary))]">Pago: {PAGOS[o.payment_method] || o.payment_method || "—"}</p>
               {o.mp_payment_id && <p className="text-[rgb(var(--secondary))]">Operación Mercado Pago #{o.mp_payment_id}</p>}

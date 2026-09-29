@@ -3,9 +3,11 @@
 
 import Link from "next/link";
 import { useCartStore } from "@/components/cart/useCart";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ArrowLeft, Lock } from "lucide-react";
-import { envioGratis, faltaParaEnvioGratis, ENVIO_GRATIS_DESDE } from "@/lib/tienda";
+import { envioGratis, faltaParaEnvioGratis, ENVIO_GRATIS_DESDE, DIAS_DEVOLUCION, ESTADOS_MX, type ZonaEnvio } from "@/lib/tienda";
+import { getSupabase } from "@/lib/supabase";
+import MapaEntrega from "@/components/checkout/MapaEntrega";
 
 export default function CheckoutPage() {
   const { items } = useCartStore();
@@ -13,15 +15,26 @@ export default function CheckoutPage() {
 
   const [enviando, setEnviando] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [zonas, setZonas] = useState<ZonaEnvio[]>([]);
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     phone: "",
     address: "",
     city: "",
+    state: "",
     zip: "",
     paymentMethod: "mercadopago",
   });
+
+  // Zonas de envío (precios que editas en /admin). El servidor recalcula el envío al pagar.
+  useEffect(() => {
+    getSupabase()?.from("shipping_zones").select("*").order("sort_order")
+      .then(({ data }) => data && setZonas(data as ZonaEnvio[]));
+  }, []);
+  const zona = zonas.find((z) => z.states.includes(formData.state));
+  const envio = envioGratis(subtotal) ? 0 : zona ? zona.price : null;
 
   async function handleOrder(e: React.FormEvent) {
     e.preventDefault();
@@ -41,6 +54,7 @@ export default function CheckoutPage() {
             phone: formData.phone,
             address: formData.address,
             city: formData.city,
+            state: formData.state,
             zip: formData.zip,
             payment: formData.paymentMethod,
           },
@@ -162,12 +176,27 @@ export default function CheckoutPage() {
 
                   <div>
                     <label className="block text-[10px] text-[rgb(var(--secondary))] uppercase mb-1">
-                      Ciudad / Estado
+                      Estado
+                    </label>
+                    <select
+                      required
+                      value={formData.state}
+                      onChange={(e) => setFormData({ ...formData, state: e.target.value })}
+                      className="w-full px-4 py-2.5 bg-[rgb(var(--bg))] border border-[rgb(var(--stroke))] rounded-full focus:outline-none focus:border-[rgb(var(--accent))]"
+                    >
+                      <option value="">Selecciona tu estado</option>
+                      {ESTADOS_MX.map((e) => <option key={e} value={e}>{e}</option>)}
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-[10px] text-[rgb(var(--secondary))] uppercase mb-1">
+                      Ciudad o municipio
                     </label>
                     <input
                       required
                       type="text"
-                      placeholder="Ciudad de México"
+                      placeholder="Cuauhtémoc"
                       value={formData.city}
                       onChange={(e) => setFormData({ ...formData, city: e.target.value })}
                       className="w-full px-4 py-2.5 bg-[rgb(var(--bg))] border border-[rgb(var(--stroke))] rounded-full focus:outline-none focus:border-[rgb(var(--accent))]"
@@ -181,12 +210,16 @@ export default function CheckoutPage() {
                     <input
                       required
                       type="text"
+                      inputMode="numeric"
+                      maxLength={5}
                       placeholder="06700"
                       value={formData.zip}
-                      onChange={(e) => setFormData({ ...formData, zip: e.target.value })}
+                      onChange={(e) => setFormData({ ...formData, zip: e.target.value.replace(/\D/g, "") })}
                       className="w-full px-4 py-2.5 bg-[rgb(var(--bg))] border border-[rgb(var(--stroke))] rounded-full focus:outline-none focus:border-[rgb(var(--accent))]"
                     />
                   </div>
+
+                  <MapaEntrega street={formData.address} city={formData.city} state={formData.state} zip={formData.zip} />
                 </div>
               </div>
 
@@ -222,7 +255,7 @@ export default function CheckoutPage() {
                 <span>
                   {enviando
                     ? "Conectando con Mercado Pago…"
-                    : `Pagar con Mercado Pago ($${subtotal.toLocaleString("es-MX")} MXN)`}
+                    : `Pagar con Mercado Pago ($${(subtotal + (envio ?? 0)).toLocaleString("es-MX")} MXN)`}
                 </span>
               </button>
               <p className="text-[11px] text-[rgb(var(--secondary))] text-center">
@@ -263,17 +296,17 @@ export default function CheckoutPage() {
                 <div className="flex justify-between text-[rgb(var(--accent))] font-bold">
                   <span>Envío a Domicilio:</span>
                   <span className="px-2.5 py-0.5 rounded-full bg-[rgb(var(--accent))]/10 border border-[rgb(var(--accent))]/30">
-                    {envioGratis(subtotal) ? "GRATIS" : "Se cotiza por WhatsApp"}
+                    {envioGratis(subtotal) ? "GRATIS" : envio === null ? "Elige tu estado" : `$${envio.toLocaleString("es-MX")}`}
                   </span>
                 </div>
                 <div className="flex justify-between text-[rgb(var(--fg))] font-bold text-base pt-2 border-t border-[rgb(var(--stroke))]">
                   <span>Total a Pagar:</span>
-                  <span>${subtotal.toLocaleString("es-MX")} MXN</span>
+                  <span>${(subtotal + (envio ?? 0)).toLocaleString("es-MX")} MXN</span>
                 </div>
               </div>
 
               <div className="p-3 bg-[rgb(var(--card-warm))]/60 border border-[rgb(var(--stroke))] rounded-2xl text-[11px] font-mono text-[rgb(var(--secondary))] space-y-1">
-                <p>✓ Lentes de calidad con 30 días de prueba.</p>
+                <p>✓ Protección UV400 y {DIAS_DEVOLUCION} días para cambios.</p>
                 <p>
                   {envioGratis(subtotal)
                     ? "✓ Tu pedido tiene envío gratis."

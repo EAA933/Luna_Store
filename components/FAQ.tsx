@@ -5,20 +5,24 @@ import { HelpCircle, ChevronDown } from "lucide-react";
 
 const faqs = [
   {
-    q: "¿Qué es el material rePlastic® y cómo se regenera?",
-    a: "rePlastic® es nuestro polímero circular patentado. Se fabrica recuperando redes de pesca de aguas marinas y residuos plásticos urbanos seleccionados. Pasan por despolimerización molecular para obtener una resina con pureza óptica y resistencia indestructible.",
+    q: "¿Los lentes tienen protección UV?",
+    a: "Sí. Todos nuestros modelos tienen protección UV400, que filtra los rayos UVA y UVB para cuidar tu vista del sol.",
   },
   {
-    q: "¿Todas las micas MIRAR cuentan con protección UV400?",
-    a: "Absolutamente sí. El 100% de nuestras micas minerales y de policarbonato CR-39 bloquean longitudes de onda hasta 400 nanómetros (rayos UVA, UVB y UVC), para cuidar tu vista del sol.",
+    q: "¿Son polarizados?",
+    a: "Depende del modelo: en cada ficha indicamos si la mica es polarizada o no. Todos, polarizados o no, tienen protección UV400.",
   },
   {
-    q: "¿Qué garantía tienen mis lentes?",
-    a: "Son lentes de calidad y tienes 30 días naturales de prueba desde que los recibes. Si no te convencen, escríbenos por WhatsApp con tu folio y te ayudamos con el cambio o la devolución.",
+    q: "¿Puedo cambiarlos o devolverlos?",
+    a: "Sí. Tienes 14 días naturales desde que los recibes. El producto debe estar sin uso, en buen estado y con su empaque y accesorios. Revisamos cada devolución al recibirla antes de aprobar el cambio o el reembolso. Consulta la política completa en Cambios y devoluciones.",
   },
   {
-    q: "¿Tiempos de envío y cobertura?",
-    a: "Enviamos a todo México. El envío es gratis en compras desde $1,299 MXN; en compras menores te lo cotizamos por WhatsApp al confirmar tu pedido.",
+    q: "¿Cuánto cuesta el envío y a dónde envían?",
+    a: "Enviamos a todo México. El envío es gratis en compras desde $1,299 MXN; en compras menores el costo depende de tu estado y lo ves antes de pagar.",
+  },
+  {
+    q: "¿Cómo puedo pagar?",
+    a: "Con Mercado Pago: tarjeta de crédito o débito, efectivo en OXXO y otros medios. Si pagas en OXXO, tienes 48 horas para hacerlo; después el pedido se cancela automáticamente.",
   },
 ];
 
@@ -30,7 +34,7 @@ export default function FAQ() {
       <div className="inline-flex items-center gap-2 mb-3">
         <span className="w-2 h-2 bg-floema-accent border border-floema-fg" />
         <span className="font-mono text-xs uppercase tracking-[0.16em] text-[rgb(var(--secondary))]">
-          RESOLUCIÓN DE DUDAS TÉCNICAS
+          DUDAS FRECUENTES
         </span>
       </div>
 

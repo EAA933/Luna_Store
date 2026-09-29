@@ -10,7 +10,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useCartStore } from "@/components/cart/useCart";
 import { useProducts } from "@/components/store/ProductsProvider";
 import { Check, ShieldCheck, Truck, ChevronRight } from "lucide-react";
-import { ENVIO_GRATIS_DESDE, DIAS_PRUEBA } from "@/lib/tienda";
+import { ENVIO_GRATIS_DESDE, DIAS_DEVOLUCION } from "@/lib/tienda";
 
 export default function ShoppingExperience() {
   const modelos = useProducts();
@@ -43,7 +43,7 @@ export default function ShoppingExperience() {
             La experiencia de comprar.
           </h2>
           <p className="text-base text-[rgb(var(--secondary))] mt-3 leading-relaxed">
-            Escoge tu modelo, agrégalo a la bolsa y confirmamos tu pedido contigo por WhatsApp.
+            Escoge tu modelo, agrégalo a la bolsa y paga seguro con Mercado Pago.
           </p>
         </div>
 
@@ -154,7 +154,7 @@ export default function ShoppingExperience() {
               <div className="pt-3 border-t border-[rgb(var(--stroke))] grid grid-cols-2 gap-2 text-[11px] text-[rgb(var(--secondary))]">
                 <div className="flex items-center gap-1.5">
                   <ShieldCheck className="w-3.5 h-3.5 text-[rgb(var(--accent))]" />
-                  <span>{DIAS_PRUEBA} días de prueba</span>
+                  <span>{DIAS_DEVOLUCION} días para cambios</span>
                 </div>
                 <div className="flex items-center gap-1.5">
                   <Truck className="w-3.5 h-3.5 text-[rgb(var(--fg))]" />
